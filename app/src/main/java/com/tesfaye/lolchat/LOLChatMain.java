@@ -8,6 +8,7 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Message;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,6 +18,11 @@ import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import org.jivesoftware.smack.Chat;
+import org.jivesoftware.smack.ChatManager;
+import org.jivesoftware.smack.MessageListener;
+import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 
 
 public class LOLChatMain extends Activity
@@ -45,6 +51,22 @@ public class LOLChatMain extends Activity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+        try {
+            XMPPTCPConnection connection = new XMPPTCPConnection("jabber.org");
+            connection.connect();
+            connection.login("mtucker", "password");
+            Chat chat = ChatManager.getInstanceFor(connection)
+                    .createChat("jsmith@jivesoftware.com", new MessageListener() {
+                                @Override
+                                public void processMessage(Chat chat, org.jivesoftware.smack.packet.Message message) {
+                                    System.out.println("Received message: " + message);
+                                }
+                            });
+            chat.sendMessage("Howdy!");
+        }catch(Exception e)
+        {
+
+        }
     }
 
     @Override

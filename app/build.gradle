@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 19
-    buildToolsVersion "19.1.0"
+    buildToolsVersion '19.1.0'
 
     defaultConfig {
         applicationId "com.tesfaye.lolchat"
@@ -23,4 +23,6 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     // You must install or update the Support Repository through the SDK manager to use this dependency.
     compile 'com.android.support:support-v4:19.+'
+    compile files('build/libs/smack-core-4.0.2.jar')
+    compile files('build/libs/smack-tcp-4.0.2.jar')
 }
