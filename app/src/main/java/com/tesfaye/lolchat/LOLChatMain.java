@@ -3,12 +3,15 @@ package com.tesfaye.lolchat;
 import android.app.Activity;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
+import android.text.Editable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,12 +20,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.ChatManager;
+import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.MessageListener;
+import org.jivesoftware.smack.Roster;
+import org.jivesoftware.smack.SASLAuthentication;
+import org.jivesoftware.smack.SmackException;
+import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smack.sasl.SASLErrorException;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
+
+import javax.net.ssl.SSLSocketFactory;
 
 
 public class LOLChatMain extends Activity
@@ -51,22 +64,6 @@ public class LOLChatMain extends Activity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
-        try {
-            XMPPTCPConnection connection = new XMPPTCPConnection("jabber.org");
-            connection.connect();
-            connection.login("mtucker", "password");
-            Chat chat = ChatManager.getInstanceFor(connection)
-                    .createChat("jsmith@jivesoftware.com", new MessageListener() {
-                                @Override
-                                public void processMessage(Chat chat, org.jivesoftware.smack.packet.Message message) {
-                                    System.out.println("Received message: " + message);
-                                }
-                            });
-            chat.sendMessage("Howdy!");
-        }catch(Exception e)
-        {
-
-        }
     }
 
     @Override
@@ -152,8 +149,53 @@ public class LOLChatMain extends Activity
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_lolchat_main, container, false);
+                                 Bundle savedInstanceState) {
+            final View rootView = inflater.inflate(R.layout.fragment_lolchat_main, container, false);
+            Button button = (Button) rootView.findViewById(R.id.button);
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    final String username = ((EditText) rootView.findViewById(R.id.section_label)).getText().toString();
+                    final String password = ((EditText) rootView.findViewById(R.id.section_label1)).getText().toString();
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                Roster.setDefaultSubscriptionMode(Roster.SubscriptionMode.manual);
+                                ConnectionConfiguration config = new ConnectionConfiguration("chat.na1.lol.riotgames.com", 5223, "pvp.net");
+                                config.setSecurityMode(ConnectionConfiguration.SecurityMode.enabled);
+                                config.setSocketFactory(SSLSocketFactory.getDefault());
+                                config.setCompressionEnabled(true);
+                                XMPPTCPConnection connection = new XMPPTCPConnection(config);
+                                connection.connect();
+                                connection.login(username, "AIR_" +password);
+                                System.out.println(connection.isConnected());
+                                System.out.println(connection.isAuthenticated());
+                                Chat chat = ChatManager.getInstanceFor(connection)
+                                        .createChat("Dodge That Q", new MessageListener() {
+                                            @Override
+                                            public void processMessage(Chat chat, org.jivesoftware.smack.packet.Message message) {
+                                                System.out.println("Received message: " + message);
+                                            }
+                                        });
+                                chat.sendMessage("Howdy!");
+                            }catch(XMPPException e)
+                            {
+                                e.printStackTrace();
+                            }
+                            catch(SmackException.ConnectionException e)
+                            {
+                                System.out.println(e.getFailedAddresses().get(0).getErrorMessage());
+                                System.out.println(e.getFailedAddresses().get(0).getException());
+                            }
+                            catch(Exception e)
+                            {
+                                e.printStackTrace();
+                            }
+                        }
+                    }).start();
+                }
+            });
             return rootView;
         }
 
