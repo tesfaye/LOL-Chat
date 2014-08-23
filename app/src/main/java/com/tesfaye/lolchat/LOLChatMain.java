@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -150,16 +151,17 @@ public class LOLChatMain extends Activity
                 public void onClick(View view) {
                     final String username = ((EditText) rootView.findViewById(R.id.section_label)).getText().toString();
                     final String password = ((EditText) rootView.findViewById(R.id.section_label1)).getText().toString();
-                    new Thread(new Runnable() {
+                    AsyncTask task = new AsyncTask() {
                         @Override
-                        public void run() {
+                        protected Object doInBackground(Object[] objects) {
                             LolChat lolChat = new LolChat(ChatServer.NA, FriendRequestPolicy.REJECT_ALL);
-                            if(lolChat.login(username, password))
-                            {
+                            if (lolChat.login(username, password)) {
                                 lolChat.getFriendByName("Dodge That Q").sendMessage("RODRIGO");
                             }
+                            return null;
                         }
-                    }).start();
+                    };
+                    task.execute();
                 }
             });
             return rootView;
