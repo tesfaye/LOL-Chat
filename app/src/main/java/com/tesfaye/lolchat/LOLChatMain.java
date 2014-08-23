@@ -15,6 +15,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.github.theholywaffle.lolchatapi.ChatServer;
+import com.github.theholywaffle.lolchatapi.FriendRequestPolicy;
+import com.github.theholywaffle.lolchatapi.LolChat;
+
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.ChatManager;
 import org.jivesoftware.smack.ConnectionConfiguration;
@@ -149,37 +153,10 @@ public class LOLChatMain extends Activity
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            try {
-                                Roster.setDefaultSubscriptionMode(Roster.SubscriptionMode.manual);
-                                ConnectionConfiguration config = new ConnectionConfiguration("chat.na1.lol.riotgames.com", 5223, "pvp.net");
-                                config.setSecurityMode(ConnectionConfiguration.SecurityMode.enabled);
-                                config.setSocketFactory(SSLSocketFactory.getDefault());
-                                config.setCompressionEnabled(true);
-                                XMPPTCPConnection connection = new XMPPTCPConnection(config);
-                                connection.connect();
-                                connection.login(username, "AIR_" +password);
-                                System.out.println(connection.isConnected());
-                                System.out.println(connection.isAuthenticated());
-                                Chat chat = ChatManager.getInstanceFor(connection)
-                                        .createChat("Dodge That Q@pvp.net", new MessageListener() {
-                                            @Override
-                                            public void processMessage(Chat chat, org.jivesoftware.smack.packet.Message message) {
-                                                System.out.println("Received message: " + message);
-                                            }
-                                        });
-                                chat.sendMessage("Howdy!");
-                            }catch(XMPPException e)
+                            LolChat lolChat = new LolChat(ChatServer.NA, FriendRequestPolicy.REJECT_ALL);
+                            if(lolChat.login(username, password))
                             {
-                                e.printStackTrace();
-                            }
-                            catch(SmackException.ConnectionException e)
-                            {
-                                System.out.println(e.getFailedAddresses().get(0).getErrorMessage());
-                                System.out.println(e.getFailedAddresses().get(0).getException());
-                            }
-                            catch(Exception e)
-                            {
-                                e.printStackTrace();
+                                lolChat.getFriendByName("Dodge That Q").sendMessage("RODRIGO");
                             }
                         }
                     }).start();
