@@ -62,7 +62,7 @@ public class LeagueRosterListener implements RosterListener {
 			if (!added && !api.isLoaded()) {
 				if (f.isOnline()) {
 					typeUsers.put(s, Presence.Type.available);
-					modeUsers.put(s, f.getChatMode().mode);
+					modeUsers.put(s, f.getChatMode().mode);//internal method called changed to not return null
 					statusUsers.put(s, f.getStatus());
 				} else {
 					typeUsers.put(s, Presence.Type.unavailable);

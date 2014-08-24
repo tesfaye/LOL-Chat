@@ -132,11 +132,11 @@ public class Friend extends Wrapper<RosterEntry> {
 		final Presence.Mode mode = con.getRoster().getPresence(getUserId())
 				.getMode();
 		for (final ChatMode c : ChatMode.values()) {
-			if (c.mode == mode) {
+            if (mode != null && c.mode == mode) {//some LOL clients do not set the mode, so we have to check if the mode is null
 				return c;
 			}
 		}
-		return null;
+		return ChatMode.AVAILABLE;//changed from null
 	}
 
 	/**

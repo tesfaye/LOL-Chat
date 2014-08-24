@@ -5,8 +5,15 @@ import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.os.AsyncTask;
+import android.app.Notification;
+import android.app.PendingIntent;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,21 +23,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.github.theholywaffle.lolchatapi.ChatServer;
-import com.github.theholywaffle.lolchatapi.FriendRequestPolicy;
-import com.github.theholywaffle.lolchatapi.LolChat;
-
-import org.jivesoftware.smack.Chat;
-import org.jivesoftware.smack.ChatManager;
-import org.jivesoftware.smack.ConnectionConfiguration;
-import org.jivesoftware.smack.MessageListener;
-import org.jivesoftware.smack.Roster;
-import org.jivesoftware.smack.SmackException;
-import org.jivesoftware.smack.XMPPException;
-import org.jivesoftware.smack.tcp.XMPPTCPConnection;
-
-import javax.net.ssl.SSLSocketFactory;
-
 
 public class LOLChatMain extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -39,7 +31,8 @@ public class LOLChatMain extends Activity
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
-
+    private boolean mBound;
+    private ChatService mService;
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
@@ -58,8 +51,8 @@ public class LOLChatMain extends Activity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
-    }
 
+    }
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
@@ -115,7 +108,22 @@ public class LOLChatMain extends Activity
         }
         return super.onOptionsItemSelected(item);
     }
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mBound) {
+            unbindService(mConnection);
+        }
+    }
+    public void bind(String username, String password)
+    {
+        if(!mBound) {
+            Intent intent = new Intent(this, ChatService.class);
+//            intent.putExtra("username", username);
+//            intent.putExtra("password", password);
+            bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+        }
+    }
     /**
      * A placeholder fragment containing a simple view.
      */
@@ -145,23 +153,14 @@ public class LOLChatMain extends Activity
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             final View rootView = inflater.inflate(R.layout.fragment_lolchat_main, container, false);
+
             Button button = (Button) rootView.findViewById(R.id.button);
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     final String username = ((EditText) rootView.findViewById(R.id.section_label)).getText().toString();
                     final String password = ((EditText) rootView.findViewById(R.id.section_label1)).getText().toString();
-                    AsyncTask task = new AsyncTask() {
-                        @Override
-                        protected Object doInBackground(Object[] objects) {
-                            LolChat lolChat = new LolChat(ChatServer.NA, FriendRequestPolicy.REJECT_ALL);
-                            if (lolChat.login(username, password)) {
-                                lolChat.getFriendByName("Dodge That Q").sendMessage("RODRIGO");
-                            }
-                            return null;
-                        }
-                    };
-                    task.execute();
+                    ((LOLChatMain)getActivity()).bind(username, password);
                 }
             });
             return rootView;
@@ -170,9 +169,20 @@ public class LOLChatMain extends Activity
         @Override
         public void onAttach(Activity activity) {
             super.onAttach(activity);
-            ((LOLChatMain) activity).onSectionAttached(
-                    getArguments().getInt(ARG_SECTION_NUMBER));
+            ((LOLChatMain) activity).onSectionAttached(getArguments().getInt(ARG_SECTION_NUMBER));
         }
     }
+    private final ServiceConnection mConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(final ComponentName name, final IBinder service) {
+            mService = ((ChatService.LocalBinder) service).getService();
+            mBound = true;
+        }
 
+        @Override
+        public void onServiceDisconnected(final ComponentName name) {
+            mService = null;
+            mBound = false;
+        }
+    };
 }

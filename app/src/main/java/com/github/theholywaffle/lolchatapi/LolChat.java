@@ -146,7 +146,7 @@ public class LolChat {
 		try {
 			connection.connect();
 		} catch (Exception e) {
-			System.err.println("Failed to connect to " + server.host);
+            System.err.println("Failed to connect to " + server.host);
 			return;
 		}
 		addListeners();
