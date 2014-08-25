@@ -43,13 +43,13 @@ public class ChatService extends Service{
         {
             e.printStackTrace();
         }
-        if(lolChat.isConnected()) {
-            Notification notification = new Notification(R.drawable.ic_launcher, "LOL Chat", System.currentTimeMillis());
-            Intent notificationIntent = new Intent(this, ChatService.class);
-            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
-            notification.setLatestEventInfo(this, "TEST", "LOL Chat is running", pendingIntent);
-            startForeground(69, notification);
-        }
+        Notification notification = new Notification.Builder(this)
+                .setSmallIcon(R.drawable.ic_launcher)
+                .setContentText("Lol Chat is running")
+                .setContentTitle("Test")
+                .setTicker("LOL Chat is now running")
+                .build();
+        startForeground(69, notification);
     }
     @Override
     public void onDestroy() {
