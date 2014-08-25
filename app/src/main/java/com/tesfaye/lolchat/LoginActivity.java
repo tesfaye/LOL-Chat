@@ -5,12 +5,14 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -22,11 +24,14 @@ import java.util.ArrayList;
 public class LoginActivity extends Activity implements ServiceConnection
 {
     private String username, password;
+    private boolean savePassword;
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        //check if password is saved, if so, start main activity with login info
         setContentView(R.layout.activity_lolchat_login);
+        SharedPreferences sharedPreferences = getSharedPreferences("loginData", Context.MODE_PRIVATE);
+        username = sharedPreferences.getString("username", null);
+        password = sharedPreferences.getString("password", null);
         Button connect = (Button) findViewById(R.id.connectButton);
         TextView passwordForgot = (TextView) findViewById(R.id.forgot_Button);
         passwordForgot.setOnClickListener(new View.OnClickListener() {
@@ -50,9 +55,15 @@ public class LoginActivity extends Activity implements ServiceConnection
             public void onClick(View view) {
                 username = ((EditText) findViewById(R.id.usernameBox)).getText().toString();
                 password = ((EditText) findViewById(R.id.passwordBox)).getText().toString();
+                savePassword = ((CheckBox) findViewById(R.id.rememberbox)).isChecked();
                 bind();
             }
         });
+        if(username != null && password != null)
+        {
+            savePassword = true;//remember to save password again
+            bind();
+        }
     }
     public void bind()
     {
@@ -63,6 +74,13 @@ public class LoginActivity extends Activity implements ServiceConnection
         ChatService chatService = ((ChatService.LocalBinder) service).getService();
         if(chatService.connectLOLChat(username, password))
         {
+            if(savePassword)
+            {
+                SharedPreferences.Editor editor = getSharedPreferences("loginData", Context.MODE_PRIVATE).edit();//TODO: ENCRYPTION
+                editor.putString("username", username);
+                editor.putString("password", password);
+                editor.commit();
+            }
             Intent intent = new Intent(this, LOLChatMain.class);
             startActivity(intent);
         }else
