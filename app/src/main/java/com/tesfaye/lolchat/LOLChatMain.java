@@ -38,6 +38,7 @@ public class LOLChatMain extends Activity implements NavigationDrawerFragment.Na
         mNavigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager().findFragmentById(R.id.navigation_drawer);
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
+        bind("", "");
     }
     @Override
     public void onNavigationDrawerItemSelected(int position) {
@@ -84,8 +85,8 @@ public class LOLChatMain extends Activity implements NavigationDrawerFragment.Na
     {
         if(!mBound) {
             Intent intent = new Intent(this, ChatService.class);
-//            intent.putExtra("username", username);
-//            intent.putExtra("password", password);
+            intent.putExtra("username", username);
+            intent.putExtra("password", password);
             bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
         }
     }
