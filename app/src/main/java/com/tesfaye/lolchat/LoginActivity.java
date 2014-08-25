@@ -67,7 +67,7 @@ public class LoginActivity extends Activity implements ServiceConnection
     }
     public void bind()
     {
-        bindService(new Intent(this, ChatService.class), LoginActivity.this, Context.BIND_AUTO_CREATE);
+        bindService(new Intent(this, ChatService.class), this, Context.BIND_AUTO_CREATE);
     }
     @Override
     public void onServiceConnected(final ComponentName name, final IBinder service) {
@@ -97,6 +97,11 @@ public class LoginActivity extends Activity implements ServiceConnection
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unbindService(this);
+        try {
+            unbindService(this);
+        }catch(Exception e)
+        {
+            //exception thrown if unbind is called when no service is bound
+        }
     }
 }

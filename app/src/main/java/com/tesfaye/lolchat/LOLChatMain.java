@@ -56,7 +56,7 @@ public class LOLChatMain extends Activity implements NavigationDrawerFragment.Na
             // Only show items in the action bar relevant to this screen
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
-            getMenuInflater().inflate(R.menu.lolchat_main, menu);
+            getMenuInflater().inflate(R.menu.global, menu);
             return true;
         }
         return super.onCreateOptionsMenu(menu);
@@ -68,7 +68,8 @@ public class LOLChatMain extends Activity implements NavigationDrawerFragment.Na
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_leave) {
+            finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
