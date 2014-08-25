@@ -27,7 +27,6 @@ public class LOLChatMain extends Activity implements NavigationDrawerFragment.Na
             new MainFragment()
     };
     public static String[] fragmentNames;
-    private String username, password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +38,6 @@ public class LOLChatMain extends Activity implements NavigationDrawerFragment.Na
         mNavigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager().findFragmentById(R.id.navigation_drawer);
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
-        username = getIntent().getStringExtra("username");
-        password = getIntent().getStringExtra("password");
         bind();
     }
     @Override
@@ -96,9 +93,6 @@ public class LOLChatMain extends Activity implements NavigationDrawerFragment.Na
         @Override
         public void onServiceConnected(final ComponentName name, final IBinder service) {
             mService = ((ChatService.LocalBinder) service).getService();
-            if(mService.getLolChat() == null) {
-                mService.connectLOLChat(username, password);
-            }
             mBound = true;
         }
 

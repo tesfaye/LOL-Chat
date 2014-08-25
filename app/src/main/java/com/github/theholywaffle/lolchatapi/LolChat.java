@@ -728,6 +728,11 @@ public class LolChat {
             return "Error";
         }
     }
+
+    public boolean isAuthenticated()
+    {
+        return connection.isAuthenticated();
+    }
 	/**
 	 * Removes the ChatListener from the list and will no longer be called.
 	 * 

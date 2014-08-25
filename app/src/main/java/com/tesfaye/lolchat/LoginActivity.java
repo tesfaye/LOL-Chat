@@ -1,9 +1,13 @@
 package com.tesfaye.lolchat;
 
 import android.app.Activity;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -21,6 +25,7 @@ import java.util.ArrayList;
  */
 public class LoginActivity extends Activity
 {
+    private String username, password;
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
@@ -47,13 +52,41 @@ public class LoginActivity extends Activity
         connect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final String username = ((EditText) findViewById(R.id.usernameBox)).getText().toString();
-                final String password = ((EditText) findViewById(R.id.passwordBox)).getText().toString();
-                Intent intent = new Intent(getApplicationContext(), LOLChatMain.class);
-                intent.putExtra("username", username);
-                intent.putExtra("password", password);
-                startActivity(intent);
+                username = ((EditText) findViewById(R.id.usernameBox)).getText().toString();
+                password = ((EditText) findViewById(R.id.passwordBox)).getText().toString();
+                bind();
             }
         });
     }
+    public void bind()
+    {
+        Intent intent = new Intent(this, ChatService.class);
+        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+    }
+    public void unbind()
+    {
+        unbindService(mConnection);
+    }
+    public void startMainActivity()
+    {
+        Intent intent = new Intent(this, LOLChatMain.class);
+        startActivity(intent);
+    }
+    private final ServiceConnection mConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(final ComponentName name, final IBinder service) {
+            ChatService mService = ((ChatService.LocalBinder) service).getService();
+            if(mService.connectLOLChat(username, password))
+            {
+                startMainActivity();
+                return;
+            }
+            unbind();
+        }
+
+        @Override
+        public void onServiceDisconnected(final ComponentName name) {
+
+        }
+    };
 }

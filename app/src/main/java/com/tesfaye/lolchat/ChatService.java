@@ -23,7 +23,7 @@ public class ChatService extends Service{
     public IBinder onBind(Intent intent) {
         return mBinder;
     }
-    public void connectLOLChat(final String username, final String password)
+    public boolean connectLOLChat(final String username, final String password)
     {
         final Notification.Builder notification = new Notification.Builder(this);
         Thread t = new Thread(new Runnable() {
@@ -49,6 +49,7 @@ public class ChatService extends Service{
         {
             e.printStackTrace();
         }
+        return lolChat.isAuthenticated();
     }
     @Override
     public void onDestroy() {
