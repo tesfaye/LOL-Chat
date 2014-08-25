@@ -12,9 +12,6 @@ import com.github.theholywaffle.lolchatapi.FriendRequestPolicy;
 import com.github.theholywaffle.lolchatapi.LolChat;
 import com.github.theholywaffle.lolchatapi.riotapi.RiotApiKey;
 
-/**
- * Created by Abel Tesfaye on 8/23/2014.
- */
 public class ChatService extends Service{
     private LolChat lolChat;
     private final IBinder mBinder = new LocalBinder();

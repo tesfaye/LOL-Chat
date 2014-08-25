@@ -20,9 +20,6 @@ import com.github.theholywaffle.lolchatapi.ChatServer;
 
 import java.util.ArrayList;
 
-/**
- * Created by Abel Tesfaye on 8/24/2014.
- */
 public class LoginActivity extends Activity
 {
     private String username, password;
