@@ -717,7 +717,7 @@ public class LolChat {
 	}
     /**
         Gets in-game connected username //Abel Tesfaye
-     * @return in-game connected username or null
+     * @return in-game connected username or error
      */
     public String getConnectedUsername()
     {

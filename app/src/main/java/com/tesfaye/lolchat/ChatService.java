@@ -36,8 +36,8 @@ public class ChatService extends Service{
                             .setTicker(getString(R.string.app_name) + " is now running")
                             .setDefaults(Notification.DEFAULT_VIBRATE);
                     startForeground(69, notification.getNotification());
-                    callBack.onLogin(lolChat.isAuthenticated());
                 }
+                callBack.onLogin(lolChat.isAuthenticated());
             }
         });
         try {
