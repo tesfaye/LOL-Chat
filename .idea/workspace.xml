@@ -71,9 +71,11 @@
             <state />
           </provider>
           <provider editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="900">
-              <caret line="21" column="34" selection-start-line="21" selection-start-column="34" selection-end-line="21" selection-end-column="34" />
-              <folding />
+            <state vertical-scroll-proportion="0.0" vertical-offset="315" max-vertical-offset="1215">
+              <caret line="50" column="40" selection-start-line="50" selection-start-column="32" selection-end-line="50" selection-end-column="40" />
+              <folding>
+                <marker date="1408937042000" expanded="true" signature="770:1092" placeholder="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -1190,9 +1192,11 @@
         <state />
       </provider>
       <provider editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="870">
-          <caret line="21" column="34" selection-start-line="21" selection-start-column="34" selection-end-line="21" selection-end-column="34" />
-          <folding />
+        <state vertical-scroll-proportion="0.0" vertical-offset="315" max-vertical-offset="1020">
+          <caret line="50" column="40" selection-start-line="50" selection-start-column="32" selection-end-line="50" selection-end-column="40" />
+          <folding>
+            <marker date="1408937042000" expanded="true" signature="770:1092" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>

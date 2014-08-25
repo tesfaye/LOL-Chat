@@ -42,12 +42,33 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="10dp" />
 
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Remember Me"
+            android:id="@+id/remember_mebox"
+            android:layout_gravity="center_horizontal"
+            android:textColor="#ffb8a801"
+            android:layout_marginBottom="10dp"
+            android:textSize="18dp" />
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Connect"
             android:id="@+id/button"
-            android:layout_gravity="center_horizontal|bottom" />
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Forgot your password?"
+            android:id="@+id/iforgot"
+            android:layout_gravity="center_horizontal"
+            android:textColor="#ffb8a801"
+            android:layout_marginBottom="10dp" />
     </LinearLayout>
 
 
