@@ -11,71 +11,77 @@
     android:weightSum="1"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView" >
 
-        <ImageView
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:id="@+id/imageView"
-            android:layout_gravity="center_horizontal"
-            android:src="@drawable/lclogo"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="10dp" />
+            android:layout_height="match_parent">
 
-        <EditText
-            android:id="@+id/usernameBox"
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:id="@+id/imageView"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/lclogo"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="10dp" />
+
+            <EditText
+                android:id="@+id/usernameBox"
+                android:layout_width="276dp"
+                android:hint="Username"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="10dp" />
+
+            <EditText
+            android:id="@+id/passwordBox"
             android:layout_width="276dp"
-            android:hint="Username"
+            android:inputType="textPassword"
+            android:hint="Password"
             android:layout_height="50dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="10dp" />
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="10dp" />
 
-        <EditText
-        android:id="@+id/passwordBox"
-        android:layout_width="276dp"
-        android:inputType="textPassword"
-        android:hint="Password"
-        android:layout_height="50dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="10dp" />
+            <Spinner
+                android:layout_width="276dp"
+                android:layout_height="65dp"
+                android:id="@+id/serverlist"
+                android:layout_gravity="center_horizontal" />
 
-        <Spinner
-            android:layout_width="276dp"
-            android:layout_height="65dp"
-            android:id="@+id/serverlist"
-            android:layout_gravity="center_horizontal" />
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Remember Me"
+                android:id="@+id/rememberbox"
+                android:layout_gravity="center_horizontal"
+                android:textColor="#ffb8a801"
+                android:layout_marginBottom="10dp"
+                android:textSize="18dp" />
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Remember Me"
-            android:id="@+id/rememberbox"
-            android:layout_gravity="center_horizontal"
-            android:textColor="#ffb8a801"
-            android:layout_marginBottom="10dp"
-            android:textSize="18dp" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Connect"
+                android:id="@+id/connectButton"
+                android:layout_gravity="center_horizontal|bottom"
+                android:layout_marginBottom="10dp" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Connect"
-            android:id="@+id/connectButton"
-            android:layout_gravity="center_horizontal|bottom"
-            android:layout_marginBottom="10dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Forgot your password?"
-            android:id="@+id/forgot_Button"
-            android:layout_gravity="center_horizontal"
-            android:textColor="#ffb8a801"
-            android:layout_marginBottom="10dp" />
-    </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Forgot your password?"
+                android:id="@+id/forgot_Button"
+                android:layout_gravity="center_horizontal"
+                android:textColor="#ffb8a801"
+                android:layout_marginBottom="10dp" />
+        </LinearLayout>
+    </ScrollView>
 
 
 </LinearLayout>
