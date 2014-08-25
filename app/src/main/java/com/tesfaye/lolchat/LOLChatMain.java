@@ -13,14 +13,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
 
-public class LOLChatMain extends Activity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+public class LOLChatMain extends Activity implements NavigationDrawerFragment.NavigationDrawerCallbacks, ServiceConnection {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
-    private boolean mBound;
-    private ChatService mService;
+    private ChatService chatService;
 
     public static final Fragment[] fragments = new Fragment[]{
             new MainFragment()
@@ -37,7 +36,8 @@ public class LOLChatMain extends Activity implements NavigationDrawerFragment.Na
         mNavigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager().findFragmentById(R.id.navigation_drawer);
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
-        bind();
+        Intent intent = new Intent(this, ChatService.class);
+        bindService(intent, this, Context.BIND_AUTO_CREATE);
     }
     @Override
     public void onNavigationDrawerItemSelected(int position) {
@@ -76,29 +76,15 @@ public class LOLChatMain extends Activity implements NavigationDrawerFragment.Na
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mBound) {
-            unbindService(mConnection);
-        }
+        unbindService(this);
     }
-    public void bind()
-    {
-        if(!mBound) {
-            Intent intent = new Intent(this, ChatService.class);
-            bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-        }
+    @Override
+    public void onServiceConnected(final ComponentName name, final IBinder service) {
+        chatService = ((ChatService.LocalBinder) service).getService();
     }
 
-    private final ServiceConnection mConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(final ComponentName name, final IBinder service) {
-            mService = ((ChatService.LocalBinder) service).getService();
-            mBound = true;
-        }
-
-        @Override
-        public void onServiceDisconnected(final ComponentName name) {
-            mService = null;
-            mBound = false;
-        }
-    };
+    @Override
+    public void onServiceDisconnected(final ComponentName name) {
+        chatService = null;
+    }
 }
