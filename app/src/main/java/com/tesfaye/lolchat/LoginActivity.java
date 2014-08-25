@@ -44,7 +44,6 @@ public class LoginActivity extends Activity
         {
             serverArrayList.add(server.toString().toUpperCase());
         }
-
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, R.layout.spinner_item, serverArrayList);
         serverList.setAdapter(spinnerArrayAdapter);
         connect.setOnClickListener(new View.OnClickListener() {
