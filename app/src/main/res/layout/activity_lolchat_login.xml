@@ -36,7 +36,8 @@
                 android:hint="Username"
                 android:layout_height="50dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="10dp" />
+                android:layout_marginBottom="10dp"
+                android:textColor="#ffffffff" />
 
             <EditText
             android:id="@+id/passwordBox"
@@ -45,7 +46,8 @@
             android:hint="Password"
             android:layout_height="50dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="10dp" />
+                android:layout_marginBottom="10dp"
+                android:textColor="#ffffffff" />
 
             <Spinner
                 android:layout_width="276dp"
