@@ -44,7 +44,7 @@ public class ChatService extends Service{
                 .setContentTitle("USERNAME(STATUS)")
                 .setTicker(getString(R.string.app_name) + " is now running")
                 .setDefaults(Notification.DEFAULT_VIBRATE)
-                .build();
+                .getNotification();
         startForeground(69, notification);
     }
     @Override

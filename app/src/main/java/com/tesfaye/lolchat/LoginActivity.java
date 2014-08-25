@@ -50,7 +50,10 @@ public class LoginActivity extends Activity
                 final String username = ((EditText) findViewById(R.id.usernameBox)).getText().toString();
                 final String password = ((EditText) findViewById(R.id.passwordBox)).getText().toString();
                 //((LOLChatMain)getActivity()).bind(username, password);
-                startActivity(new Intent(getApplicationContext(), LOLChatMain.class));
+                Intent intent = new Intent(getApplicationContext(), LOLChatMain.class);
+                intent.putExtra("username", username);
+                intent.putExtra("password", password);
+                startActivity(intent);
             }
         });
     }
