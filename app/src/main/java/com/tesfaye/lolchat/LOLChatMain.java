@@ -27,6 +27,7 @@ public class LOLChatMain extends Activity implements NavigationDrawerFragment.Na
             new MainFragment()
     };
     public static String[] fragmentNames;
+    private String username, password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +39,9 @@ public class LOLChatMain extends Activity implements NavigationDrawerFragment.Na
         mNavigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager().findFragmentById(R.id.navigation_drawer);
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
-        bind("", "");
+        username = getIntent().getStringExtra("username");
+        password = getIntent().getStringExtra("password");
+        bind();
     }
     @Override
     public void onNavigationDrawerItemSelected(int position) {
@@ -81,12 +84,10 @@ public class LOLChatMain extends Activity implements NavigationDrawerFragment.Na
             unbindService(mConnection);
         }
     }
-    public void bind(String username, String password)
+    public void bind()
     {
         if(!mBound) {
             Intent intent = new Intent(this, ChatService.class);
-            intent.putExtra("username", username);
-            intent.putExtra("password", password);
             bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
         }
     }
@@ -95,6 +96,9 @@ public class LOLChatMain extends Activity implements NavigationDrawerFragment.Na
         @Override
         public void onServiceConnected(final ComponentName name, final IBinder service) {
             mService = ((ChatService.LocalBinder) service).getService();
+            if(mService.getLolChat() == null) {
+                mService.connectLOLChat(username, password);
+            }
             mBound = true;
         }
 

@@ -700,6 +700,7 @@ public class LolChat {
 
 		} catch (Exception e) {
 		}
+
 		if (connection.isAuthenticated()) {
 			final long startTime = System.currentTimeMillis();
 			while (!leagueRosterListener.isLoaded()
@@ -714,7 +715,19 @@ public class LolChat {
 		}
 		return false;
 	}
-
+    /**
+        Gets in-game connected username //Abel Tesfaye
+     * @return in-game connected username or null
+     */
+    public String getConnectedUsername()
+    {
+        try {
+            return getRiotApi().getName(connection.getUser());
+        }
+        catch(Exception e){
+            return "Error";
+        }
+    }
 	/**
 	 * Removes the ChatListener from the list and will no longer be called.
 	 * 

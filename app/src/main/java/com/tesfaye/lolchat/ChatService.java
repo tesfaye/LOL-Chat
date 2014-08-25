@@ -3,12 +3,14 @@ package com.tesfaye.lolchat;
 import android.app.Notification;
 import android.app.Service;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Binder;
 import android.os.IBinder;
 
 import com.github.theholywaffle.lolchatapi.ChatServer;
 import com.github.theholywaffle.lolchatapi.FriendRequestPolicy;
 import com.github.theholywaffle.lolchatapi.LolChat;
+import com.github.theholywaffle.lolchatapi.riotapi.RiotApiKey;
 
 /**
  * Created by Abel Tesfaye on 8/23/2014.
@@ -21,31 +23,32 @@ public class ChatService extends Service{
     public IBinder onBind(Intent intent) {
         return mBinder;
     }
-    public void onCreate()
+    public void connectLOLChat(final String username, final String password)
     {
-        super.onCreate();
+        final Notification.Builder notification = new Notification.Builder(this);
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
-                lolChat = new LolChat(ChatServer.NA, FriendRequestPolicy.REJECT_ALL);
-                lolChat.login("dwadwa","awdwad");
+                lolChat = new LolChat(ChatServer.NA, FriendRequestPolicy.REJECT_ALL, new RiotApiKey("99a0d299-2476-4539-901f-0fdd0598bcf8"));
+                if(lolChat.login(username, password))
+                {
+                    notification
+                            .setSmallIcon(R.drawable.ic_launcher)
+                            .setContentText(getString(R.string.app_name) + " is running")
+                            .setContentTitle(lolChat.getConnectedUsername())
+                            .setTicker(getString(R.string.app_name) + " is now running")
+                            .setDefaults(Notification.DEFAULT_VIBRATE);
+                    startForeground(69, notification.getNotification());
+                }
             }
         });
         try {
             t.start();
-            t.join();
+            t.join();//wait for da thread to finish
         }catch(Exception e)
         {
             e.printStackTrace();
         }
-        Notification notification = new Notification.Builder(this)
-                .setSmallIcon(R.drawable.ic_launcher)
-                .setContentText(getString(R.string.app_name) + " is running")
-                .setContentTitle("USERNAME(STATUS)")
-                .setTicker(getString(R.string.app_name) + " is now running")
-                .setDefaults(Notification.DEFAULT_VIBRATE)
-                .getNotification();
-        startForeground(69, notification);
     }
     @Override
     public void onDestroy() {
