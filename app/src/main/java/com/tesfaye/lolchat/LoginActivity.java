@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -21,10 +22,11 @@ import com.github.theholywaffle.lolchatapi.ChatServer;
 
 import java.util.ArrayList;
 
-public class LoginActivity extends Activity implements ServiceConnection
+public class LoginActivity extends Activity implements ServiceConnection, LoginCallBack
 {
     private String username, password;
     private boolean savePassword;
+    private LinearLayout pbLayout;
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
@@ -32,6 +34,7 @@ public class LoginActivity extends Activity implements ServiceConnection
         SharedPreferences sharedPreferences = getSharedPreferences("loginData", Context.MODE_PRIVATE);
         username = sharedPreferences.getString("username", null);
         password = sharedPreferences.getString("password", null);
+        pbLayout = (LinearLayout)findViewById(R.id.pbLayout);
         Button connect = (Button) findViewById(R.id.connectButton);
         TextView passwordForgot = (TextView) findViewById(R.id.forgot_Button);
         passwordForgot.setOnClickListener(new View.OnClickListener() {
@@ -67,26 +70,13 @@ public class LoginActivity extends Activity implements ServiceConnection
     }
     public void bind()
     {
+        pbLayout.setVisibility(View.VISIBLE);
         bindService(new Intent(this, ChatService.class), this, Context.BIND_AUTO_CREATE);
     }
     @Override
     public void onServiceConnected(final ComponentName name, final IBinder service) {
         ChatService chatService = ((ChatService.LocalBinder) service).getService();
-        if(chatService.connectLOLChat(username, password))
-        {
-            if(savePassword)
-            {
-                SharedPreferences.Editor editor = getSharedPreferences("loginData", Context.MODE_PRIVATE).edit();//TODO: ENCRYPTION
-                editor.putString("username", username);
-                editor.putString("password", password);
-                editor.commit();
-            }
-            Intent intent = new Intent(this, LOLChatMain.class);
-            startActivity(intent);
-        }else
-        {
-            unbindService(this);
-        }
+        chatService.connectLOLChat(username, password, this);
     }
 
     @Override
@@ -103,5 +93,29 @@ public class LoginActivity extends Activity implements ServiceConnection
         {
             //exception thrown if unbind is called when no service is bound
         }
+    }
+    public void onLogin(boolean successful)
+    {
+        if(successful)
+        {
+            if(savePassword)
+            {
+                SharedPreferences.Editor editor = getSharedPreferences("loginData", Context.MODE_PRIVATE).edit();//TODO: ENCRYPTION
+                editor.putString("username", username);
+                editor.putString("password", password);
+                editor.commit();
+            }
+            Intent intent = new Intent(this, LOLChatMain.class);
+            startActivity(intent);
+        }else
+        {
+            unbindService(this);
+        }
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                pbLayout.setVisibility(View.GONE);
+            }
+        });
     }
 }

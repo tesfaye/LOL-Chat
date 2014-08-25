@@ -11,6 +11,20 @@
     android:weightSum="1"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:id="@+id/pbLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone" >
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+        </ProgressBar>
+    </LinearLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -40,11 +54,11 @@
                 android:textColor="#ffffffff" />
 
             <EditText
-            android:id="@+id/passwordBox"
-            android:layout_width="276dp"
-            android:inputType="textPassword"
-            android:hint="Password"
-            android:layout_height="50dp"
+                android:id="@+id/passwordBox"
+                android:layout_width="276dp"
+                android:inputType="textPassword"
+                android:hint="Password"
+                android:layout_height="50dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="10dp"
                 android:textColor="#ffffffff" />

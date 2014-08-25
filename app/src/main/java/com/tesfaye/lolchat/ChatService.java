@@ -20,7 +20,7 @@ public class ChatService extends Service{
     public IBinder onBind(Intent intent) {
         return mBinder;
     }
-    public boolean connectLOLChat(final String username, final String password)
+    public void connectLOLChat(final String username, final String password, final LoginCallBack callBack)
     {
         final Notification.Builder notification = new Notification.Builder(this);
         Thread t = new Thread(new Runnable() {
@@ -36,17 +36,16 @@ public class ChatService extends Service{
                             .setTicker(getString(R.string.app_name) + " is now running")
                             .setDefaults(Notification.DEFAULT_VIBRATE);
                     startForeground(69, notification.getNotification());
+                    callBack.onLogin(lolChat.isAuthenticated());
                 }
             }
         });
         try {
             t.start();
-            t.join();//wait for da thread to finish
         }catch(Exception e)
         {
             e.printStackTrace();
         }
-        return lolChat.isAuthenticated();
     }
     @Override
     public void onDestroy() {
