@@ -45,9 +45,10 @@ public class ChatService extends Service{
         }
         Notification notification = new Notification.Builder(this)
                 .setSmallIcon(R.drawable.ic_launcher)
-                .setContentText("Lol Chat is running")
-                .setContentTitle("Test")
-                .setTicker("LOL Chat is now running")
+                .setContentText(getString(R.string.app_name) + " is running")
+                .setContentTitle("USERNAME(STATUS)")
+                .setTicker(getString(R.string.app_name) + " is now running")
+                .setDefaults(Notification.DEFAULT_VIBRATE)
                 .build();
         startForeground(69, notification);
     }
