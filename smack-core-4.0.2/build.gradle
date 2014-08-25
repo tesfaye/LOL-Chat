@@ -1,5 +1,0 @@
-configurations.create("default")
-artifacts.add("default", file('smack-core-4.0.2.jar'))
-dependencies {
-    compile files('smack-core-4.0.2.jar')
-}
