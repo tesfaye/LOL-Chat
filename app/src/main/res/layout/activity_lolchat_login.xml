@@ -26,7 +26,7 @@
             android:layout_marginTop="10dp" />
 
         <EditText
-            android:id="@+id/section_label"
+            android:id="@+id/usernameBox"
             android:layout_width="276dp"
             android:hint="Username"
             android:layout_height="50dp"
@@ -34,7 +34,7 @@
             android:layout_marginBottom="10dp" />
 
         <EditText
-        android:id="@+id/section_label1"
+        android:id="@+id/passwordBox"
         android:layout_width="276dp"
         android:inputType="textPassword"
         android:hint="Password"
@@ -52,7 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Remember Me"
-            android:id="@+id/remember_mebox"
+            android:id="@+id/rememberbox"
             android:layout_gravity="center_horizontal"
             android:textColor="#ffb8a801"
             android:layout_marginBottom="10dp"
@@ -62,7 +62,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Connect"
-            android:id="@+id/button"
+            android:id="@+id/connectButton"
             android:layout_gravity="center_horizontal|bottom"
             android:layout_marginBottom="10dp" />
 
@@ -71,7 +71,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Forgot your password?"
-            android:id="@+id/iforgot"
+            android:id="@+id/forgot_Button"
             android:layout_gravity="center_horizontal"
             android:textColor="#ffb8a801"
             android:layout_marginBottom="10dp" />
