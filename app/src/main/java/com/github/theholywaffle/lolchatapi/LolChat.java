@@ -156,7 +156,7 @@ public class LolChat {
 			public void run() {
 				while (!stop) {
 					try {
-						Thread.sleep(500);
+						Thread.sleep(500);//NOT SURE ABOUT THIS, TODO:REVIST
 					} catch (final InterruptedException ignored) {
 					}
 				}

@@ -13,6 +13,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
 
+import com.github.theholywaffle.lolchatapi.LolStatus;
+
 public class LOLChatMain extends Activity implements NavigationDrawerFragment.NavigationDrawerCallbacks, ServiceConnection {
 
     /**
@@ -82,6 +84,7 @@ public class LOLChatMain extends Activity implements NavigationDrawerFragment.Na
     @Override
     public void onServiceConnected(final ComponentName name, final IBinder service) {
         chatService = ((ChatService.LocalBinder) service).getService();
+        chatService.getLolChat().setStatus(new LolStatus().setProfileIconId(1).setLevel(1));
     }
 
     @Override
