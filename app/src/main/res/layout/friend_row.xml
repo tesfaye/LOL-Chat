@@ -63,6 +63,19 @@
     <ImageView android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"/>
+        android:layout_centerVertical="true"
+        android:id="@+id/imageView2" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Send Message"
+        android:id="@+id/button"
+        android:layout_alignRight="@+id/duration"
+        android:layout_alignEnd="@+id/duration"
+        android:textSize="10dp"
+        android:layout_below="@+id/artist"
+        android:layout_alignBottom="@+id/thumbnail" />
 
 </RelativeLayout>
