@@ -114,6 +114,15 @@ public enum ChatServer {
         }
         return servers;
     }
+    public static ChatServer getChatServerByName(String name)
+    {
+        for(ChatServer server: getChatServersWithAPI())
+        {
+            if(server.name.equals(name))
+                return server;
+        }
+        return null;
+    }
 	@Override
 	public String toString() {
 		return name().toLowerCase();

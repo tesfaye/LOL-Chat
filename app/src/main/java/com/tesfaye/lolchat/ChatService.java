@@ -20,13 +20,13 @@ public class ChatService extends Service{
     public IBinder onBind(Intent intent) {
         return mBinder;
     }
-    public void connectLOLChat(final String username, final String password, final LoginCallBack callBack)
+    public void connectLOLChat(final String username, final String password, final String server, final LoginCallBack callBack)
     {
         final Notification.Builder notification = new Notification.Builder(this);
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
-                lolChat = new LolChat(ChatServer.NA, FriendRequestPolicy.REJECT_ALL, new RiotApiKey("99a0d299-2476-4539-901f-0fdd0598bcf8"));
+                lolChat = new LolChat(ChatServer.getChatServerByName(server), FriendRequestPolicy.REJECT_ALL, new RiotApiKey("99a0d299-2476-4539-901f-0fdd0598bcf8"));
                 if(lolChat.login(username, password))
                 {
                     notification

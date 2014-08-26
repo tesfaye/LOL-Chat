@@ -77,7 +77,7 @@ public class LoginActivity extends Activity implements ServiceConnection, LoginC
     @Override
     public void onServiceConnected(final ComponentName name, final IBinder service) {
         ChatService chatService = ((ChatService.LocalBinder) service).getService();
-        chatService.connectLOLChat(username, password, this);
+        chatService.connectLOLChat(username, password, server, this);
     }
 
     @Override
