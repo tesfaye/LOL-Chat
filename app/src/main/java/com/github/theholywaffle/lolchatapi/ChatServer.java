@@ -26,6 +26,8 @@ package com.github.theholywaffle.lolchatapi;
  * #L%
  */
 
+import java.util.ArrayList;
+
 /**
  * Represents a regions chatserver.
  *
@@ -35,72 +37,83 @@ public enum ChatServer {
 	/**
 	 * Brazil
 	 */
-	BR("chat.br.lol.riotgames.com", "br.api.pvp.net"),
+	BR("Brazil", "chat.br.lol.riotgames.com", "br.api.pvp.net"),
 	/**
 	 * Europe Nordic and East
 	 */
-	EUNE("chat.eun1.riotgames.com", "eune.api.pvp.net"),
+	EUNE("Europe Nordic and East", "chat.eun1.riotgames.com", "eune.api.pvp.net"),
 	/**
 	 * Europe West
 	 */
-	EUW("chat.euw1.lol.riotgames.com", "euw.api.pvp.net"),
+	EUW("Europe West", "chat.euw1.lol.riotgames.com", "euw.api.pvp.net"),
 	/**
 	 * Korea
 	 */
-	KR("chat.kr.lol.riotgames.com", "kr.api.pvp.net"),
+	KR("Korea", "chat.kr.lol.riotgames.com", "kr.api.pvp.net"),
 	/**
 	 * Latin America North
 	 */
-	LAN("chat.la1.lol.riotgames.com", "lan.api.pvp.net"),
+	LAN("Latin America North", "chat.la1.lol.riotgames.com", "lan.api.pvp.net"),
 	/**
 	 * Latin America South
 	 */
-	LAS("chat.la2.lol.riotgames.com", "las.api.pvp.net"),
+	LAS("Latin America South", "chat.la2.lol.riotgames.com", "las.api.pvp.net"),
 	/**
 	 * North-America
 	 */
-	NA("chat.na1.lol.riotgames.com", "na.api.pvp.net"),
+	NA("North-America", "chat.na1.lol.riotgames.com", "na.api.pvp.net"),
 	/**
 	 * Oceania
 	 */
-	OCE("chat.oc1.lol.riotgames.com", "oce.api.pvp.net"),
+	OCE("Oceania", "chat.oc1.lol.riotgames.com", "oce.api.pvp.net"),
 	/**
 	 * Public Beta Environment
 	 */
-	PBE("chat.pbe1.lol.riotgames.com", null),
+	PBE("Public Beta Environment", "chat.pbe1.lol.riotgames.com", null),
 	/**
 	 * Phillipines
 	 */
-	PH("chatph.lol.garenanow.com", null),
+	PH("Phillipines", "chatph.lol.garenanow.com", null),
 	/**
 	 * Russia
 	 */
-	RU("chat.ru.lol.riotgames.com", "ru.api.pvp.net"),
+	RU("Russia", "chat.ru.lol.riotgames.com", "ru.api.pvp.net"),
 	/**
 	 * Thailand
 	 */
-	TH("chatth.lol.garenanow.com", null),
+	TH("Thailand", "chatth.lol.garenanow.com", null),
 	/**
 	 * Turkey
 	 */
-	TR("chat.tr.lol.riotgames.com", "tr.api.pvp.net"),
+	TR("Turkey", "chat.tr.lol.riotgames.com", "tr.api.pvp.net"),
 	/**
 	 * Taiwan
 	 */
-	TW("chattw.lol.garenanow.com", null),
+	TW("Taiwan", "chattw.lol.garenanow.com", null),
 	/**
 	 * Vietnam
 	 */
-	VN("chatvn.lol.garenanow.com", null);
+	VN("Vietnam", "chatvn.lol.garenanow.com", null);
 
+    public String name;
 	public String host;
 	public String api;
 
-	ChatServer(String host, String api) {
-		this.host = host;
+	ChatServer(String name, String host, String api) {
+		this.name = name;
+        this.host = host;
 		this.api = api;
 	}
-
+    public ArrayList<ChatServer> getAllChatServers()
+    {
+        ArrayList<ChatServer> servers = new ArrayList<ChatServer>();
+        for(ChatServer server: getClass().getEnumConstants())
+        {
+            if(server.api != null)
+                servers.add(server);
+        }
+        return servers;
+    }
 	@Override
 	public String toString() {
 		return name().toLowerCase();
