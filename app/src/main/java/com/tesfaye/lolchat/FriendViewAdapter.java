@@ -6,6 +6,9 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.ShapeDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,8 +41,9 @@ public class FriendViewAdapter extends ArrayAdapter<Friend> {
         TextView title = (TextView)convertView.findViewById(R.id.title); // title
         TextView artist = (TextView)convertView.findViewById(R.id.artist); // artist name
         final ImageView thumb_image=(ImageView)convertView.findViewById(R.id.list_image);
-        View circle = (View)convertView.findViewById(R.id.statusCircle);
-        circle.setBackgroundColor(Color.BLUE);
+
+        View circleView = convertView.findViewById(R.id.statusCircle);
+        GradientDrawable shapeDrawable = (GradientDrawable)circleView.getBackground();
         title.setText(friend.getName());
         LolStatus.GameStatus gameStatus = friend.getStatus().getGameStatus();
         String status;
@@ -51,6 +55,18 @@ public class FriendViewAdapter extends ArrayAdapter<Friend> {
         iconId = friend.getStatus().getProfileIconId();
         if(iconId == -1)
             iconId = 1;
+        switch(friend.getChatMode())
+        {
+            case AVAILABLE:
+                shapeDrawable.setColor(Color.GREEN);
+                break;
+            case BUSY:
+                shapeDrawable.setColor(Color.rgb(255, 255, 102));
+                break;
+            case AWAY:
+                shapeDrawable.setColor(Color.RED);
+                break;
+        }
         final int profileIcon = iconId;
         artist.setText(status);
         new Thread(new Runnable() {
