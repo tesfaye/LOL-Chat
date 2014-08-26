@@ -1,6 +1,10 @@
 package com.tesfaye.lolchat;
 
+import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +15,8 @@ import android.widget.TextView;
 import com.github.theholywaffle.lolchatapi.LolStatus;
 import com.github.theholywaffle.lolchatapi.wrapper.Friend;
 
+import java.io.InputStream;
+import java.net.URL;
 import java.util.List;
 
 /**
@@ -31,15 +37,40 @@ public class FriendViewAdapter extends ArrayAdapter<Friend> {
         TextView title = (TextView)convertView.findViewById(R.id.title); // title
         TextView artist = (TextView)convertView.findViewById(R.id.artist); // artist name
         TextView duration = (TextView)convertView.findViewById(R.id.duration); // duration
-        ImageView thumb_image=(ImageView)convertView.findViewById(R.id.list_image);
+        final ImageView thumb_image=(ImageView)convertView.findViewById(R.id.list_image);
         title.setText(friend.getName());
         LolStatus.GameStatus gameStatus = friend.getStatus().getGameStatus();
+        String status;
+        int iconId;
         if(gameStatus == null)
-            artist.setText(friend.getStatus().getStatusMessage() + "\n" + "Online");
+            status = friend.getStatus().getStatusMessage() + "\n" + "Online";
         else
-            artist.setText(friend.getStatus().getStatusMessage() + "\n" + gameStatus.internal());
+            status = friend.getStatus().getStatusMessage() + "\n" + gameStatus.internal();
+        iconId = friend.getStatus().getProfileIconId();
+        if(iconId == -1)
+            iconId = 1;
+        final int profileIcon = iconId;
+        artist.setText(status);
         duration.setText("69");
-        thumb_image.setImageDrawable(convertView.getResources().getDrawable(R.drawable.lclogo));
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                final Bitmap bitmap = BitmapFactory.decodeStream((InputStream)new URL("http://ddragon.leagueoflegends.com/cdn/4.14.2/img/profileicon/"+ profileIcon + ".png").getContent());
+                if(bitmap != null)
+                {
+                    ((Activity) getContext()).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            thumb_image.setImageBitmap(bitmap);
+                        }
+                    });
+                }}catch(Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
         return convertView;
     }
 }
