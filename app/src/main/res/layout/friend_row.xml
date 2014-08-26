@@ -17,6 +17,7 @@
             android:id="@+id/list_image"
             android:layout_width="50dip"
             android:layout_height="50dip"
+            android:src="@drawable/lclogo"
             />
 
     </LinearLayout>
@@ -28,8 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/thumbnail"
         android:layout_toRightOf="@+id/thumbnail"
-        android:text="Rihanna Love the way lie"
-        android:textColor="#040404"
+        android:text="Kidus (In game)"
         android:typeface="sans"
         android:textSize="15dip"
         android:textStyle="bold"/>
@@ -40,11 +40,10 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/title"
-        android:textColor="#343434"
         android:textSize="10dip"
         android:layout_marginTop="1dip"
         android:layout_toRightOf="@+id/thumbnail"
-        android:text="Just gona stand there and ..." />
+        android:text="In game as Lucian for 500 minutes" />
 
     <!-- Rightend Duration -->
     <TextView
