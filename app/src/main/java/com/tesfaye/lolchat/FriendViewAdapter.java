@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,8 @@ public class FriendViewAdapter extends ArrayAdapter<Friend> {
         TextView title = (TextView)convertView.findViewById(R.id.title); // title
         TextView artist = (TextView)convertView.findViewById(R.id.artist); // artist name
         final ImageView thumb_image=(ImageView)convertView.findViewById(R.id.list_image);
+        View circle = (View)convertView.findViewById(R.id.statusCircle);
+        circle.setBackgroundColor(Color.BLUE);
         title.setText(friend.getName());
         LolStatus.GameStatus gameStatus = friend.getStatus().getGameStatus();
         String status;
