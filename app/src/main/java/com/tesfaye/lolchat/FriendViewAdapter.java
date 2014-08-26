@@ -55,7 +55,7 @@ public class FriendViewAdapter extends ArrayAdapter<Friend> {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                try{
+                try{//TODO: CACHE IMAGES
                     final Bitmap bitmap = BitmapFactory.decodeStream((InputStream)new URL("http://ddragon.leagueoflegends.com/cdn/4.14.2/img/profileicon/"+ profileIcon + ".png").getContent());
                     if(bitmap != null)
                     {
