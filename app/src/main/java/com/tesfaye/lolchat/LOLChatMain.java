@@ -81,7 +81,7 @@ public class LOLChatMain extends Activity implements NavigationDrawerFragment.Na
     }
     @Override
     public void onServiceConnected(final ComponentName name, final IBinder service) {
-        chatService = ((ChatService.LocalBinder) service).getService();
+        ((MainFragment)fragments[0]).onChatConnected(((ChatService.LocalBinder) service).getService());
 //        chatService.getLolChat().setStatus(new LolStatus().setProfileIconId(1).setLevel(1));
     }
 
