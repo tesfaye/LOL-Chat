@@ -24,7 +24,7 @@ import java.util.ArrayList;
 
 public class LoginActivity extends Activity implements ServiceConnection, LoginCallBack
 {
-    private String username, password;
+    private String username, password, server;
     private boolean savePassword;
     private LinearLayout pbLayout;
     public void onCreate(Bundle savedInstanceState)
@@ -45,20 +45,21 @@ public class LoginActivity extends Activity implements ServiceConnection, LoginC
             }
         });
         Spinner serverList = (Spinner) findViewById(R.id.serverlist);
-        ChatServer[] servers =  ChatServer.BR.getDeclaringClass().getEnumConstants();
         ArrayList<String> serverArrayList = new ArrayList<String>();
-        for(ChatServer server: servers)
+        for(ChatServer server: ChatServer.getChatServersWithAPI())
         {
-            serverArrayList.add(server.toString().toUpperCase());
+            serverArrayList.add(server.name);
         }
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, R.layout.spinner_item, serverArrayList);
         serverList.setAdapter(spinnerArrayAdapter);
+        serverList.setSelection(spinnerArrayAdapter.getPosition(sharedPreferences.getString("server", "North America")));
         connect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 username = ((EditText) findViewById(R.id.usernameBox)).getText().toString();
                 password = ((EditText) findViewById(R.id.passwordBox)).getText().toString();
                 savePassword = ((CheckBox) findViewById(R.id.rememberbox)).isChecked();
+                server = ((Spinner) findViewById(R.id.serverlist)).getSelectedItem().toString();
                 bind();
             }
         });
@@ -98,13 +99,14 @@ public class LoginActivity extends Activity implements ServiceConnection, LoginC
     {
         if(successful)
         {
+            SharedPreferences.Editor editor = getSharedPreferences("loginData", Context.MODE_PRIVATE).edit();//TODO: ENCRYPTION
             if(savePassword)
             {
-                SharedPreferences.Editor editor = getSharedPreferences("loginData", Context.MODE_PRIVATE).edit();//TODO: ENCRYPTION
                 editor.putString("username", username);
                 editor.putString("password", password);
-                editor.commit();
             }
+            editor.putString("server", server);
+            editor.commit();
             Intent intent = new Intent(this, LOLChatMain.class);
             startActivity(intent);
         }else

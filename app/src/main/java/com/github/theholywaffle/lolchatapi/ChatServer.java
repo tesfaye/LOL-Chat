@@ -61,7 +61,7 @@ public enum ChatServer {
 	/**
 	 * North-America
 	 */
-	NA("North-America", "chat.na1.lol.riotgames.com", "na.api.pvp.net"),
+	NA("North America", "chat.na1.lol.riotgames.com", "na.api.pvp.net"),
 	/**
 	 * Oceania
 	 */
@@ -104,10 +104,10 @@ public enum ChatServer {
         this.host = host;
 		this.api = api;
 	}
-    public ArrayList<ChatServer> getAllChatServers()
+    public static ArrayList<ChatServer> getChatServersWithAPI()
     {
         ArrayList<ChatServer> servers = new ArrayList<ChatServer>();
-        for(ChatServer server: getClass().getEnumConstants())
+        for(ChatServer server: ChatServer.NA.getClass().getEnumConstants())
         {
             if(server.api != null)
                 servers.add(server);
