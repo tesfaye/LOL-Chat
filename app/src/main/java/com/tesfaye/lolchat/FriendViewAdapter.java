@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.github.theholywaffle.lolchatapi.LolStatus;
 import com.github.theholywaffle.lolchatapi.wrapper.Friend;
 
 import java.util.List;
@@ -32,7 +33,11 @@ public class FriendViewAdapter extends ArrayAdapter<Friend> {
         TextView duration = (TextView)convertView.findViewById(R.id.duration); // duration
         ImageView thumb_image=(ImageView)convertView.findViewById(R.id.list_image);
         title.setText(friend.getName());
-        artist.setText(friend.getStatus().toString());
+        LolStatus.GameStatus gameStatus = friend.getStatus().getGameStatus();
+        if(gameStatus == null)
+            artist.setText(friend.getStatus().getStatusMessage() + "\n" + "Online");
+        else
+            artist.setText(friend.getStatus().getStatusMessage() + "\n" + gameStatus.internal());
         duration.setText("69");
         thumb_image.setImageDrawable(convertView.getResources().getDrawable(R.drawable.lclogo));
         return convertView;
