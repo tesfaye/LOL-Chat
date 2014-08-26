@@ -30,7 +30,7 @@ public class LOLChatMain extends Activity implements NavigationDrawerFragment.Na
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         fragmentNames = new String[]{
-                getString(R.string.title_section1)
+                getString(R.string.title_section1),
         };
         setContentView(R.layout.activity_lolchat_main);
         mNavigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager().findFragmentById(R.id.navigation_drawer);

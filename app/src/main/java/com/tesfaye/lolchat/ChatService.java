@@ -1,6 +1,7 @@
 package com.tesfaye.lolchat;
 
 import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -29,11 +30,15 @@ public class ChatService extends Service{
                 lolChat = new LolChat(ChatServer.getChatServerByName(server), FriendRequestPolicy.REJECT_ALL, new RiotApiKey("99a0d299-2476-4539-901f-0fdd0598bcf8"));
                 if(lolChat.login(username, password))
                 {
+                    Intent mainIntent = new Intent(getApplicationContext(), LOLChatMain.class);
+                    mainIntent.setAction(Intent.ACTION_MAIN);
+                    mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
                     notification
                             .setSmallIcon(R.drawable.ic_launcher)
                             .setContentText(getString(R.string.app_name) + " is running")
                             .setContentTitle(lolChat.getConnectedUsername())
                             .setTicker(getString(R.string.app_name) + " is now running")
+                            .setContentIntent(PendingIntent.getActivity(getApplicationContext(), 0, mainIntent, PendingIntent.FLAG_UPDATE_CURRENT))
                             .setDefaults(Notification.DEFAULT_VIBRATE);
                     startForeground(69, notification.getNotification());
                 }
