@@ -36,7 +36,6 @@ public class FriendViewAdapter extends ArrayAdapter<Friend> {
         }
         TextView title = (TextView)convertView.findViewById(R.id.title); // title
         TextView artist = (TextView)convertView.findViewById(R.id.artist); // artist name
-        TextView duration = (TextView)convertView.findViewById(R.id.duration); // duration
         final ImageView thumb_image=(ImageView)convertView.findViewById(R.id.list_image);
         title.setText(friend.getName());
         LolStatus.GameStatus gameStatus = friend.getStatus().getGameStatus();
@@ -51,7 +50,6 @@ public class FriendViewAdapter extends ArrayAdapter<Friend> {
             iconId = 1;
         final int profileIcon = iconId;
         artist.setText(status);
-        duration.setText("69");
         new Thread(new Runnable() {
             @Override
             public void run() {
