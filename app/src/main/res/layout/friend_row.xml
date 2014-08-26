@@ -60,5 +60,8 @@
         android:layout_width="50dp"
         android:id="@+id/statusCircle"
         android:layout_height="50dp"
-        android:background="@drawable/circle" />
+        android:background="@drawable/circle"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/button"
+        android:layout_toStartOf="@+id/button" />
 </RelativeLayout>
