@@ -56,20 +56,21 @@ public class FriendViewAdapter extends ArrayAdapter<Friend> {
             @Override
             public void run() {
                 try{
-                final Bitmap bitmap = BitmapFactory.decodeStream((InputStream)new URL("http://ddragon.leagueoflegends.com/cdn/4.14.2/img/profileicon/"+ profileIcon + ".png").getContent());
-                if(bitmap != null)
-                {
-                    ((Activity) getContext()).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            thumb_image.setImageBitmap(bitmap);
-                        }
-                    });
-                }}catch(Exception e)
-                {
-                    e.printStackTrace();
+                    final Bitmap bitmap = BitmapFactory.decodeStream((InputStream)new URL("http://ddragon.leagueoflegends.com/cdn/4.14.2/img/profileicon/"+ profileIcon + ".png").getContent());
+                    if(bitmap != null)
+                    {
+                        ((Activity) getContext()).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                thumb_image.setImageBitmap(bitmap);
+                            }
+                        });
+                    }}
+                    catch(Exception e)
+                    {
+                        e.printStackTrace();
+                    }
                 }
-            }
         }).start();
         return convertView;
     }
