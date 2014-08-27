@@ -14,6 +14,9 @@ import com.github.theholywaffle.lolchatapi.LolChat;
 import com.github.theholywaffle.lolchatapi.wrapper.Friend;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public class MainFragment extends Fragment
 {
@@ -26,6 +29,19 @@ public class MainFragment extends Fragment
     }
     public void onChatConnected(ChatService chatService) {
         LolChat chat = chatService.getLolChat();
-        listView.setAdapter(new FriendViewAdapter(getActivity(), R.layout.friend_row, chat.getFriends()));
+        List<Friend> friends = chat.getFriends();
+        Collections.sort(friends, new Comparator<Friend>() {
+            @Override
+            public int compare(Friend friend, Friend friend2) {
+                if(friend.isOnline() && friend2.isOnline())
+                    return friend.getName().compareTo(friend2.getName());
+                if(friend.isOnline())
+                    return -1;
+                if(friend2.isOnline())
+                    return 1;
+                return friend.getName().compareTo(friend2.getName());
+            }
+        });
+        listView.setAdapter(new FriendViewAdapter(getActivity(), R.layout.friend_row, friends));
     }
 }
