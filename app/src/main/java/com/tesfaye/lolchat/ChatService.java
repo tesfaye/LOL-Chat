@@ -24,7 +24,7 @@ public class ChatService extends Service{
     public void connectLOLChat(final String username, final String password, final String server, final LoginCallBack callBack)
     {
         final Notification.Builder notification = new Notification.Builder(this);
-        Thread t = new Thread(new Runnable() {
+        new Thread(new Runnable() {
             @Override
             public void run() {
                 lolChat = new LolChat(ChatServer.getChatServerByName(server), FriendRequestPolicy.REJECT_ALL, new RiotApiKey("99a0d299-2476-4539-901f-0fdd0598bcf8"));
@@ -44,13 +44,7 @@ public class ChatService extends Service{
                 }
                 callBack.onLogin(lolChat.isAuthenticated());
             }
-        });
-        try {
-            t.start();
-        }catch(Exception e)
-        {
-            e.printStackTrace();
-        }
+        }).start();
     }
     @Override
     public void onDestroy() {

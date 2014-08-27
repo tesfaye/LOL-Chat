@@ -26,6 +26,6 @@ public class MainFragment extends Fragment
     }
     public void onChatConnected(ChatService chatService) {
         LolChat chat = chatService.getLolChat();
-        listView.setAdapter(new FriendViewAdapter(getActivity(), R.layout.friend_row, chat.getOnlineFriends()));
+        listView.setAdapter(new FriendViewAdapter(getActivity(), R.layout.friend_row, chat.getFriends()));
     }
 }
