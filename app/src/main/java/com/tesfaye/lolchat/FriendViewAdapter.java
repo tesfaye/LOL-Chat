@@ -1,14 +1,11 @@
 package com.tesfaye.lolchat;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.LayerDrawable;
-import android.graphics.drawable.ShapeDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,44 +28,53 @@ public class FriendViewAdapter extends ArrayAdapter<Friend> {
     {
         super(context, resourceId, items);
     }
-
+    public class ViewHolder
+    {
+        TextView title;
+        TextView artist;
+        ImageView thumb_image;
+        GradientDrawable shapeDrawable;
+    }
     public View getView(int position, View convertView, ViewGroup parent) {
+        final ViewHolder holder;
         Friend friend = getItem(position);
         LayoutInflater mInflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (convertView == null){
             convertView = mInflater.inflate(R.layout.friend_row, parent, false);
+            holder = new ViewHolder();
+            holder.title = (TextView)convertView.findViewById(R.id.title);
+            holder.artist = (TextView)convertView.findViewById(R.id.artist);
+            holder.thumb_image = (ImageView)convertView.findViewById(R.id.list_image);
+            holder.shapeDrawable = (GradientDrawable)convertView.findViewById(R.id.statusCircle).getBackground();
+            convertView.setTag(holder);
+        }else
+        {
+            holder = (ViewHolder) convertView.getTag();
         }
-        TextView title = (TextView)convertView.findViewById(R.id.title); // title
-        TextView artist = (TextView)convertView.findViewById(R.id.artist); // artist name
-        final ImageView thumb_image=(ImageView)convertView.findViewById(R.id.list_image);
-
-        View circleView = convertView.findViewById(R.id.statusCircle);
-        GradientDrawable shapeDrawable = (GradientDrawable)circleView.getBackground();
-        title.setText(friend.getName());
+        holder.title.setText(friend.getName());
         LolStatus.GameStatus gameStatus = friend.getStatus().getGameStatus();
         String status;
-        int iconId;
         if(gameStatus == null)
             status = friend.getStatus().getStatusMessage() + "\n" + "Online";
         else
             status = friend.getStatus().getStatusMessage() + "\n" + gameStatus.internal();
-        iconId = friend.getStatus().getProfileIconId();
+        holder.artist.setText(status);
+        int iconId = friend.getStatus().getProfileIconId();
         if(iconId == -1)
             iconId = 1;
         switch(friend.getChatMode())
         {
             case AVAILABLE:
-                shapeDrawable.setColor(Color.GREEN);
+                holder.shapeDrawable.setColor(Color.GREEN);
                 break;
             case BUSY:
-                shapeDrawable.setColor(Color.rgb(255, 255, 102));
+                holder.shapeDrawable.setColor(Color.rgb(252, 209, 33));
                 break;
             case AWAY:
-                shapeDrawable.setColor(Color.RED);
+                holder.shapeDrawable.setColor(Color.RED);
                 break;
         }
         final int profileIcon = iconId;
-        artist.setText(status);
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -79,7 +85,7 @@ public class FriendViewAdapter extends ArrayAdapter<Friend> {
                         ((Activity) getContext()).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                thumb_image.setImageBitmap(bitmap);
+                                holder.thumb_image.setImageBitmap(bitmap);
                             }
                         });
                     }}
