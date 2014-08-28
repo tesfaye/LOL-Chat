@@ -70,8 +70,8 @@ public class LOLChatMain extends Activity implements NavigationDrawerFragment.Na
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_leave) {
-            stopService(new Intent(this, ChatService.class));
             finish();
+            stopService(new Intent(this, ChatService.class));
             Intent mainIntent = new Intent(this, LoginActivity.class);
             mainIntent.setAction(Intent.ACTION_MAIN);
             mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
