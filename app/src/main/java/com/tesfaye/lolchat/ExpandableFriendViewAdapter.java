@@ -156,7 +156,7 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        convertView = mInflater.inflate(android.R.layout.simple_list_item_1, null);
+        convertView = mInflater.inflate(android.R.layout.simple_expandable_list_item_1, null);
         TextView textView = (TextView) convertView.findViewById(android.R.id.text1);
         String text = "";
         if(groupPosition == 0)
