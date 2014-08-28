@@ -19,26 +19,6 @@ public class MainFragment extends Fragment
         if(savedInstanceState != null) {
             listView.onRestoreInstanceState(savedInstanceState.getParcelable("listView"));
         }
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while(((LOLChatMain)getActivity()).getLolChat() == null)
-                {
-                    try {
-                        Thread.sleep(200);//wait for service to become set
-                    }catch (Exception e)
-                    {
-
-                    }
-                }
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        onChatConnected(((LOLChatMain) getActivity()).getLolChat());
-                    }
-                });
-            }
-        }).start();
         return view;
     }
     public void onChatConnected(LolChat chat) {

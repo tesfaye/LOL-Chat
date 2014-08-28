@@ -13,8 +13,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
 
-import com.github.theholywaffle.lolchatapi.LolChat;
-
 public class LOLChatMain extends Activity implements NavigationDrawerFragment.NavigationDrawerCallbacks, ServiceConnection {
 
     /**
@@ -22,7 +20,6 @@ public class LOLChatMain extends Activity implements NavigationDrawerFragment.Na
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
     public static String[] fragmentNames;
-    private ChatService chatService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,15 +85,10 @@ public class LOLChatMain extends Activity implements NavigationDrawerFragment.Na
         super.onDestroy();
         unbindService(this);
     }
-    public LolChat getLolChat()
-    {
-        if(chatService != null)
-            return chatService.getLolChat();
-        return null;
-    }
     @Override
     public void onServiceConnected(final ComponentName name, final IBinder service) {
-        chatService = ((ChatService.LocalBinder) service).getService();
+        ChatService chatService = ((ChatService.LocalBinder) service).getService();
+        ((MainFragment) getFragmentManager().findFragmentById(R.id.container)).onChatConnected(chatService.getLolChat());
     }
 
     @Override
