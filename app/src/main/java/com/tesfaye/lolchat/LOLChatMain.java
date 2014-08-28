@@ -1,6 +1,7 @@
 package com.tesfaye.lolchat;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -42,11 +43,16 @@ public class LOLChatMain extends Activity implements NavigationDrawerFragment.Na
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.container, new MainFragment())
+                .replace(R.id.container, createFragmentByName(fragmentNames[position]))
                 .commit();
         getActionBar().setSubtitle(fragmentNames[position]);
     }
-
+    public Fragment createFragmentByName(String name)
+    {
+        if(name.equals("Main"))
+            return new MainFragment();
+        return null;
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
