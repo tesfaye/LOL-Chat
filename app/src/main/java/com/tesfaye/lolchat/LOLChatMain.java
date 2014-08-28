@@ -77,7 +77,8 @@ public class LOLChatMain extends Activity implements NavigationDrawerFragment.Na
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unbindService(this);
+        if(!isChangingConfigurations())
+            unbindService(this);
     }
     @Override
     public void onServiceConnected(final ComponentName name, final IBinder service) {
