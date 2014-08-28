@@ -9,7 +9,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,13 +22,10 @@ import java.net.URL;
 import java.util.List;
 
 /**
- * Created by Abel Tesfaye on 8/26/2014.
+ * Created by Abel Tesfaye on 8/27/2014.
  */
-public class FriendViewAdapter extends ArrayAdapter<Friend> {
-    public FriendViewAdapter(Context context, int resourceId, List<Friend> items)
-    {
-        super(context, resourceId, items);
-    }
+public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
+
     public class ViewHolder
     {
         TextView title;
@@ -37,12 +34,41 @@ public class FriendViewAdapter extends ArrayAdapter<Friend> {
         View view;
         Button button;
     }
-    public View getView(int position, View convertView, ViewGroup parent) {
+
+    private List<Friend> onlineFriends;
+    private List<Friend> offLineFriends;
+    private Context context;
+
+    public ExpandableFriendViewAdapter(Context context, List<Friend> onlineFriends, List<Friend> offLineFriends) {
+        this.context = context;
+        this.onlineFriends = onlineFriends;
+        this.offLineFriends = offLineFriends;
+    }
+
+    @Override
+    public Friend getChild(int groupPosition, int childPosition) {
+        return getGroup(groupPosition).get(childPosition);
+    }
+
+    @Override
+    public long getChildId(int groupPosition, int childPosition) {
+        return childPosition;
+    }
+
+    @Override
+    public int getChildrenCount(int groupPosition) {
+        if(groupPosition == 0)
+            return onlineFriends.size();
+        return offLineFriends.size();
+    }
+
+    @Override
+    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         final ViewHolder holder;
-        Friend friend = getItem(position);
-        LayoutInflater mInflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        if (convertView == null){
-            convertView = mInflater.inflate(R.layout.friend_row, parent, false);
+        Friend friend = getChild(groupPosition, childPosition);
+        if (convertView == null) {
+            LayoutInflater mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = mInflater.inflate(R.layout.friend_row, null);
             holder = new ViewHolder();
             holder.title = (TextView)convertView.findViewById(R.id.title);
             holder.artist = (TextView)convertView.findViewById(R.id.artist);
@@ -50,8 +76,7 @@ public class FriendViewAdapter extends ArrayAdapter<Friend> {
             holder.view = convertView.findViewById(R.id.statusCircle);
             holder.button = (Button) convertView.findViewById(R.id.button);
             convertView.setTag(holder);
-        }else
-        {
+        } else {
             holder = (ViewHolder) convertView.getTag();
         }
         GradientDrawable shapeDrawable = (GradientDrawable) holder.view.getBackground();
@@ -89,7 +114,7 @@ public class FriendViewAdapter extends ArrayAdapter<Friend> {
                     try {//TODO: CACHE IMAGES
                         final Bitmap bitmap = BitmapFactory.decodeStream((InputStream) new URL("http://ddragon.leagueoflegends.com/cdn/4.14.2/img/profileicon/" + profileIcon + ".png").getContent());
                         if (bitmap != null) {
-                            ((Activity) getContext()).runOnUiThread(new Runnable() {
+                            ((Activity) context).runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
                                     holder.thumb_image.setImageBitmap(bitmap);
@@ -110,4 +135,50 @@ public class FriendViewAdapter extends ArrayAdapter<Friend> {
         }
         return convertView;
     }
+
+    @Override
+    public List<Friend> getGroup(int groupPosition) {
+        if(groupPosition == 0)
+            return onlineFriends;
+        return offLineFriends;
+    }
+
+    @Override
+    public int getGroupCount() {
+        return 2;
+    }
+
+    @Override
+    public long getGroupId(int groupPosition) {
+        return groupPosition;
+    }
+
+    @Override
+    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+        LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        convertView = mInflater.inflate(android.R.layout.simple_list_item_1, null);
+        TextView textView = (TextView) convertView.findViewById(android.R.id.text1);
+        String text = "";
+        if(groupPosition == 0)
+        {
+            text = "Online";
+        }
+        if(groupPosition == 1)
+        {
+            text = "Offline";
+        }
+        textView.setText(text);
+        return convertView;
+    }
+
+    @Override
+    public boolean hasStableIds() {
+        return false;
+    }
+
+    @Override
+    public boolean isChildSelectable(int groupPosition, int childPosition) {
+        return true;
+    }
+
 }
