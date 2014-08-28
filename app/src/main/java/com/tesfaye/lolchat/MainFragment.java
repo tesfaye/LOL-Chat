@@ -25,7 +25,7 @@ public class MainFragment extends Fragment
                 while(((LOLChatMain)getActivity()).getLolChat() == null)
                 {
                     try {
-                        Thread.sleep(50);//wait for service to become set
+                        Thread.sleep(200);//wait for service to become set
                     }catch (Exception e)
                     {
 
