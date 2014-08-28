@@ -26,10 +26,8 @@ public class MainFragment extends Fragment
     }
     public void onChatConnected(ChatService chatService) {
         LolChat chat = chatService.getLolChat();
-        if(chat != null) {
-            listView.setAdapter(new ExpandableFriendViewAdapter(getActivity(), chat.getOnlineFriends(), chat.getOfflineFriends()));
-            listView.expandGroup(0);
-        }
+        listView.setAdapter(new ExpandableFriendViewAdapter(getActivity(), chat.getOnlineFriends(), chat.getOfflineFriends()));
+        listView.expandGroup(0);
     }
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {

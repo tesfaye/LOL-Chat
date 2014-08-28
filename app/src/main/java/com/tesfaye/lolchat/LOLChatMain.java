@@ -37,6 +37,7 @@ public class LOLChatMain extends Activity implements NavigationDrawerFragment.Na
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
         Intent intent = new Intent(this, ChatService.class);
+        startService(intent);
         bindService(intent, this, Context.BIND_AUTO_CREATE);
     }
     @Override
@@ -69,7 +70,12 @@ public class LOLChatMain extends Activity implements NavigationDrawerFragment.Na
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_leave) {
+            stopService(new Intent(this, ChatService.class));
             finish();
+            Intent mainIntent = new Intent(this, LoginActivity.class);
+            mainIntent.setAction(Intent.ACTION_MAIN);
+            mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+            startActivity(mainIntent);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -77,8 +83,7 @@ public class LOLChatMain extends Activity implements NavigationDrawerFragment.Na
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(!isChangingConfigurations())
-            unbindService(this);
+        unbindService(this);
     }
     @Override
     public void onServiceConnected(final ComponentName name, final IBinder service) {
