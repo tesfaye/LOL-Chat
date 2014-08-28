@@ -1,7 +1,6 @@
 package com.tesfaye.lolchat;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -13,16 +12,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
 
+import com.github.theholywaffle.lolchatapi.LolChat;
+
 public class LOLChatMain extends Activity implements NavigationDrawerFragment.NavigationDrawerCallbacks, ServiceConnection {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
-    public static final Fragment[] fragments = new Fragment[]{
-            new MainFragment()
-    };
     public static String[] fragmentNames;
+    private ChatService chatService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +42,7 @@ public class LOLChatMain extends Activity implements NavigationDrawerFragment.Na
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.container, fragments[position])
+                .replace(R.id.container, new MainFragment())
                 .commit();
         getActionBar().setSubtitle(fragmentNames[position]);
     }
@@ -83,10 +82,15 @@ public class LOLChatMain extends Activity implements NavigationDrawerFragment.Na
         super.onDestroy();
         unbindService(this);
     }
+    public LolChat getLolChat()
+    {
+        if(chatService != null)
+            return chatService.getLolChat();
+        return null;
+    }
     @Override
     public void onServiceConnected(final ComponentName name, final IBinder service) {
-        ((MainFragment)fragments[0]).onChatConnected(((ChatService.LocalBinder) service).getService());
-//        chatService.getLolChat().setStatus(new LolStatus().setProfileIconId(1).setLevel(1));
+        chatService = ((ChatService.LocalBinder) service).getService();
     }
 
     @Override

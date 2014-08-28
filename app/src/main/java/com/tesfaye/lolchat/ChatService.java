@@ -30,8 +30,6 @@ public class ChatService extends Service{
                 if(lolChat.login(username, password))
                 {
                     Intent mainIntent = new Intent(getApplicationContext(), LOLChatMain.class);
-                    mainIntent.setAction(Intent.ACTION_MAIN);
-                    mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
                     notification
                             .setSmallIcon(R.drawable.ic_launcher)
                             .setContentText(getString(R.string.app_name) + " is running")
