@@ -19,7 +19,6 @@ public class LOLChatMain extends Activity implements NavigationDrawerFragment.Na
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
-
     public static final Fragment[] fragments = new Fragment[]{
             new MainFragment()
     };
@@ -71,7 +70,6 @@ public class LOLChatMain extends Activity implements NavigationDrawerFragment.Na
         if (id == R.id.action_leave) {
             finish();
             stopService(new Intent(this, ChatService.class));
-            unbindService(this);
             Intent mainIntent = new Intent(this, LoginActivity.class);
             mainIntent.setAction(Intent.ACTION_MAIN);
             mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
@@ -83,6 +81,7 @@ public class LOLChatMain extends Activity implements NavigationDrawerFragment.Na
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        unbindService(this);
     }
     @Override
     public void onServiceConnected(final ComponentName name, final IBinder service) {
