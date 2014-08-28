@@ -5,7 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1"
-    android:gravity="bottom">
+    android:gravity="bottom"
+    android:background="@drawable/rectangle">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:id="@+id/linearLayout1"
