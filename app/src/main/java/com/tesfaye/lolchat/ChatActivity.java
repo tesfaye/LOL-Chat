@@ -5,6 +5,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.view.View;
@@ -17,10 +18,13 @@ import com.github.theholywaffle.lolchatapi.LolChat;
 import com.github.theholywaffle.lolchatapi.listeners.ChatListener;
 import com.github.theholywaffle.lolchatapi.wrapper.Friend;
 
+import org.jivesoftware.smack.util.StringUtils;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ChatActivity extends Activity implements ServiceConnection, ChatListener
-        {
+{
     private String friendName;
     private Friend friend;
     private ListView conversation;
@@ -35,9 +39,9 @@ public class ChatActivity extends Activity implements ServiceConnection, ChatLis
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(friend != null)
+                String message = messageBox.getText().toString();
+                if(friend != null && !message.equals(""))
                 {
-                    String message = messageBox.getText().toString();
                     friend.sendMessage(message, ChatActivity.this);
                     ArrayAdapter adapter = (ArrayAdapter)conversation.getAdapter();
                     adapter.add("Me: " + message.toString());
@@ -92,5 +96,28 @@ public class ChatActivity extends Activity implements ServiceConnection, ChatLis
             messages.add((String)conversation.getAdapter().getItem(i));
         }
         savedInstanceState.putStringArrayList("messages", messages);
+    }
+    public void onPause()
+    {
+        super.onPause();
+        SharedPreferences.Editor editor = getSharedPreferences("messageHistory", Context.MODE_PRIVATE).edit();
+        StringBuilder history = new StringBuilder();
+        for(int i =0; i< conversation.getCount(); i++)
+        {
+            history.append(conversation.getItemAtPosition(i));
+            if(i-1<conversation.getCount())
+                history.append("\n");
+        }
+        editor.putString(friendName + "History", history.toString());
+        editor.apply();
+    }
+    public void onResume()
+    {
+        super.onResume();
+        SharedPreferences preferences = getSharedPreferences("messageHistory", Context.MODE_PRIVATE);
+        String messages = preferences.getString(friendName + "History", null);
+        if (messages != null) {
+            conversation.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, Arrays.asList(messages.split("\n"))));
+        }
     }
 }

@@ -106,7 +106,7 @@ public class LoginActivity extends Activity implements ServiceConnection, LoginC
                 editor.putString("password", password);
             }
             editor.putString("server", server);
-            editor.commit();
+            editor.apply();
             Intent intent = new Intent(this, LOLChatMain.class);
             startActivity(intent);
         }else
