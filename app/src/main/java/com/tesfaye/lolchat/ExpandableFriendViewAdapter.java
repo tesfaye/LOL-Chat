@@ -111,7 +111,7 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    try {//TODO: CACHE IMAGES
+                    try {
                         final Bitmap bitmap = BitmapFactory.decodeStream((InputStream) new URL("http://ddragon.leagueoflegends.com/cdn/4.14.2/img/profileicon/" + profileIcon + ".png").getContent());
                         if (bitmap != null) {
                             ((Activity) context).runOnUiThread(new Runnable() {
