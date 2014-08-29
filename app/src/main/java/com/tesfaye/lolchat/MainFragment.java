@@ -70,7 +70,7 @@ public class MainFragment extends Fragment
                     .getMethod("install", File.class, long.class)
                     .invoke(null, httpCacheDir, httpCacheSize);
         } catch (Exception httpResponseCacheNotAvailable) {
-            httpResponseCacheNotAvailable.printStackTrace();
+            //cache not supported
         }
     }
 }
