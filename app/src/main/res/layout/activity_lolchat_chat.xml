@@ -8,6 +8,11 @@
     android:gravity="bottom"
     android:background="@drawable/rectangle">
 
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="470dp"
+        android:id="@+id/listView" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:id="@+id/linearLayout1"
