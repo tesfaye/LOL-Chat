@@ -42,7 +42,6 @@ public class MainFragment extends Fragment
         listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id)  {
-                System.out.println(groupPosition);
                 if(groupPosition == 0)
                 {
                     Friend selected = ((ExpandableFriendViewAdapter)parent.getExpandableListAdapter()).getChild(groupPosition, childPosition);

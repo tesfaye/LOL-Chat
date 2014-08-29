@@ -17,33 +17,38 @@ import com.github.theholywaffle.lolchatapi.wrapper.Friend;
 public class ChatActivity extends Activity implements ServiceConnection
 {
     private String friendName;
-    private EditText messageBox;
-    private Button send;
+    private Friend friend;
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lolchat_chat);
-        messageBox = (EditText) findViewById(R.id.messageBox);
-        send = (Button) findViewById(R.id.messageSend);
+        final EditText messageBox = (EditText) findViewById(R.id.messageBox);
+        Button send = (Button) findViewById(R.id.messageSend);
         friendName = getIntent().getStringExtra("friend");
+        send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(friend != null)
+                {
+                    friend.sendMessage(messageBox.getText().toString());
+                    messageBox.setText("");
+                }
+            }
+        });
         bindService(new Intent(this, ChatService.class), this, Context.BIND_AUTO_CREATE);
     }
 
     @Override
     public void onServiceConnected(final ComponentName name, final IBinder service) {
         ChatService chatService = ((ChatService.LocalBinder) service).getService();
-        System.out.println("CONNECTED");
         LolChat lolChat = chatService.getLolChat();
-        final Friend friend = lolChat.getFriendByName(friendName);
-        final String message = messageBox.getText().toString();
-        send.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                friend.sendMessage(message);
-            }
-        });
+        friend = lolChat.getFriendByName(friendName);
     }
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbindService(this);
+    }
     @Override
     public void onServiceDisconnected(final ComponentName name) {}
 }
