@@ -3,6 +3,7 @@ package com.tesfaye.lolchat;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.ExpandableListView;
 import com.github.theholywaffle.lolchatapi.LolChat;
 import com.github.theholywaffle.lolchatapi.wrapper.Friend;
 
+import java.io.File;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -25,6 +27,7 @@ public class MainFragment extends Fragment
         if(savedInstanceState != null) {
             listView.onRestoreInstanceState(savedInstanceState.getParcelable("listView"));
         }
+        enableHttpResponseCache();
         return view;
     }
     public void onChatConnected(final LolChat chat) {
@@ -59,5 +62,16 @@ public class MainFragment extends Fragment
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
         savedInstanceState.putParcelable("listView", listView.onSaveInstanceState());
+    }
+    private void enableHttpResponseCache() {
+        try {
+            long httpCacheSize = 10 * 1024 * 1024; // 10 MiB
+            File httpCacheDir = new File(getActivity().getCacheDir(), "http");
+            Class.forName("android.net.http.HttpResponseCache")
+                    .getMethod("install", File.class, long.class)
+                    .invoke(null, httpCacheDir, httpCacheSize);
+        } catch (Exception httpResponseCacheNotAvailable) {
+            httpResponseCacheNotAvailable.printStackTrace();
+        }
     }
 }
