@@ -31,7 +31,6 @@ public class ChatActivity extends Activity implements ServiceConnection, ChatLis
         final EditText messageBox = (EditText) findViewById(R.id.messageBox);
         Button send = (Button) findViewById(R.id.messageSend);
         conversation = (ListView) findViewById(R.id.listView);
-        conversation.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, new ArrayList<String>()));
         friendName = getIntent().getStringExtra("friend");
         send.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,6 +46,14 @@ public class ChatActivity extends Activity implements ServiceConnection, ChatLis
                 }
             }
         });
+        if(savedInstanceState != null)
+        {
+            conversation.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, savedInstanceState.getStringArrayList("messages")));
+            conversation.onRestoreInstanceState(savedInstanceState.getParcelable("listView"));
+        }else
+        {
+            conversation.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, new ArrayList<String>()));
+        }
         bindService(new Intent(this, ChatService.class), this, Context.BIND_AUTO_CREATE);
     }
 
@@ -75,5 +82,15 @@ public class ChatActivity extends Activity implements ServiceConnection, ChatLis
                 adapter.notifyDataSetChanged();
             }
         });
+    }
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putParcelable("listView", conversation.onSaveInstanceState());
+        ArrayList<String> messages = new ArrayList<String>();
+        for (int i = 0; i < conversation.getAdapter().getCount(); i++) {
+            messages.add((String)conversation.getAdapter().getItem(i));
+        }
+        savedInstanceState.putStringArrayList("messages", messages);
     }
 }
