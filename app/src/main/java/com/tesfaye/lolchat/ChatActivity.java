@@ -8,29 +8,41 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 
 import com.github.theholywaffle.lolchatapi.LolChat;
+import com.github.theholywaffle.lolchatapi.listeners.ChatListener;
 import com.github.theholywaffle.lolchatapi.wrapper.Friend;
 
-public class ChatActivity extends Activity implements ServiceConnection
-{
+import java.util.ArrayList;
+
+public class ChatActivity extends Activity implements ServiceConnection, ChatListener
+        {
     private String friendName;
     private Friend friend;
+    private ListView conversation;
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lolchat_chat);
         final EditText messageBox = (EditText) findViewById(R.id.messageBox);
         Button send = (Button) findViewById(R.id.messageSend);
+        conversation = (ListView) findViewById(R.id.listView);
+        conversation.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, new ArrayList<String>()));
         friendName = getIntent().getStringExtra("friend");
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(friend != null)
                 {
-                    friend.sendMessage(messageBox.getText().toString());
+                    String message = messageBox.getText().toString();
+                    friend.sendMessage(message, ChatActivity.this);
+                    ArrayAdapter adapter = (ArrayAdapter)conversation.getAdapter();
+                    adapter.add("Me: " + message.toString());
+                    adapter.notifyDataSetChanged();
                     messageBox.setText("");
                 }
             }
@@ -51,4 +63,17 @@ public class ChatActivity extends Activity implements ServiceConnection
     }
     @Override
     public void onServiceDisconnected(final ComponentName name) {}
+
+    @Override
+    public void onMessage(final Friend friend, final String message)
+    {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ArrayAdapter adapter = (ArrayAdapter)conversation.getAdapter();
+                adapter.add(friend.getName() + ": " + message);
+                adapter.notifyDataSetChanged();
+            }
+        });
+    }
 }
