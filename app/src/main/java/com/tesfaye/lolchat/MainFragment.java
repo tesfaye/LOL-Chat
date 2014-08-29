@@ -1,6 +1,7 @@
 package com.tesfaye.lolchat;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,7 +27,7 @@ public class MainFragment extends Fragment
         }
         return view;
     }
-    public void onChatConnected(LolChat chat) {
+    public void onChatConnected(final LolChat chat) {
         List<Friend> online = chat.getOnlineFriends();
         List<Friend> offline = chat.getOfflineFriends();
         Comparator comparator = new Comparator<Friend>() {
@@ -38,6 +39,21 @@ public class MainFragment extends Fragment
         Collections.sort(online, comparator);
         Collections.sort(offline, comparator);
         listView.setAdapter(new ExpandableFriendViewAdapter(getActivity(), online, offline));
+        listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id)  {
+                System.out.println(groupPosition);
+                if(groupPosition == 0)
+                {
+                    Friend selected = ((ExpandableFriendViewAdapter)parent.getExpandableListAdapter()).getChild(groupPosition, childPosition);
+                    Intent intent = new Intent(getActivity(), ChatActivity.class);
+                    intent.putExtra("friend", selected.getName());
+                    startActivity(intent);
+                    return true;
+                }
+                return false;
+            }
+        });
         listView.expandGroup(0);
     }
     @Override

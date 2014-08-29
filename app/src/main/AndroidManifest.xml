@@ -14,6 +14,15 @@
             android:label="@string/app_name" >
         </activity>
         <activity
+            android:name=".ChatActivity"
+            android:label="Chat"
+            android:parentActivityName=".ChatActivity" >
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ChatActivity" />
+        </activity>
+        <activity
             android:name=".LoginActivity"
             android:label="@string/app_name"
             android:noHistory="true"  >
