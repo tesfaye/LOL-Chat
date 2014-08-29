@@ -8,6 +8,11 @@ import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 
 import com.github.theholywaffle.lolchatapi.LolChat;
+import com.github.theholywaffle.lolchatapi.wrapper.Friend;
+
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public class MainFragment extends Fragment
 {
@@ -22,7 +27,17 @@ public class MainFragment extends Fragment
         return view;
     }
     public void onChatConnected(LolChat chat) {
-        listView.setAdapter(new ExpandableFriendViewAdapter(getActivity(), chat.getOnlineFriends(), chat.getOfflineFriends()));
+        List<Friend> online = chat.getOnlineFriends();
+        List<Friend> offline = chat.getOfflineFriends();
+        Comparator comparator = new Comparator<Friend>() {
+            @Override
+            public int compare(Friend friend, Friend friend2) {
+                return friend.getName().compareTo(friend2.getName());
+            }
+        };
+        Collections.sort(online, comparator);
+        Collections.sort(offline, comparator);
+        listView.setAdapter(new ExpandableFriendViewAdapter(getActivity(), online, offline));
         listView.expandGroup(0);
     }
     @Override
