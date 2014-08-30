@@ -1,19 +1,3 @@
-/*
- * Copyright 2013 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.tesfaye.lolchat;
 
 import android.app.Activity;
@@ -44,7 +28,7 @@ public class LOLChatMain extends Activity implements ServiceConnection {
 
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
-    private String[] mPlanetTitles;
+    private String[] fragmentNames;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,14 +36,14 @@ public class LOLChatMain extends Activity implements ServiceConnection {
         setContentView(R.layout.activity_lolchat_main);
 
         mTitle = mDrawerTitle = getTitle();
-        mPlanetTitles = new String[]{"Main"};
+        fragmentNames = new String[]{"Main"};
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
         // set a custom shadow that overlays the main content when the drawer opens
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         // set up the drawer's list view with items and click listener
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, mPlanetTitles));
+        mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, fragmentNames));
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
         // enable ActionBar app icon to behave as action to toggle nav drawer
@@ -143,14 +127,21 @@ public class LOLChatMain extends Activity implements ServiceConnection {
 
     private void selectItem(int position) {
         // update the main content by replacing fragments
-        Fragment fragment = new MainFragment();
+        Fragment fragment = getFragmentByName(fragmentNames[position]);
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
 
         // update selected item and title, then close the drawer
         mDrawerList.setItemChecked(position, true);
-        setTitle(mPlanetTitles[position]);
+        setTitle(fragmentNames[position]);
         mDrawerLayout.closeDrawer(mDrawerList);
+    }
+
+    public LOLChatFragment getFragmentByName(String name)
+    {
+        if(name.equals("Main"))
+            return new MainFragment();
+        return null;
     }
 
     @Override
@@ -180,7 +171,7 @@ public class LOLChatMain extends Activity implements ServiceConnection {
     @Override
     public void onServiceConnected(final ComponentName name, final IBinder service) {
         ChatService chatService = ((ChatService.LocalBinder) service).getService();
-        ((MainFragment) getFragmentManager().findFragmentById(R.id.content_frame)).onChatConnected(chatService.getLolChat());
+        ((LOLChatFragment)getFragmentManager().findFragmentById(R.id.content_frame)).onChatConnected(chatService.getLolChat());
     }
     @Override
     protected void onDestroy() {

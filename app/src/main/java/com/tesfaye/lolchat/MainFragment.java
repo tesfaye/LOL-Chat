@@ -16,7 +16,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class MainFragment extends Fragment
+public class MainFragment extends LOLChatFragment
 {
     private ExpandableListView listView;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState)
