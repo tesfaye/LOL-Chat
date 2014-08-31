@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 
 import com.github.theholywaffle.lolchatapi.LolChat;
+import com.github.theholywaffle.lolchatapi.listeners.FriendListener;
 import com.github.theholywaffle.lolchatapi.wrapper.Friend;
 
 import java.io.File;
@@ -35,7 +36,7 @@ public class MainFragment extends LOLChatFragment
         Comparator comparator = new Comparator<Friend>() {
             @Override
             public int compare(Friend friend, Friend friend2) {
-                return friend.getName().compareTo(friend2.getName());
+                return friend.getName().toLowerCase().compareTo(friend2.getName().toLowerCase());
             }
         };
         Collections.sort(online, comparator);
@@ -43,16 +44,68 @@ public class MainFragment extends LOLChatFragment
         listView.setAdapter(new ExpandableFriendViewAdapter(getActivity(), online, offline));
         listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
-            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id)  {
-                if(groupPosition == 0)
-                {
-                    Friend selected = ((ExpandableFriendViewAdapter)parent.getExpandableListAdapter()).getChild(groupPosition, childPosition);
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                if (groupPosition == 0) {
+                    Friend selected = ((ExpandableFriendViewAdapter) parent.getExpandableListAdapter()).getChild(groupPosition, childPosition);
                     Intent intent = new Intent(getActivity(), ChatActivity.class);
                     intent.putExtra("friend", selected.getName());
                     startActivity(intent);
                     return true;
                 }
                 return false;
+            }
+        });
+        chat.addFriendListener(new FriendListener() {
+            @Override
+            public void onFriendAvailable(Friend friend) {
+
+            }
+
+            @Override
+            public void onFriendAway(Friend friend) {
+
+            }
+
+            @Override
+            public void onFriendBusy(Friend friend) {
+
+            }
+
+            @Override
+            public void onFriendJoin(final Friend friend) {
+                final ExpandableFriendViewAdapter adapter = (ExpandableFriendViewAdapter)listView.getExpandableListAdapter();
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        adapter.setFriendOnline(friend, true);
+                    }
+                });
+            }
+
+            @Override
+            public void onFriendLeave(final Friend friend) {
+                final ExpandableFriendViewAdapter adapter = (ExpandableFriendViewAdapter)listView.getExpandableListAdapter();
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        adapter.setFriendOnline(friend, false);
+                    }
+                });
+            }
+
+            @Override
+            public void onFriendStatusChange(Friend friend) {
+
+            }
+
+            @Override
+            public void onNewFriend(Friend friend) {
+
+            }
+
+            @Override
+            public void onRemoveFriend(String userId) {
+
             }
         });
         listView.expandGroup(0);

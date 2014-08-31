@@ -36,20 +36,41 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
     }
 
     private List<Friend> onlineFriends;
-    private List<Friend> offLineFriends;
+    private List<Friend> offlineFriends;
     private Context context;
 
-    public ExpandableFriendViewAdapter(Context context, List<Friend> onlineFriends, List<Friend> offLineFriends) {
+    public ExpandableFriendViewAdapter(Context context, List<Friend> onlineFriends, List<Friend> offlineFriends) {
         this.context = context;
         this.onlineFriends = onlineFriends;
-        this.offLineFriends = offLineFriends;
+        this.offlineFriends = offlineFriends;
     }
-
     @Override
     public Friend getChild(int groupPosition, int childPosition) {
         return getGroup(groupPosition).get(childPosition);
     }
-
+    public void setFriendOnline(Friend friend, boolean online)
+    {
+        if(online)
+        {
+            for(int i =0; i<offlineFriends.size(); i++)
+            {
+                Friend f = offlineFriends.get(i);
+                if(f.getUserId().equals(friend.getUserId()))
+                    offlineFriends.remove(f);
+            }
+            onlineFriends.add(friend);
+        }else
+        {
+            for(int i =0; i<onlineFriends.size(); i++)
+            {
+                Friend f = onlineFriends.get(i);
+                if(f.getUserId().equals(friend.getUserId()))
+                    onlineFriends.remove(f);
+            }
+            offlineFriends.add(friend);
+        }
+        notifyDataSetChanged();
+    }
     @Override
     public long getChildId(int groupPosition, int childPosition) {
         return childPosition;
@@ -59,7 +80,7 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
     public int getChildrenCount(int groupPosition) {
         if(groupPosition == 0)
             return onlineFriends.size();
-        return offLineFriends.size();
+        return offlineFriends.size();
     }
 
     @Override
@@ -81,7 +102,7 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
         }
         GradientDrawable shapeDrawable = (GradientDrawable) holder.view.getBackground();
         holder.title.setText(friend.getName());
-        if(friend.isOnline()) {
+        if(groupPosition == 0) {
             holder.artist.setVisibility(View.VISIBLE);
             holder.thumb_image.setVisibility(View.VISIBLE);
             holder.view.setVisibility(View.VISIBLE);
@@ -140,7 +161,7 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
     public List<Friend> getGroup(int groupPosition) {
         if(groupPosition == 0)
             return onlineFriends;
-        return offLineFriends;
+        return offlineFriends;
     }
 
     @Override
