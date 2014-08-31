@@ -36,6 +36,7 @@ public class ChatActivity extends Activity implements ServiceConnection, ChatLis
         Button send = (Button) findViewById(R.id.messageSend);
         conversation = (ListView) findViewById(R.id.listView);
         friendName = getIntent().getStringExtra("friend");
+        setTitle(friendName);
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -85,6 +86,7 @@ public class ChatActivity extends Activity implements ServiceConnection, ChatLis
                 ArrayAdapter adapter = (ArrayAdapter)conversation.getAdapter();
                 adapter.add(friend.getName() + ": " + message);
                 adapter.notifyDataSetChanged();
+                conversation.setSelection(adapter.getCount() - 1);
             }
         });
     }
@@ -118,7 +120,7 @@ public class ChatActivity extends Activity implements ServiceConnection, ChatLis
         SharedPreferences preferences = getSharedPreferences("messageHistory", Context.MODE_PRIVATE);
         String messages = preferences.getString(friendName + "History", null);
         if (messages != null) {
-            conversation.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, Arrays.asList(messages.split("\n"))));
+            conversation.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, new ArrayList<String>(Arrays.asList(messages.split("\n")))));
         }
     }
 }
