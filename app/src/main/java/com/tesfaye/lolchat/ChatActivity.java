@@ -44,7 +44,7 @@ public class ChatActivity extends Activity implements ServiceConnection, ChatLis
                 {
                     friend.sendMessage(message, ChatActivity.this);
                     ArrayAdapter adapter = (ArrayAdapter)conversation.getAdapter();
-                    adapter.add("Me: " + message.toString());
+                    adapter.add("Me: " + message);
                     adapter.notifyDataSetChanged();
                     messageBox.setText("");
                 }
