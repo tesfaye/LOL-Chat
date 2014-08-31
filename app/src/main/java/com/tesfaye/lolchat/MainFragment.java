@@ -42,19 +42,6 @@ public class MainFragment extends LOLChatFragment
         Collections.sort(online, comparator);
         Collections.sort(offline, comparator);
         listView.setAdapter(new ExpandableFriendViewAdapter(getActivity(), online, offline));
-        listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                if (groupPosition == 0) {
-                    Friend selected = ((ExpandableFriendViewAdapter) parent.getExpandableListAdapter()).getChild(groupPosition, childPosition);
-                    Intent intent = new Intent(getActivity(), ChatActivity.class);
-                    intent.putExtra("friend", selected.getName());
-                    startActivity(intent);
-                    return true;
-                }
-                return false;
-            }
-        });
         chat.addFriendListener(new FriendListener() {
             @Override
             public void onFriendAvailable(Friend friend) {

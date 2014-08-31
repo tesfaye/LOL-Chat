@@ -2,6 +2,7 @@ package com.tesfaye.lolchat;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -86,7 +87,7 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         final ViewHolder holder;
-        Friend friend = getChild(groupPosition, childPosition);
+        final Friend friend = getChild(groupPosition, childPosition);
         if (convertView == null) {
             LayoutInflater mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = mInflater.inflate(R.layout.friend_row, null);
@@ -107,6 +108,14 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
             holder.thumb_image.setVisibility(View.VISIBLE);
             holder.view.setVisibility(View.VISIBLE);
             holder.button.setVisibility(View.VISIBLE);
+            holder.button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, ChatActivity.class);
+                    intent.putExtra("friend", friend.getName());
+                    context.startActivity(intent);
+                }
+            });
             LolStatus.GameStatus gameStatus = friend.getStatus().getGameStatus();
             String status;
             if (gameStatus == null)
