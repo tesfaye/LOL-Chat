@@ -121,6 +121,7 @@ public class ChatActivity extends Activity implements ServiceConnection, ChatLis
         String messages = preferences.getString(friendName + "History", null);
         if (messages != null) {
             conversation.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, new ArrayList<String>(Arrays.asList(messages.split("\n")))));
+            conversation.setSelection(conversation.getCount() - 1);
         }
     }
 }
