@@ -49,6 +49,27 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
     public Friend getChild(int groupPosition, int childPosition) {
         return getGroup(groupPosition).get(childPosition);
     }
+    public void setFriendStatus(Friend friend, boolean online)
+    {
+        if(online)
+        {
+            for(int i =0; i<onlineFriends.size(); i++)
+            {
+                Friend f = onlineFriends.get(i);
+                if(f.getUserId().equals(friend.getUserId()))
+                    f.setStatus(friend.getStatus());
+            }
+        }else
+        {
+            for(int i =0; i<offlineFriends.size(); i++)
+            {
+                Friend f = offlineFriends.get(i);
+                if(f.getUserId().equals(friend.getUserId()))
+                    f.setStatus(friend.getStatus());
+            }
+        }
+        notifyDataSetChanged();
+    }
     public void setFriendOnline(Friend friend, boolean online)
     {
         if(online)

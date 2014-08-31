@@ -221,6 +221,10 @@ public class Friend extends Wrapper<RosterEntry> {
 		}
 		return new LolStatus();
 	}
+    public void setStatus(LolStatus status)
+    {
+        con.getRoster().getPresence(getUserId()).setStatus(status.toString());
+    }
 
 	/**
 	 * Gets the XMPPAddress of your Friend (e.g. sum123456@pvp.net)

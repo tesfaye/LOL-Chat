@@ -81,8 +81,14 @@ public class MainFragment extends LOLChatFragment
             }
 
             @Override
-            public void onFriendStatusChange(Friend friend) {
-
+            public void onFriendStatusChange(final Friend friend) {
+                final ExpandableFriendViewAdapter adapter = (ExpandableFriendViewAdapter)listView.getExpandableListAdapter();
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        adapter.setFriendStatus(friend, friend.isOnline());
+                    }
+                });
             }
 
             @Override
