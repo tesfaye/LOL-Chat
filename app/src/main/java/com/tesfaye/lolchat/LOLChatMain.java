@@ -21,7 +21,14 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.github.theholywaffle.lolchatapi.LolChat;
 import com.github.theholywaffle.lolchatapi.LolStatus;
+
+import jriot.main.JRiot;
+import jriot.main.JRiotException;
+import jriot.objects.PlayerStatsSummaryList;
+import jriot.objects.RankedStats;
+import jriot.objects.Summoner;
 
 public class LOLChatMain extends Activity implements ServiceConnection {
     private DrawerLayout mDrawerLayout;
@@ -173,11 +180,25 @@ public class LOLChatMain extends Activity implements ServiceConnection {
     @Override
     public void onServiceConnected(final ComponentName name, final IBinder service) {
         ChatService chatService = ((ChatService.LocalBinder) service).getService();
-        LolStatus lolStatus = new LolStatus();
-        lolStatus.setStatusMessage("USING BETA ABEL CHAT APP");//TODO: GET PLAYER STATS FROM RITO
-        lolStatus.setLevel(420);
-        chatService.getLolChat().setStatus(lolStatus);
-        ((LOLChatFragment)getFragmentManager().findFragmentById(R.id.content_frame)).onChatConnected(chatService.getLolChat());
+        final LolChat lolChat = chatService.getLolChat();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                LolStatus lolStatus = new LolStatus();
+                try {
+                    JRiot riot = new JRiot("99a0d299-2476-4539-901f-0fdd0598bcf8", "na");
+                    Summoner connected = riot.getSummoner(lolChat.getConnectedUsername());
+                    lolStatus.setLevel((int)connected.getSummonerLevel());
+                    lolStatus.setProfileIconId(connected.getProfileIconId());
+                }catch(JRiotException e)
+                {
+                    e.printStackTrace();
+                }
+                lolStatus.setStatusMessage("USING BETA ABEL CHAT APP");
+                lolChat.setStatus(lolStatus);
+            }
+        }).start();
+        ((LOLChatFragment)getFragmentManager().findFragmentById(R.id.content_frame)).onChatConnected(lolChat);
     }
     @Override
     protected void onDestroy() {
