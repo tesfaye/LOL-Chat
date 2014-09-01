@@ -21,6 +21,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.github.theholywaffle.lolchatapi.LolStatus;
+
 public class LOLChatMain extends Activity implements ServiceConnection {
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
@@ -171,6 +173,10 @@ public class LOLChatMain extends Activity implements ServiceConnection {
     @Override
     public void onServiceConnected(final ComponentName name, final IBinder service) {
         ChatService chatService = ((ChatService.LocalBinder) service).getService();
+        LolStatus lolStatus = new LolStatus();
+        lolStatus.setStatusMessage("USING BETA ABEL CHAT APP");//TODO: GET PLAYER STATS FROM RITO
+        lolStatus.setLevel(420);
+        chatService.getLolChat().setStatus(lolStatus);
         ((LOLChatFragment)getFragmentManager().findFragmentById(R.id.content_frame)).onChatConnected(chatService.getLolChat());
     }
     @Override
