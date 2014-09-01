@@ -158,25 +158,7 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
                     shapeDrawable.setColor(Color.RED);
                     break;
             }
-            final int profileIcon = iconId;
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        final Bitmap bitmap = BitmapFactory.decodeStream((InputStream) new URL("http://ddragon.leagueoflegends.com/cdn/4.14.2/img/profileicon/" + profileIcon + ".png").getContent());
-                        if (bitmap != null) {
-                            ((Activity) context).runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    holder.thumb_image.setImageBitmap(bitmap);
-                                }
-                            });
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }).start();
+            holder.thumb_image.setImageBitmap(((LOLChatApplication)context.getApplicationContext()).getProfileImage(iconId));
         }else
         {
             holder.artist.setVisibility(View.GONE);
