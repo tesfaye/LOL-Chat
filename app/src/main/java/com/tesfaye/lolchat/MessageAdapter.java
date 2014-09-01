@@ -19,8 +19,11 @@ public class MessageAdapter extends BaseAdapter{
     public static final int DIRECTION_OUTGOING = 1;
 
     public MessageAdapter(Context con) {
+        this(con, new ArrayList<Pair<String, Integer>>());
+    }
+    public MessageAdapter(Context con, List list) {
         context = con;
-        messages = new ArrayList<Pair<String, Integer>>();
+        messages = list;
     }
 
     //Gets called every time you update the view with an
@@ -37,7 +40,7 @@ public class MessageAdapter extends BaseAdapter{
     }
 
     @Override
-    public Object getItem(int i) {
+    public Pair<String, Integer> getItem(int i) {
         return messages.get(i);
     }
 
@@ -56,9 +59,12 @@ public class MessageAdapter extends BaseAdapter{
     //This returns either DIRECTION_INCOMING or DIRECTION_OUTGOING
     @Override
     public int getItemViewType(int i) {
-        return messages.get(i).second;
+        return getItem(i).second;
     }
-
+    public List<Pair<String,Integer>> getMessages()
+    {
+        return messages;
+    }
     @Override
     public View getView(int i, View convertView, ViewGroup viewGroup) {
         int direction = getItemViewType(i);
@@ -71,7 +77,7 @@ public class MessageAdapter extends BaseAdapter{
             }
         }
         TextView view = (TextView)convertView.findViewById(R.id.text1);
-        view.setText(messages.get(i).first);
+        view.setText(getItem(i).first);
         return convertView;
     }
 }
