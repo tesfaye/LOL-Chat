@@ -105,10 +105,10 @@ public class ChatActivity extends Activity implements ServiceConnection, ChatLis
         super.onPause();
         SharedPreferences.Editor editor = getSharedPreferences("messageHistory", Context.MODE_PRIVATE).edit();
         StringBuilder history = new StringBuilder();
-        for(int i =0; i< conversation.getCount(); i++)
+        for(int i = 0; i < conversation.getCount(); i++)
         {
             history.append(conversation.getItemAtPosition(i));
-            if(i-1<conversation.getCount())
+            if(i < conversation.getCount() -1)
                 history.append("\n");
         }
         editor.putString(friendName + "History", history.toString());
