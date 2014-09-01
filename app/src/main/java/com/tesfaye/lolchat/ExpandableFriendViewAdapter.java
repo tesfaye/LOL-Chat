@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.github.theholywaffle.lolchatapi.LolStatus;
 import com.github.theholywaffle.lolchatapi.wrapper.Friend;
+import com.squareup.picasso.Picasso;
 
 import java.io.InputStream;
 import java.net.URL;
@@ -145,7 +146,7 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
                     shapeDrawable.setColor(Color.RED);
                     break;
             }
-            holder.thumb_image.setImageBitmap(((LOLChatApplication)context.getApplicationContext()).getProfileImage(iconId));
+            Picasso.with(context).load("http://ddragon.leagueoflegends.com/cdn/4.14.2/img/profileicon/" + iconId + ".png").into(holder.thumb_image);
         }else
         {
             holder.artist.setVisibility(View.GONE);

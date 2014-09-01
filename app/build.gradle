@@ -25,6 +25,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     // You must install or update the Support Repository through the SDK manager to use this dependency.
     compile 'com.android.support:support-v4:19.+'
+    compile 'com.squareup.picasso:picasso:2.3.4'
     compile files('libs/asmack-android-8-4.0.3.jar')
     compile 'com.google.code.gson:gson:2.2.4'
     compile 'org.jdom:jdom2:2.0.5'

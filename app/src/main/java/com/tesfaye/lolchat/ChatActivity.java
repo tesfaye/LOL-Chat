@@ -41,7 +41,7 @@ public class ChatActivity extends Activity implements ServiceConnection, ChatLis
             @Override
             public void onClick(View view) {
                 String message = messageBox.getText().toString();
-                if(friend != null && !message.equals(""))
+                if(friend != null && !message.isEmpty())
                 {
                     friend.sendMessage(message, ChatActivity.this);
                     ArrayAdapter adapter = (ArrayAdapter)conversation.getAdapter();
