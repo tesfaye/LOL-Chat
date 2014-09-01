@@ -49,47 +49,34 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
     public Friend getChild(int groupPosition, int childPosition) {
         return getGroup(groupPosition).get(childPosition);
     }
-    public void setFriendStatus(Friend friend, boolean online)
+    public void updateFriendStatus(Friend friend)
     {
-        if(online)
+        List<Friend> friends = getGroup(friend.isOnline() ? 0 : 1);
+        for(int i =0; i< friends.size(); i++)
         {
-            for(int i =0; i<onlineFriends.size(); i++)
-            {
-                Friend f = onlineFriends.get(i);
-                if(f.getUserId().equals(friend.getUserId()))
-                    f.setStatus(friend.getStatus());
-            }
-        }else
-        {
-            for(int i =0; i<offlineFriends.size(); i++)
-            {
-                Friend f = offlineFriends.get(i);
-                if(f.getUserId().equals(friend.getUserId()))
-                    f.setStatus(friend.getStatus());
-            }
+            Friend f = friends.get(i);
+            if(f.getUserId().equals(friend.getUserId()))
+                f.setStatus(friend.getStatus());
         }
         notifyDataSetChanged();
     }
     public void setFriendOnline(Friend friend, boolean online)
     {
-        if(online)
+        List<Friend> old = getGroup(online ? 1 : 0);
+        for(int i =0; i< old.size(); i++)
         {
-            for(int i =0; i<offlineFriends.size(); i++)
-            {
-                Friend f = offlineFriends.get(i);
-                if(f.getUserId().equals(friend.getUserId()))
-                    offlineFriends.remove(f);
-            }
-            onlineFriends.add(friend);
-        }else
+            Friend f = old.get(i);
+            if(f.getUserId().equals(friend.getUserId()))
+                old.remove(f);
+        }
+        List<Friend> newList = getGroup(online ? 0 : 1);
+        for(int i =0; i< newList.size(); i++)
         {
-            for(int i =0; i<onlineFriends.size(); i++)
+            if(friend.getName().toLowerCase().compareTo(newList.get(i).getName().toLowerCase()) < 0)
             {
-                Friend f = onlineFriends.get(i);
-                if(f.getUserId().equals(friend.getUserId()))
-                    onlineFriends.remove(f);
+                newList.add(i, friend);
+                break;
             }
-            offlineFriends.add(friend);
         }
         notifyDataSetChanged();
     }

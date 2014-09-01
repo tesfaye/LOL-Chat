@@ -86,7 +86,7 @@ public class MainFragment extends LOLChatFragment
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        adapter.setFriendStatus(friend, friend.isOnline());
+                        adapter.updateFriendStatus(friend);
                     }
                 });
             }
