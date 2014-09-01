@@ -8,6 +8,7 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.Message;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -44,9 +45,8 @@ public class ChatActivity extends Activity implements ServiceConnection, ChatLis
                 if(friend != null && !message.isEmpty())
                 {
                     friend.sendMessage(message, ChatActivity.this);
-                    ArrayAdapter adapter = (ArrayAdapter)conversation.getAdapter();
-                    adapter.add("Me: " + message);
-                    adapter.notifyDataSetChanged();
+                    MessageAdapter adapter = (MessageAdapter)conversation.getAdapter();
+                    adapter.addMessage("Me: " + message, MessageAdapter.DIRECTION_OUTGOING);
                     conversation.setSelection(adapter.getCount() - 1);
                     messageBox.setText("");
                 }
@@ -54,11 +54,12 @@ public class ChatActivity extends Activity implements ServiceConnection, ChatLis
         });
         if(savedInstanceState != null)
         {
-            conversation.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, savedInstanceState.getStringArrayList("messages")));
+            //conversation.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, savedInstanceState.getStringArrayList("messages")));
+            conversation.setAdapter(new MessageAdapter(this));
             conversation.onRestoreInstanceState(savedInstanceState.getParcelable("listView"));
         }else
         {
-            conversation.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, new ArrayList<String>()));
+            conversation.setAdapter(new MessageAdapter(this));
         }
         bindService(new Intent(this, ChatService.class), this, Context.BIND_AUTO_CREATE);
     }
@@ -83,45 +84,44 @@ public class ChatActivity extends Activity implements ServiceConnection, ChatLis
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                ArrayAdapter adapter = (ArrayAdapter)conversation.getAdapter();
-                adapter.add(friend.getName() + ": " + message);
-                adapter.notifyDataSetChanged();
+                MessageAdapter adapter = (MessageAdapter)conversation.getAdapter();
+                adapter.addMessage(friend.getName() + ": " + message, MessageAdapter.DIRECTION_INCOMING);
                 conversation.setSelection(adapter.getCount() - 1);
             }
         });
     }
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        super.onSaveInstanceState(savedInstanceState);
-        savedInstanceState.putParcelable("listView", conversation.onSaveInstanceState());
-        ArrayList<String> messages = new ArrayList<String>();
-        for (int i = 0; i < conversation.getAdapter().getCount(); i++) {
-            messages.add((String)conversation.getAdapter().getItem(i));
-        }
-        savedInstanceState.putStringArrayList("messages", messages);
-    }
-    public void onPause()
-    {
-        super.onPause();
-        SharedPreferences.Editor editor = getSharedPreferences("messageHistory", Context.MODE_PRIVATE).edit();
-        StringBuilder history = new StringBuilder();
-        for(int i = 0; i < conversation.getCount(); i++)
-        {
-            history.append(conversation.getItemAtPosition(i));
-            if(i < conversation.getCount() -1)
-                history.append("\n");
-        }
-        editor.putString(friendName + "History", history.toString());
-        editor.apply();
-    }
-    public void onResume()
-    {
-        super.onResume();
-        SharedPreferences preferences = getSharedPreferences("messageHistory", Context.MODE_PRIVATE);
-        String messages = preferences.getString(friendName + "History", null);
-        if (messages != null) {
-            conversation.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, new ArrayList<String>(Arrays.asList(messages.split("\n")))));
-            conversation.setSelection(conversation.getCount() - 1);
-        }
-    }
+//    @Override
+//    public void onSaveInstanceState(Bundle savedInstanceState) {
+//        super.onSaveInstanceState(savedInstanceState);
+//        savedInstanceState.putParcelable("listView", conversation.onSaveInstanceState());
+//        ArrayList<String> messages = new ArrayList<String>();
+//        for (int i = 0; i < conversation.getAdapter().getCount(); i++) {
+//            messages.add((String)conversation.getAdapter().getItem(i));
+//        }
+//        savedInstanceState.putStringArrayList("messages", messages);
+//    }
+//    public void onPause()
+//    {
+//        super.onPause();
+//        SharedPreferences.Editor editor = getSharedPreferences("messageHistory", Context.MODE_PRIVATE).edit();
+//        StringBuilder history = new StringBuilder();
+//        for(int i = 0; i < conversation.getCount(); i++)
+//        {
+//            history.append(conversation.getItemAtPosition(i));
+//            if(i < conversation.getCount() -1)
+//                history.append("\n");
+//        }
+//        editor.putString(friendName + "History", history.toString());
+//        editor.apply();
+//    }
+//    public void onResume()
+//    {
+//        super.onResume();
+//        SharedPreferences preferences = getSharedPreferences("messageHistory", Context.MODE_PRIVATE);
+//        String messages = preferences.getString(friendName + "History", null);
+//        if (messages != null) {
+//            conversation.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, new ArrayList<String>(Arrays.asList(messages.split("\n")))));
+//            conversation.setSelection(conversation.getCount() - 1);
+//        }
+//    }
 }
