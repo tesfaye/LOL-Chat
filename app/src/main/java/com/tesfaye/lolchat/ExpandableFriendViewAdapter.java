@@ -21,7 +21,10 @@ import com.squareup.picasso.Picasso;
 
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Abel Tesfaye on 8/27/2014.
@@ -127,10 +130,15 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
             });
             LolStatus.GameStatus gameStatus = friend.getStatus().getGameStatus();
             String status;
+            String test = "";
+            if(friend.getStatus().getTimestamp() != null) {
+                Date d = new Date();
+                test = "for " + TimeUnit.MILLISECONDS.toMinutes(new Date(d.getTime()-friend.getStatus().getTimestamp().getTime()).getTime()) + " minutes";
+            }
             if (gameStatus == null)
                 status = friend.getStatus().getStatusMessage() + "\n" + "Online";
             else
-                status = friend.getStatus().getStatusMessage() + "\n" + gameStatus.internal();
+                status = friend.getStatus().getStatusMessage() + "\n" + gameStatus.internal() + " " + test;
             holder.artist.setText(status);
             int iconId = friend.getStatus().getProfileIconId();
             if (iconId == -1)
