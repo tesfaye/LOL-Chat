@@ -82,7 +82,7 @@ public class ChatService extends Service{
                                     messages = messages + "\n";
                                 }
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                                editor.putString(friend.getName() + "History", messages + MessageAdapter.DIRECTION_INCOMING + message);
+                                editor.putString(friend.getName() + "History", messages + MessageAdapter.DIRECTION_INCOMING + friend.getName() + ": " + message);
                                 editor.apply();
                             }
                         }
