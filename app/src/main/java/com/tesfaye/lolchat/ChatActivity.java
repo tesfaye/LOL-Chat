@@ -30,6 +30,7 @@ public class ChatActivity extends Activity implements ServiceConnection, ChatLis
 {
     private String friendName;
     private Friend friend;
+    private ChatService chatService;
     private ListView conversation;
     public void onCreate(Bundle savedInstanceState)
     {
@@ -46,7 +47,7 @@ public class ChatActivity extends Activity implements ServiceConnection, ChatLis
                 String message = messageBox.getText().toString();
                 if(friend != null && !message.isEmpty())
                 {
-                    friend.sendMessage(message, ChatActivity.this);
+                    friend.sendMessage(message);
                     MessageAdapter adapter = (MessageAdapter)conversation.getAdapter();
                     adapter.addMessage("Me: " + message, MessageAdapter.DIRECTION_OUTGOING);
                     conversation.setSelection(adapter.getCount() - 1);
@@ -67,13 +68,16 @@ public class ChatActivity extends Activity implements ServiceConnection, ChatLis
 
     @Override
     public void onServiceConnected(final ComponentName name, final IBinder service) {
-        ChatService chatService = ((ChatService.LocalBinder) service).getService();
+        chatService = ((ChatService.LocalBinder) service).getService();
         LolChat lolChat = chatService.getLolChat();
         friend = lolChat.getFriendByName(friendName);
+        chatService.chatListener = this;
     }
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        chatService.chatListener = null;
+        chatService = null;
         unbindService(this);
     }
     @Override
@@ -119,16 +123,13 @@ public class ChatActivity extends Activity implements ServiceConnection, ChatLis
         String messages = preferences.getString(friendName + "History", null);
         if (messages != null) {
             String[] text = messages.split("\n");
-            if(text.length > 1) {
-                System.out.println(text.length);
-                ArrayList<Pair<String, Integer>> list = new ArrayList<Pair<String, Integer>>();
-                for (String s : text) {
-                    int i = Character.getNumericValue(s.charAt(0));
-                    list.add(new Pair(s.substring(1), i));
-                }
-                conversation.setAdapter(new MessageAdapter(this, list));
-                conversation.setSelection(list.size() - 1);
+            ArrayList<Pair<String, Integer>> list = new ArrayList<Pair<String, Integer>>();
+            for (String s : text) {
+                int i = Character.getNumericValue(s.charAt(0));
+                list.add(new Pair(s.substring(1), i));
             }
+            conversation.setAdapter(new MessageAdapter(this, list));
+            conversation.setSelection(list.size() - 1);
         }
     }
 }

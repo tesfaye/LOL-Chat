@@ -3,18 +3,31 @@ package com.tesfaye.lolchat;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Binder;
 import android.os.IBinder;
+import android.util.Pair;
 
 import com.github.theholywaffle.lolchatapi.ChatServer;
 import com.github.theholywaffle.lolchatapi.FriendRequestPolicy;
 import com.github.theholywaffle.lolchatapi.LolChat;
+import com.github.theholywaffle.lolchatapi.LolStatus;
+import com.github.theholywaffle.lolchatapi.listeners.ChatListener;
 import com.github.theholywaffle.lolchatapi.riotapi.RiotApiKey;
+import com.github.theholywaffle.lolchatapi.wrapper.Friend;
+
+import java.util.ArrayList;
+
+import jriot.main.JRiot;
+import jriot.main.JRiotException;
+import jriot.objects.Summoner;
 
 public class ChatService extends Service{
     private LolChat lolChat;
     private final IBinder mBinder = new LocalBinder();
+    public ChatListener chatListener;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -38,6 +51,42 @@ public class ChatService extends Service{
                             .setContentIntent(PendingIntent.getActivity(getApplicationContext(), 0, mainIntent, PendingIntent.FLAG_UPDATE_CURRENT))
                             .setDefaults(Notification.DEFAULT_VIBRATE);
                     startForeground(69, notification.getNotification());
+                    LolStatus lolStatus = new LolStatus();
+                    try {
+                        JRiot riot = new JRiot("99a0d299-2476-4539-901f-0fdd0598bcf8", "na");
+                        Summoner connected = riot.getSummoner(lolChat.getConnectedUsername());
+                        lolStatus.setLevel((int)connected.getSummonerLevel());
+                        lolStatus.setProfileIconId(connected.getProfileIconId());
+                    }catch(JRiotException e)
+                    {
+                        e.printStackTrace();
+                    }
+                    lolStatus.setStatusMessage("USING BETA ABEL CHAT APP");
+                    lolChat.setStatus(lolStatus);
+                    lolChat.addChatListener(new ChatListener() {
+                        @Override
+                        public void onMessage(Friend friend, String message) {
+                            if(chatListener != null)
+                            {
+                                chatListener.onMessage(friend, message);
+                            }else {
+                                SharedPreferences sharedPreferences = getSharedPreferences("messageHistory", Context.MODE_PRIVATE);
+                                String messages = sharedPreferences.getString(friend.getName() + "History", "");
+                                if (!messages.equals("")) {
+                                    String[] text = messages.split("\n");
+                                    ArrayList<Pair<String, Integer>> list = new ArrayList<Pair<String, Integer>>();
+                                    for (String s : text) {
+                                        int i = Character.getNumericValue(s.charAt(0));
+                                        list.add(new Pair(s.substring(1), i));
+                                    }
+                                    messages = messages + "\n";
+                                }
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString(friend.getName() + "History", messages + MessageAdapter.DIRECTION_INCOMING + message);
+                                editor.apply();
+                            }
+                        }
+                    });
                 }
                 callBack.onLogin(lolChat.isAuthenticated());
             }

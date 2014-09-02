@@ -7,12 +7,14 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -23,6 +25,10 @@ import android.widget.ListView;
 
 import com.github.theholywaffle.lolchatapi.LolChat;
 import com.github.theholywaffle.lolchatapi.LolStatus;
+import com.github.theholywaffle.lolchatapi.listeners.ChatListener;
+import com.github.theholywaffle.lolchatapi.wrapper.Friend;
+
+import java.util.List;
 
 import jriot.main.JRiot;
 import jriot.main.JRiotException;
@@ -181,23 +187,6 @@ public class LOLChatMain extends Activity implements ServiceConnection {
     public void onServiceConnected(final ComponentName name, final IBinder service) {
         ChatService chatService = ((ChatService.LocalBinder) service).getService();
         final LolChat lolChat = chatService.getLolChat();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                LolStatus lolStatus = new LolStatus();
-                try {
-                    JRiot riot = new JRiot("99a0d299-2476-4539-901f-0fdd0598bcf8", "na");
-                    Summoner connected = riot.getSummoner(lolChat.getConnectedUsername());
-                    lolStatus.setLevel((int)connected.getSummonerLevel());
-                    lolStatus.setProfileIconId(connected.getProfileIconId());
-                }catch(JRiotException e)
-                {
-                    e.printStackTrace();
-                }
-                lolStatus.setStatusMessage("USING BETA ABEL CHAT APP");
-                lolChat.setStatus(lolStatus);
-            }
-        }).start();
         ((LOLChatFragment)getFragmentManager().findFragmentById(R.id.content_frame)).onChatConnected(lolChat);
     }
     @Override

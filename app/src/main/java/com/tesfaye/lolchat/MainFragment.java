@@ -27,7 +27,6 @@ public class MainFragment extends LOLChatFragment
         if(savedInstanceState != null) {
             listView.onRestoreInstanceState(savedInstanceState.getParcelable("listView"));
         }
-        enableHttpResponseCache();
         return view;
     }
     public void onChatConnected(final LolChat chat) {
@@ -107,16 +106,5 @@ public class MainFragment extends LOLChatFragment
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
         savedInstanceState.putParcelable("listView", listView.onSaveInstanceState());
-    }
-    private void enableHttpResponseCache() {
-        try {
-            long httpCacheSize = 10 * 1024 * 1024; // 10 MiB
-            File httpCacheDir = new File(getActivity().getCacheDir(), "http");
-            Class.forName("android.net.http.HttpResponseCache")
-                    .getMethod("install", File.class, long.class)
-                    .invoke(null, httpCacheDir, httpCacheSize);
-        } catch (Exception httpResponseCacheNotAvailable) {
-            //cache not supported
-        }
     }
 }
