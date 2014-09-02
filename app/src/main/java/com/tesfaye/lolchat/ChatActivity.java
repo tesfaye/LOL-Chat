@@ -119,13 +119,16 @@ public class ChatActivity extends Activity implements ServiceConnection, ChatLis
         String messages = preferences.getString(friendName + "History", null);
         if (messages != null) {
             String[] text = messages.split("\n");
-            ArrayList<Pair<String, Integer>> list = new ArrayList<Pair<String, Integer>>();
-            for(String s: text)
-            {
-                list.add(new Pair(s.substring(1), Character.getNumericValue(s.charAt(0))));
+            if(text.length > 1) {
+                System.out.println(text.length);
+                ArrayList<Pair<String, Integer>> list = new ArrayList<Pair<String, Integer>>();
+                for (String s : text) {
+                    int i = Character.getNumericValue(s.charAt(0));
+                    list.add(new Pair(s.substring(1), i));
+                }
+                conversation.setAdapter(new MessageAdapter(this, list));
+                conversation.setSelection(list.size() - 1);
             }
-            conversation.setAdapter(new MessageAdapter(this, list));
-            conversation.setSelection(list.size()  - 1);
         }
     }
 }
