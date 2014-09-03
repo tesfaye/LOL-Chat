@@ -1,8 +1,6 @@
 package com.tesfaye.lolchat;
 
-import android.app.Activity;
 import android.content.Context;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,23 +11,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MessageAdapter extends BaseAdapter{
-    private List<Pair<String, Integer>> messages;
+    private List<Message> messages;
     private Context context;
     public static final int DIRECTION_INCOMING = 0;
     public static final int DIRECTION_OUTGOING = 1;
 
     public MessageAdapter(Context con) {
-        this(con, new ArrayList<Pair<String, Integer>>());
+        this(con, new ArrayList<Message>());
     }
-    public MessageAdapter(Context con, List list) {
+    public MessageAdapter(Context con, List<Message> list) {
         context = con;
         messages = list;
     }
 
     //Gets called every time you update the view with an
     //incoming or outgoing message
-    public void addMessage(String message, int direction) {
-        messages.add(new Pair(message, direction));
+    public void addMessage(Message message) {
+        messages.add(message);
         notifyDataSetChanged();
     }
 
@@ -40,7 +38,7 @@ public class MessageAdapter extends BaseAdapter{
     }
 
     @Override
-    public Pair<String, Integer> getItem(int i) {
+    public Message getItem(int i) {
         return messages.get(i);
     }
 
@@ -59,9 +57,9 @@ public class MessageAdapter extends BaseAdapter{
     //This returns either DIRECTION_INCOMING or DIRECTION_OUTGOING
     @Override
     public int getItemViewType(int i) {
-        return getItem(i).second;
+        return messages.get(i).getDirection();
     }
-    public List<Pair<String,Integer>> getMessages()
+    public List<Message> getMessages()
     {
         return messages;
     }
@@ -77,7 +75,7 @@ public class MessageAdapter extends BaseAdapter{
             }
         }
         TextView view = (TextView)convertView.findViewById(R.id.text1);
-        view.setText(getItem(i).first);
+        view.setText(getItem(i).getSender() + ": " + getItem(i).getMessage());
         return convertView;
     }
 }

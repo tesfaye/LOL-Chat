@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Binder;
 import android.os.IBinder;
-import android.util.Pair;
 
 import com.github.theholywaffle.lolchatapi.ChatServer;
 import com.github.theholywaffle.lolchatapi.FriendRequestPolicy;
@@ -17,8 +16,6 @@ import com.github.theholywaffle.lolchatapi.LolStatus;
 import com.github.theholywaffle.lolchatapi.listeners.ChatListener;
 import com.github.theholywaffle.lolchatapi.riotapi.RiotApiKey;
 import com.github.theholywaffle.lolchatapi.wrapper.Friend;
-
-import java.util.ArrayList;
 
 import jriot.main.JRiot;
 import jriot.main.JRiotException;
@@ -72,17 +69,8 @@ public class ChatService extends Service{
                             }else {
                                 SharedPreferences sharedPreferences = getSharedPreferences("messageHistory", Context.MODE_PRIVATE);
                                 String messages = sharedPreferences.getString(friend.getName() + "History", "");
-                                if (!messages.equals("")) {
-                                    String[] text = messages.split("\n");
-                                    ArrayList<Pair<String, Integer>> list = new ArrayList<Pair<String, Integer>>();
-                                    for (String s : text) {
-                                        int i = Character.getNumericValue(s.charAt(0));
-                                        list.add(new Pair(s.substring(1), i));
-                                    }
-                                    messages = messages + "\n";
-                                }
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                                editor.putString(friend.getName() + "History", messages + MessageAdapter.DIRECTION_INCOMING + friend.getName() + ": " + message);
+                                editor.putString(friend.getName() + "History", messages + "\n" + new Message(friend.getName(), message, MessageAdapter.DIRECTION_INCOMING));
                                 editor.apply();
                             }
                         }

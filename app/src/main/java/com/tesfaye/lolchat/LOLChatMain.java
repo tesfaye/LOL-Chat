@@ -7,7 +7,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -24,17 +23,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.github.theholywaffle.lolchatapi.LolChat;
-import com.github.theholywaffle.lolchatapi.LolStatus;
-import com.github.theholywaffle.lolchatapi.listeners.ChatListener;
-import com.github.theholywaffle.lolchatapi.wrapper.Friend;
-
-import java.util.List;
-
-import jriot.main.JRiot;
-import jriot.main.JRiotException;
-import jriot.objects.PlayerStatsSummaryList;
-import jriot.objects.RankedStats;
-import jriot.objects.Summoner;
 
 public class LOLChatMain extends Activity implements ServiceConnection {
     private DrawerLayout mDrawerLayout;

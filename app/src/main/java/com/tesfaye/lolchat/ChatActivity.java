@@ -8,10 +8,7 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.os.Message;
-import android.util.Pair;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -20,10 +17,7 @@ import com.github.theholywaffle.lolchatapi.LolChat;
 import com.github.theholywaffle.lolchatapi.listeners.ChatListener;
 import com.github.theholywaffle.lolchatapi.wrapper.Friend;
 
-import org.jivesoftware.smack.util.StringUtils;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ChatActivity extends Activity implements ServiceConnection, ChatListener
@@ -49,7 +43,7 @@ public class ChatActivity extends Activity implements ServiceConnection, ChatLis
                 {
                     friend.sendMessage(message);
                     MessageAdapter adapter = (MessageAdapter)conversation.getAdapter();
-                    adapter.addMessage("Me: " + message, MessageAdapter.DIRECTION_OUTGOING);
+                    adapter.addMessage(new Message("Me", message, MessageAdapter.DIRECTION_OUTGOING));
                     conversation.setSelection(adapter.getCount() - 1);
                     messageBox.setText("");
                 }
@@ -57,7 +51,7 @@ public class ChatActivity extends Activity implements ServiceConnection, ChatLis
         });
         if(savedInstanceState != null)
         {
-            conversation.setAdapter(new MessageAdapter(this, (ArrayList)savedInstanceState.getSerializable("messages")));
+            conversation.setAdapter(new MessageAdapter(this, (ArrayList)savedInstanceState.getParcelableArrayList("messages")));
             conversation.onRestoreInstanceState(savedInstanceState.getParcelable("listView"));
         }else
         {
@@ -90,7 +84,7 @@ public class ChatActivity extends Activity implements ServiceConnection, ChatLis
             @Override
             public void run() {
                 MessageAdapter adapter = (MessageAdapter)conversation.getAdapter();
-                adapter.addMessage(friend.getName() + ": " + message, MessageAdapter.DIRECTION_INCOMING);
+                adapter.addMessage(new Message(friend.getName(), message, MessageAdapter.DIRECTION_INCOMING));
                 conversation.setSelection(adapter.getCount() - 1);
             }
         });
@@ -99,22 +93,23 @@ public class ChatActivity extends Activity implements ServiceConnection, ChatLis
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
         savedInstanceState.putParcelable("listView", conversation.onSaveInstanceState());
-        savedInstanceState.putSerializable("messages", (ArrayList)((MessageAdapter)conversation.getAdapter()).getMessages());
+        savedInstanceState.putParcelableArrayList("messages", (ArrayList)((MessageAdapter)conversation.getAdapter()).getMessages());
     }
     public void onPause()
     {
         super.onPause();
         SharedPreferences.Editor editor = getSharedPreferences("messageHistory", Context.MODE_PRIVATE).edit();
-        StringBuilder history = new StringBuilder();
-        List<Pair<String, Integer>> messages = ((MessageAdapter)conversation.getAdapter()).getMessages();
-        for(int i = 0; i < messages.size(); i++)
-        {
-            history.append(messages.get(i).second + messages.get(i).first);
-            if(i < messages.size() -1)
-                history.append("\n");
+        List<Message> messages = ((MessageAdapter)conversation.getAdapter()).getMessages();
+        if(messages.size() > 0) {
+            StringBuilder history = new StringBuilder();
+            for (int i = 0; i < messages.size(); i++) {
+                history.append(messages.get(i));
+                if (i < messages.size() - 1)
+                    history.append("\n");
+            }
+            editor.putString(friendName + "History", history.toString());
+            editor.apply();
         }
-        editor.putString(friendName + "History", history.toString());
-        editor.apply();
     }
     public void onResume()
     {
@@ -122,11 +117,12 @@ public class ChatActivity extends Activity implements ServiceConnection, ChatLis
         SharedPreferences preferences = getSharedPreferences("messageHistory", Context.MODE_PRIVATE);
         String messages = preferences.getString(friendName + "History", null);
         if (messages != null) {
+            System.out.println("5");
+            System.out.println(messages);
             String[] text = messages.split("\n");
-            ArrayList<Pair<String, Integer>> list = new ArrayList<Pair<String, Integer>>();
+            ArrayList<Message> list = new ArrayList<Message>();
             for (String s : text) {
-                int i = Character.getNumericValue(s.charAt(0));
-                list.add(new Pair(s.substring(1), i));
+                list.add(new Message(s));
             }
             conversation.setAdapter(new MessageAdapter(this, list));
             conversation.setSelection(list.size() - 1);
