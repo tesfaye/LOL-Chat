@@ -70,7 +70,11 @@ public class ChatService extends Service{
                                 SharedPreferences sharedPreferences = getSharedPreferences("messageHistory", Context.MODE_PRIVATE);
                                 String messages = sharedPreferences.getString(friend.getName() + "History", "");
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                                editor.putString(friend.getName() + "History", messages + "\n" + new Message(friend.getName(), message, MessageAdapter.DIRECTION_INCOMING));
+                                if(!messages.equals(""))
+                                {
+                                    messages = messages + "\n";
+                                }
+                                editor.putString(friend.getName() + "History", messages  + new Message(friend.getName(), message, MessageAdapter.DIRECTION_INCOMING));
                                 editor.apply();
                             }
                         }
