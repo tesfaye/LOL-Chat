@@ -93,7 +93,7 @@ public class ChatActivity extends Activity implements ServiceConnection, ChatLis
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
         savedInstanceState.putParcelable("listView", conversation.onSaveInstanceState());
-        savedInstanceState.putParcelableArrayList("messages", (ArrayList)((MessageAdapter)conversation.getAdapter()).getMessages());
+        savedInstanceState.putParcelableArrayList("messages", (ArrayList<Message>)((MessageAdapter)conversation.getAdapter()).getMessages());
     }
     public void onPause()
     {
