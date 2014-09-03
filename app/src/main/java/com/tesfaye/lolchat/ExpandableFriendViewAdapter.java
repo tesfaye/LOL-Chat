@@ -50,9 +50,8 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
     public void updateFriendStatus(Friend friend)
     {
         List<Friend> friends = getGroup(friend.isOnline() ? 0 : 1);
-        for(int i =0; i< friends.size(); i++)
+        for(Friend f: friends)
         {
-            Friend f = friends.get(i);
             if(f.getUserId().equals(friend.getUserId()))
                 f.setStatus(friend.getStatus());
         }
