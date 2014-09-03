@@ -1,6 +1,7 @@
 package com.tesfaye.lolchat;
 
 import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
@@ -17,6 +18,9 @@ import com.github.theholywaffle.lolchatapi.listeners.ChatListener;
 import com.github.theholywaffle.lolchatapi.riotapi.RiotApiKey;
 import com.github.theholywaffle.lolchatapi.wrapper.Friend;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jriot.main.JRiot;
 import jriot.main.JRiotException;
 import jriot.objects.Summoner;
@@ -25,6 +29,7 @@ public class ChatService extends Service{
     private LolChat lolChat;
     private final IBinder mBinder = new LocalBinder();
     public ChatListener chatListener;
+    private ArrayList<Message> missedMessages = new ArrayList<Message>();
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -63,6 +68,18 @@ public class ChatService extends Service{
                     lolChat.addChatListener(new ChatListener() {
                         @Override
                         public void onMessage(Friend friend, String message) {
+                            missedMessages.add(new Message(friend.getName(), message, MessageAdapter.DIRECTION_INCOMING));
+                            PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(),
+                                    0, new Intent(getApplicationContext(), LOLChatMain.class), 0);
+                            Notification notification = new Notification.Builder(ChatService.this)
+                                    .setContentTitle("New message")
+                                    .setContentText("Message from " + friend.getName())
+                                    .setSmallIcon(R.drawable.ic_launcher)
+                                    .setStyle(getStyle())
+                                    .setContentIntent(contentIntent)
+                                    .getNotification();
+                            NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                            mNotificationManager.notify(69, notification);
                             if(chatListener != null)
                             {
                                 chatListener.onMessage(friend, message);
@@ -83,6 +100,17 @@ public class ChatService extends Service{
                 callBack.onLogin(lolChat.isAuthenticated());
             }
         }).start();
+    }
+    public Notification.InboxStyle getStyle()
+    {
+        Notification.InboxStyle style =  new Notification.InboxStyle();
+        List<Message> list = missedMessages.subList(Math.max(missedMessages.size() - 3, 0), missedMessages.size());//get list of last three messages
+        for(Message m: list)
+        {
+            style.addLine(m.getSender() + ": " + m.getMessage());
+        }
+        style.setSummaryText(missedMessages.size() + " more");
+        return style;
     }
     @Override
     public void onDestroy() {
