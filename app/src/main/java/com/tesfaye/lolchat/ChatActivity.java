@@ -117,8 +117,6 @@ public class ChatActivity extends Activity implements ServiceConnection, ChatLis
         SharedPreferences preferences = getSharedPreferences("messageHistory", Context.MODE_PRIVATE);
         String messages = preferences.getString(friendName + "History", null);
         if (messages != null) {
-            System.out.println("5");
-            System.out.println(messages);
             String[] text = messages.split("\n");
             ArrayList<Message> list = new ArrayList<Message>();
             for (String s : text) {
