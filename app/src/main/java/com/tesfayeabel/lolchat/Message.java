@@ -1,4 +1,4 @@
-package com.tesfaye.lolchat;
+package com.tesfayeabel.lolchat;
 
 import android.os.Parcel;
 import android.os.Parcelable;

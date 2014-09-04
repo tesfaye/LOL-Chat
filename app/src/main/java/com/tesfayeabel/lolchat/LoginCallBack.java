@@ -1,4 +1,4 @@
-package com.tesfaye.lolchat;
+package com.tesfayeabel.lolchat;
 
 /**
  * Created by Abel Tesfaye on 8/25/2014.

@@ -1,4 +1,4 @@
-package com.tesfaye.lolchat;
+package com.tesfayeabel.lolchat;
 
 import android.app.Activity;
 import android.app.Fragment;

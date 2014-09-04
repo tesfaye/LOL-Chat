@@ -1,4 +1,4 @@
-package com.tesfaye.lolchat;
+package com.tesfayeabel.lolchat;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

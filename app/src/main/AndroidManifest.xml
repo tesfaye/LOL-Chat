@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.tesfaye.lolchat" >
+    package="com.tesfayeabel.lolchat" >
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <application
@@ -33,7 +33,7 @@
         </activity>
         <service
             android:enabled="true"
-            android:name="com.tesfaye.lolchat.ChatService">
+            android:name=".ChatService">
             <intent-filter>
                 <action android:name="com.tesfaye.lolchat.ChatService" />
             </intent-filter>
