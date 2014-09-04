@@ -8,6 +8,9 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -59,7 +62,25 @@ public class ChatActivity extends Activity implements ServiceConnection, ChatLis
         }
         bindService(new Intent(this, ChatService.class), this, Context.BIND_AUTO_CREATE);
     }
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action buttons
+        switch(item.getItemId()) {
+            case R.id.action_clear:
+                SharedPreferences.Editor editor = getSharedPreferences("messageHistory", Context.MODE_PRIVATE).edit();
+                editor.remove(friendName + "History").apply();
+                conversation.setAdapter(new MessageAdapter(this));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.chat, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
     @Override
     public void onServiceConnected(final ComponentName name, final IBinder service) {
         chatService = ((ChatService.LocalBinder) service).getService();
