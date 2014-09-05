@@ -53,9 +53,12 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
         for(Friend f: friends)
         {
             if(f.getUserId().equals(friend.getUserId()))
+            {
                 f.setStatus(friend.getStatus());
+                notifyDataSetChanged();
+                return;
+            }
         }
-        notifyDataSetChanged();
     }
     public void setFriendOnline(Friend friend, boolean online)
     {
@@ -64,7 +67,10 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
         {
             Friend f = old.get(i);
             if(f.getUserId().equals(friend.getUserId()))
+            {
                 old.remove(f);
+                break;
+            }
         }
         List<Friend> newList = getGroup(online ? 0 : 1);
         for(int i =0; i< newList.size(); i++)
