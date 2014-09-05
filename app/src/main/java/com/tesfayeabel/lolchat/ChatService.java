@@ -51,7 +51,7 @@ public class ChatService extends Service{
                             .setTicker(getString(R.string.app_name) + " is now running")
                             .setContentIntent(PendingIntent.getActivity(getApplicationContext(), 0, mainIntent, PendingIntent.FLAG_UPDATE_CURRENT))
                             .setDefaults(Notification.DEFAULT_VIBRATE);
-                    startForeground(69, notification.getNotification());
+                    startForeground(69, notification.build());
                     LolStatus lolStatus = new LolStatus();
                     try {
                         JRiot riot = lolChat.getRiotApi();
@@ -76,7 +76,7 @@ public class ChatService extends Service{
                                     .setSmallIcon(R.drawable.ic_launcher)
                                     .setStyle(getStyle())
                                     .setContentIntent(contentIntent)
-                                    .getNotification();
+                                    .build();
                             NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                             mNotificationManager.notify(69, notification);
                             if(chatListener != null)

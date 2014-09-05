@@ -101,7 +101,7 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
         final Friend friend = getChild(groupPosition, childPosition);
         if (convertView == null) {
             LayoutInflater mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = mInflater.inflate(R.layout.friend_row, null);
+            convertView = mInflater.inflate(R.layout.friend_row, parent, false);
             holder = new ViewHolder();
             holder.title = (TextView)convertView.findViewById(R.id.title);
             holder.artist = (TextView)convertView.findViewById(R.id.artist);

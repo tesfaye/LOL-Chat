@@ -29,7 +29,7 @@ public class MainFragment extends LOLChatFragment
     public void onChatConnected(final LolChat chat) {
         List<Friend> online = chat.getOnlineFriends();
         List<Friend> offline = chat.getOfflineFriends();
-        Comparator comparator = new Comparator<Friend>() {
+        Comparator<Friend> comparator = new Comparator<Friend>() {
             @Override
             public int compare(Friend friend, Friend friend2) {
                 return friend.getName().toLowerCase().compareTo(friend2.getName().toLowerCase());
