@@ -79,11 +79,7 @@ public class LeaguePacketListener implements PacketListener {
 				if (requestListener != null) {
 					String name = null;
 					if (api.getRiotApi() != null) {
-						try {
-							name = api.getRiotApi().getName(presence.getFrom());
-						} catch (final IOException e) {
-							e.printStackTrace();
-						}
+					    name = api.getRiotApi().getName(presence.getFrom());
 					}
 					if (requestListener.onFriendRequest(presence.getFrom(),
 							name)) {

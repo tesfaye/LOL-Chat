@@ -27,7 +27,6 @@ package com.github.theholywaffle.lolchatapi;
  */
 
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,13 +41,8 @@ import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.Roster.SubscriptionMode;
 import org.jivesoftware.smack.RosterEntry;
 import org.jivesoftware.smack.RosterGroup;
-import org.jivesoftware.smack.SmackException;
-import org.jivesoftware.smack.SmackException.NoResponseException;
 import org.jivesoftware.smack.SmackException.NotConnectedException;
-import org.jivesoftware.smack.SmackException.NotLoggedInException;
 import org.jivesoftware.smack.XMPPConnection;
-import org.jivesoftware.smack.XMPPException;
-import org.jivesoftware.smack.XMPPException.XMPPErrorException;
 import org.jivesoftware.smack.filter.PacketFilter;
 import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smack.packet.Packet;
@@ -60,11 +54,11 @@ import com.github.theholywaffle.lolchatapi.listeners.ChatListener;
 import com.github.theholywaffle.lolchatapi.listeners.ConnectionListener;
 import com.github.theholywaffle.lolchatapi.listeners.FriendListener;
 import com.github.theholywaffle.lolchatapi.listeners.FriendRequestListener;
-import com.github.theholywaffle.lolchatapi.riotapi.RiotApi;
-import com.github.theholywaffle.lolchatapi.riotapi.RiotApiKey;
 import com.github.theholywaffle.lolchatapi.wrapper.Friend;
 import com.github.theholywaffle.lolchatapi.wrapper.Friend.FriendStatus;
 import com.github.theholywaffle.lolchatapi.wrapper.FriendGroup;
+
+import jriot.main.JRiot;
 
 public class LolChat {
 
@@ -83,7 +77,7 @@ public class LolChat {
 	private LeaguePacketListener leaguePacketListener;
 	private FriendRequestPolicy friendRequestPolicy;
 	private boolean loaded;
-	private RiotApi riotApi;
+	private JRiot riotApi;
 
 	/**
 	 * Represents a single connection to a League of Legends chatserver. Default
@@ -130,10 +124,10 @@ public class LolChat {
 	 * @see LolChat#setFriendRequestListener(FriendRequestListener)
 	 */
 	public LolChat(ChatServer server, FriendRequestPolicy friendRequestPolicy,
-			RiotApiKey riotApiKey) {
+			String riotApiKey) {
 		this.friendRequestPolicy = friendRequestPolicy;
 		if (riotApiKey != null && server.api != null) {
-			this.riotApi = RiotApi.build(riotApiKey, server);
+			this.riotApi = new JRiot(riotApiKey, server.name().toLowerCase());
 		}
 		Roster.setDefaultSubscriptionMode(SubscriptionMode.manual);
 		final ConnectionConfiguration config = new ConnectionConfiguration(
@@ -236,11 +230,7 @@ public class LolChat {
 	public void addFriendById(String userId, String name,
 			FriendGroup friendGroup) {
 		if (name == null && getRiotApi() != null) {
-			try {
-				name = getRiotApi().getName(userId);
-			} catch (final IOException e) {
-				e.printStackTrace();
-			}
+		    name = getRiotApi().getName(userId);
 		}
 		try {
 			connection
@@ -282,7 +272,7 @@ public class LolChat {
 			try {
 				final StringBuilder buf = new StringBuilder();
 				buf.append("sum");
-				buf.append(getRiotApi().getSummonerId(name));
+				buf.append(getRiotApi().getSummoner(name).getId());
 				buf.append("@pvp.net");
 				addFriendById(buf.toString(), name, friendGroup);
 				return true;
@@ -626,7 +616,7 @@ public class LolChat {
 	 * @return The RiotApi object or null if no apiKey is provided or the region
 	 *         is not supported by the riot api.
 	 */
-	public RiotApi getRiotApi() {
+	public JRiot getRiotApi() {
 		return riotApi;
 	}
 

@@ -3,6 +3,9 @@ package jriot.main;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+
+import org.jivesoftware.smack.util.StringUtils;
+
 import java.util.ArrayList;
 
 import java.util.List;
@@ -361,7 +364,15 @@ public class JRiot {
         Map<String, Summoner> summoner = getSummonersById(id);
         return summoner.get(Long.toString(summonerId));
     }
-
+    public String getName(String userId)//Abel Tesfaye
+    {
+        try{
+            return getSummoner(Long.parseLong(StringUtils.parseName(userId).replace("sum",""))).getName();
+        }catch(JRiotException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
     /**
      * Get information about a given List of summoners.
      *

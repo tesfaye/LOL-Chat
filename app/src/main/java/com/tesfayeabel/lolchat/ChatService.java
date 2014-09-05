@@ -15,7 +15,6 @@ import com.github.theholywaffle.lolchatapi.FriendRequestPolicy;
 import com.github.theholywaffle.lolchatapi.LolChat;
 import com.github.theholywaffle.lolchatapi.LolStatus;
 import com.github.theholywaffle.lolchatapi.listeners.ChatListener;
-import com.github.theholywaffle.lolchatapi.riotapi.RiotApiKey;
 import com.github.theholywaffle.lolchatapi.wrapper.Friend;
 
 import java.util.ArrayList;
@@ -41,7 +40,7 @@ public class ChatService extends Service{
         new Thread(new Runnable() {
             @Override
             public void run() {
-                lolChat = new LolChat(ChatServer.getChatServerByName(server), FriendRequestPolicy.REJECT_ALL, new RiotApiKey("99a0d299-2476-4539-901f-0fdd0598bcf8"));
+                lolChat = new LolChat(ChatServer.getChatServerByName(server), FriendRequestPolicy.REJECT_ALL, "99a0d299-2476-4539-901f-0fdd0598bcf8");
                 if(lolChat.login(username, password))
                 {
                     Intent mainIntent = new Intent(getApplicationContext(), LOLChatMain.class);
@@ -55,7 +54,7 @@ public class ChatService extends Service{
                     startForeground(69, notification.getNotification());
                     LolStatus lolStatus = new LolStatus();
                     try {
-                        JRiot riot = new JRiot("99a0d299-2476-4539-901f-0fdd0598bcf8", "na");
+                        JRiot riot = lolChat.getRiotApi();
                         Summoner connected = riot.getSummoner(lolChat.getConnectedUsername());
                         lolStatus.setLevel((int)connected.getSummonerLevel());
                         lolStatus.setProfileIconId(connected.getProfileIconId());
