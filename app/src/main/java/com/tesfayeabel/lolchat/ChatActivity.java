@@ -86,12 +86,12 @@ public class ChatActivity extends Activity implements ServiceConnection, ChatLis
         chatService = ((ChatService.LocalBinder) service).getService();
         LolChat lolChat = chatService.getLolChat();
         friend = lolChat.getFriendByName(friendName);
-        chatService.chatListener = this;
+        chatService.setChatListener(this);
     }
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        chatService.chatListener = null;
+        chatService.setChatListener(null);
         chatService = null;
         unbindService(this);
     }

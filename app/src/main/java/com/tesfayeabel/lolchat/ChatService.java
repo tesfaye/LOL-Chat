@@ -27,12 +27,16 @@ import jriot.objects.Summoner;
 public class ChatService extends Service{
     private LolChat lolChat;
     private final IBinder mBinder = new LocalBinder();
-    public ChatListener chatListener;
+    private ChatListener chatListener;
     private ArrayList<Message> missedMessages = new ArrayList<Message>();
 
     @Override
     public IBinder onBind(Intent intent) {
         return mBinder;
+    }
+    public void setChatListener(ChatListener chatListener)
+    {
+        this.chatListener = chatListener;
     }
     public void connectLOLChat(final String username, final String password, final String server, final LoginCallBack callBack)
     {
@@ -67,22 +71,23 @@ public class ChatService extends Service{
                     lolChat.addChatListener(new ChatListener() {
                         @Override
                         public void onMessage(Friend friend, String message) {
-                            missedMessages.add(new Message(friend.getName(), message, MessageAdapter.DIRECTION_INCOMING));
-                            PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(),
-                                    0, new Intent(getApplicationContext(), LOLChatMain.class), 0);
-                            Notification notification = new Notification.Builder(ChatService.this)
-                                    .setContentTitle("New message")
-                                    .setContentText("Message from " + friend.getName())
-                                    .setSmallIcon(R.drawable.ic_launcher)
-                                    .setStyle(getStyle())
-                                    .setContentIntent(contentIntent)
-                                    .build();
-                            NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                            mNotificationManager.notify(69, notification);
-                            if(chatListener != null)
+                            if(chatListener != null && ((ChatActivity)chatListener).getIntent().getStringExtra("friend").equals(friend.getName()))
                             {
                                 chatListener.onMessage(friend, message);
                             }else {
+                                missedMessages.add(new Message(friend.getName(), message, MessageAdapter.DIRECTION_INCOMING));
+                                PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(),
+                                        0, new Intent(getApplicationContext(), LOLChatMain.class), 0);
+                                Notification notification = new Notification.Builder(ChatService.this)
+                                        .setContentTitle("New message")
+                                        .setContentText("Message from " + friend.getName())
+                                        .setSmallIcon(R.drawable.ic_launcher)
+                                        .setStyle(getStyle())
+                                        .setContentIntent(contentIntent)
+                                        .build();
+                                NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                                mNotificationManager.notify(69, notification);
+
                                 SharedPreferences sharedPreferences = getSharedPreferences("messageHistory", Context.MODE_PRIVATE);
                                 String messages = sharedPreferences.getString(friend.getName() + "History", "");
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
