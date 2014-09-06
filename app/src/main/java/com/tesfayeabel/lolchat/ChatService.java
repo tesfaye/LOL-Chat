@@ -8,7 +8,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Binder;
+import android.os.Handler;
 import android.os.IBinder;
+import android.view.Gravity;
+import android.widget.Toast;
 
 import com.github.theholywaffle.lolchatapi.ChatServer;
 import com.github.theholywaffle.lolchatapi.FriendRequestPolicy;
@@ -28,6 +31,7 @@ public class ChatService extends Service{
     private LolChat lolChat;
     private final IBinder mBinder = new LocalBinder();
     private ChatListener chatListener;
+    private Handler handler = new Handler();
     private ArrayList<Message> missedMessages = new ArrayList<Message>();
 
     @Override
@@ -70,7 +74,7 @@ public class ChatService extends Service{
                     lolChat.setStatus(lolStatus);
                     lolChat.addChatListener(new ChatListener() {
                         @Override
-                        public void onMessage(Friend friend, String message) {
+                        public void onMessage(final Friend friend, final String message) {
                             if(chatListener != null && ((ChatActivity)chatListener).getIntent().getStringExtra("friend").equals(friend.getName()))
                             {
                                 chatListener.onMessage(friend, message);
@@ -85,8 +89,9 @@ public class ChatService extends Service{
                                         .setStyle(getStyle())
                                         .setContentIntent(contentIntent)
                                         .build();
+                                notification.flags |= Notification.FLAG_AUTO_CANCEL;
                                 NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                                mNotificationManager.notify(69, notification);
+                                mNotificationManager.notify(79, notification);
 
                                 SharedPreferences sharedPreferences = getSharedPreferences("messageHistory", Context.MODE_PRIVATE);
                                 String messages = sharedPreferences.getString(friend.getName() + "History", "");
@@ -97,6 +102,12 @@ public class ChatService extends Service{
                                 }
                                 editor.putString(friend.getName() + "History", messages  + new Message(friend.getName(), message, MessageAdapter.DIRECTION_INCOMING));
                                 editor.apply();
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        showToast(friend.getName() + ": " + message);
+                                    }
+                                });
                             }
                         }
                     });
@@ -115,6 +126,12 @@ public class ChatService extends Service{
         }
         style.setSummaryText(missedMessages.size() + " more");
         return style;
+    }
+    public void showToast(String text)
+    {
+        Toast toast = Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
     }
     @Override
     public void onDestroy() {
