@@ -30,6 +30,9 @@ import java.util.List;
 
 import jriot.main.JRiot;
 import jriot.main.JRiotException;
+import jriot.objects.League;
+import jriot.objects.LeagueEntry;
+import jriot.objects.PlayerStatsSummary;
 import jriot.objects.Summoner;
 
 public class ChatService extends Service{
@@ -78,6 +81,28 @@ public class ChatService extends Service{
                         Summoner connected = riot.getSummoner(lolChat.getConnectedUsername());
                         lolStatus.setLevel((int)connected.getSummonerLevel());
                         lolStatus.setProfileIconId(connected.getProfileIconId());
+                        for(PlayerStatsSummary p: riot.getPlayerStatsSummaryList(connected.getId(), 4).getPlayerStatSummaries())
+                        {
+                            if(p.getPlayerStatSummaryType().equals("RankedSolo5x5"))
+                            {
+                                lolStatus.setRankedWins(p.getWins());
+                            }
+                        }
+                        for(League l: riot.getLeagues(connected.getId()))
+                        {
+                            if(l.getQueue().equals(LolStatus.Queue.RANKED_SOLO_5x5.name()))
+                            {
+                                lolStatus.setRankedLeagueTier(LolStatus.Tier.valueOf(l.getTier()));
+                                for(LeagueEntry e: l.getEntries())
+                                {
+                                    if(e.getPlayerOrTeamId().equals(l.getParticipantId()))
+                                    {
+                                        lolStatus.setRankedLeagueDivision(LolStatus.Division.valueOf(e.getDivision()));
+                                    }
+                                }
+                                lolStatus.setRankedLeagueName(l.getName());
+                            }
+                        }
                     }catch(JRiotException e)
                     {
                         e.printStackTrace();
