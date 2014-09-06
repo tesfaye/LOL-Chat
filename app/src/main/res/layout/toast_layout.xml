@@ -1,0 +1,33 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/toast_layout_root"
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:padding="8dp"
+    android:background="@drawable/rectangle"
+    >
+    <ImageView
+        android:id="@+id/icon"
+        android:src="@drawable/lclogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="8dp"
+        />
+    <TextView
+        android:id="@+id/friend"
+        android:text="Friend"
+        android:layout_toRightOf="@id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FFF"
+        />
+    <TextView
+        android:id="@+id/message"
+        android:text="Hi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FFF"
+        android:layout_below="@+id/friend"
+        android:layout_alignLeft="@+id/friend"
+        android:layout_alignStart="@+id/friend" />
+</RelativeLayout>

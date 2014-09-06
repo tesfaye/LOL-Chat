@@ -11,6 +11,10 @@ import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
 import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.theholywaffle.lolchatapi.ChatServer;
@@ -19,6 +23,7 @@ import com.github.theholywaffle.lolchatapi.LolChat;
 import com.github.theholywaffle.lolchatapi.LolStatus;
 import com.github.theholywaffle.lolchatapi.listeners.ChatListener;
 import com.github.theholywaffle.lolchatapi.wrapper.Friend;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,11 +37,18 @@ public class ChatService extends Service{
     private final IBinder mBinder = new LocalBinder();
     private ChatListener chatListener;
     private Handler handler = new Handler();
+    private Toast toast;
     private ArrayList<Message> missedMessages = new ArrayList<Message>();
 
     @Override
     public IBinder onBind(Intent intent) {
         return mBinder;
+    }
+
+    @Override
+    public void onCreate()
+    {
+        toast = new Toast(getApplicationContext());
     }
     public void setChatListener(ChatListener chatListener)
     {
@@ -105,7 +117,7 @@ public class ChatService extends Service{
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
-                                        showToast(friend.getName() + ": " + message);
+                                        showFriendToast(friend.getName(), message, friend.getStatus().getProfileIconId());
                                     }
                                 });
                             }
@@ -127,10 +139,19 @@ public class ChatService extends Service{
         style.setSummaryText(missedMessages.size() + " more");
         return style;
     }
-    public void showToast(String text)
+    public void showFriendToast(String friend, String message, int iconId)
     {
-        Toast toast = Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT);
+        toast.setDuration(Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER, 0, 0);
+        LayoutInflater layoutInflater = (LayoutInflater) getApplicationContext().getSystemService(Service.LAYOUT_INFLATER_SERVICE);
+        View view = layoutInflater.inflate(R.layout.toast_layout, null, false);
+        toast.setView(view);
+        TextView friendView = (TextView)view.findViewById(R.id.friend);
+        TextView messageView = (TextView)view.findViewById(R.id.message);
+        ImageView imageView = (ImageView)view.findViewById(R.id.icon);
+        friendView.setText(friend);
+        messageView.setText(message);
+        Picasso.with(getApplicationContext()).load("http://ddragon.leagueoflegends.com/cdn/4.14.2/img/profileicon/" + iconId + ".png").into(imageView);
         toast.show();
     }
     @Override
