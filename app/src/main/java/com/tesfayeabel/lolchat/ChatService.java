@@ -78,7 +78,7 @@ public class ChatService extends Service{
                     LolStatus lolStatus = new LolStatus();
                     try {
                         JRiot riot = lolChat.getRiotApi();
-                        Summoner connected = riot.getSummoner(lolChat.getConnectedUsername());
+                        Summoner connected = riot.getSummoner(lolChat.getConnectedUsername().replace(" ",""));
                         lolStatus.setLevel((int)connected.getSummonerLevel());
                         lolStatus.setProfileIconId(connected.getProfileIconId());
                         for(PlayerStatsSummary p: riot.getPlayerStatsSummaryList(connected.getId(), 4).getPlayerStatSummaries())
