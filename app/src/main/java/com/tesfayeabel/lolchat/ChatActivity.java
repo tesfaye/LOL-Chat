@@ -128,7 +128,8 @@ public class ChatActivity extends Activity implements ServiceConnection, ChatLis
             public void run() {
                 MessageAdapter adapter = (MessageAdapter)conversation.getAdapter();
                 for(String m: message.split("\n")) {
-                    adapter.addMessage(new Message(friend.getName(), m, MessageAdapter.DIRECTION_INCOMING));
+                    if(!m.isEmpty())
+                        adapter.addMessage(new Message(friend.getName(), m, MessageAdapter.DIRECTION_INCOMING));
                 }
                 conversation.setSelection(adapter.getCount() - 1);
             }
@@ -148,7 +149,6 @@ public class ChatActivity extends Activity implements ServiceConnection, ChatLis
         if(messages.size() > 0) {
             StringBuilder history = new StringBuilder();
             for (int i = 0; i < messages.size(); i++) {
-                System.out.println(messages.get(i));
                 history.append(messages.get(i));
                 if (i < messages.size() - 1)
                     history.append("\n");
