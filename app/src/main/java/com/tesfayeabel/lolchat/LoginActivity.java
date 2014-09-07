@@ -9,7 +9,9 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -35,6 +37,8 @@ public class LoginActivity extends Activity implements ServiceConnection, LoginC
         username = sharedPreferences.getString("username", null);
         password = sharedPreferences.getString("password", null);
         pbLayout = (LinearLayout)findViewById(R.id.pbLayout);
+        final EditText usernameEdit = ((EditText) findViewById(R.id.usernameBox));
+        final EditText passwordEdit = (EditText) findViewById(R.id.passwordBox);
         Button connect = (Button) findViewById(R.id.connectButton);
         TextView passwordForgot = (TextView) findViewById(R.id.forgot_Button);
         passwordForgot.setOnClickListener(new View.OnClickListener() {
@@ -56,11 +60,25 @@ public class LoginActivity extends Activity implements ServiceConnection, LoginC
         connect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                username = ((EditText) findViewById(R.id.usernameBox)).getText().toString();
-                password = ((EditText) findViewById(R.id.passwordBox)).getText().toString();
+                username = usernameEdit.getText().toString();
+                password = passwordEdit.getText().toString();
                 savePassword = ((CheckBox) findViewById(R.id.rememberbox)).isChecked();
                 server = ((Spinner) findViewById(R.id.serverlist)).getSelectedItem().toString();
                 bind();
+            }
+        });
+        passwordEdit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    username = usernameEdit.getText().toString();
+                    password = passwordEdit.getText().toString();
+                    savePassword = ((CheckBox) findViewById(R.id.rememberbox)).isChecked();
+                    server = ((Spinner) findViewById(R.id.serverlist)).getSelectedItem().toString();
+                    bind();
+                    return true;
+                }
+                return false;
             }
         });
         if(username != null && password != null)

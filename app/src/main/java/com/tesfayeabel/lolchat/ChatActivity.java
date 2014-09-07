@@ -8,13 +8,16 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.github.theholywaffle.lolchatapi.LolChat;
 import com.github.theholywaffle.lolchatapi.listeners.ChatListener;
@@ -35,6 +38,25 @@ public class ChatActivity extends Activity implements ServiceConnection, ChatLis
         setContentView(R.layout.activity_lolchat_chat);
         final EditText messageBox = (EditText) findViewById(R.id.messageBox);
         Button send = (Button) findViewById(R.id.messageSend);
+        messageBox.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if(i == EditorInfo.IME_ACTION_SEND)
+                {
+                    String message = messageBox.getText().toString();
+                    if(friend != null && !message.isEmpty())
+                    {
+                        friend.sendMessage(message);
+                        MessageAdapter adapter = (MessageAdapter)conversation.getAdapter();
+                        adapter.addMessage(new Message("Me", message, MessageAdapter.DIRECTION_OUTGOING));
+                        conversation.setSelection(adapter.getCount() - 1);
+                        messageBox.setText("");
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
         conversation = (ListView) findViewById(R.id.listView);
         friendName = getIntent().getStringExtra("friend");
         setTitle(friendName);
@@ -42,7 +64,7 @@ public class ChatActivity extends Activity implements ServiceConnection, ChatLis
             @Override
             public void onClick(View view) {
                 String message = messageBox.getText().toString();
-                if(friend != null && !message.isEmpty() && !message.equals("\n"))
+                if(friend != null && !message.isEmpty())
                 {
                     friend.sendMessage(message);
                     MessageAdapter adapter = (MessageAdapter)conversation.getAdapter();
@@ -105,7 +127,9 @@ public class ChatActivity extends Activity implements ServiceConnection, ChatLis
             @Override
             public void run() {
                 MessageAdapter adapter = (MessageAdapter)conversation.getAdapter();
-                adapter.addMessage(new Message(friend.getName(), message, MessageAdapter.DIRECTION_INCOMING));
+                for(String m: message.split("\n")) {
+                    adapter.addMessage(new Message(friend.getName(), m, MessageAdapter.DIRECTION_INCOMING));
+                }
                 conversation.setSelection(adapter.getCount() - 1);
             }
         });
@@ -124,6 +148,7 @@ public class ChatActivity extends Activity implements ServiceConnection, ChatLis
         if(messages.size() > 0) {
             StringBuilder history = new StringBuilder();
             for (int i = 0; i < messages.size(); i++) {
+                System.out.println(messages.get(i));
                 history.append(messages.get(i));
                 if (i < messages.size() - 1)
                     history.append("\n");

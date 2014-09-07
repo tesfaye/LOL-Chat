@@ -189,6 +189,7 @@ public class ChatService extends Service{
                     lolChat.disconnect();
                 }
             }).start();
+            lolChat = null;
         }
     }
     public class LocalBinder extends Binder {

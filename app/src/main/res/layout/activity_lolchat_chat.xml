@@ -23,6 +23,8 @@
             android:id="@+id/messageBox"
             android:layout_height="wrap_content"
             android:layout_width="0dp"
+            android:imeOptions="actionSend"
+            android:singleLine="true"
             android:hint="Send Message..."/>
         <Button
             android:id="@+id/messageSend"

@@ -45,6 +45,8 @@
                 android:layout_height="50dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="10dp"
+                android:imeOptions="actionNext"
+                android:singleLine="true"
                 android:textColor="#ffffffff" />
 
             <EditText
@@ -55,6 +57,8 @@
                 android:layout_height="50dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="10dp"
+                android:imeOptions="actionDone"
+                android:singleLine="true"
                 android:textColor="#ffffffff" />
 
             <Spinner
