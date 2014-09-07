@@ -189,11 +189,11 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
         String text = "";
         if(groupPosition == 0)
         {
-            text = "Online";
+            text = "Online (" + onlineFriends.size() + ")";
         }
         if(groupPosition == 1)
         {
-            text = "Offline";
+            text = "Offline (" + offlineFriends.size() + ")";
         }
         textView.setText(text);
         return convertView;
