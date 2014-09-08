@@ -20,20 +20,12 @@ import android.widget.Toast;
 import com.github.theholywaffle.lolchatapi.ChatServer;
 import com.github.theholywaffle.lolchatapi.FriendRequestPolicy;
 import com.github.theholywaffle.lolchatapi.LolChat;
-import com.github.theholywaffle.lolchatapi.LolStatus;
 import com.github.theholywaffle.lolchatapi.listeners.ChatListener;
 import com.github.theholywaffle.lolchatapi.wrapper.Friend;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import jriot.main.JRiot;
-import jriot.main.JRiotException;
-import jriot.objects.League;
-import jriot.objects.LeagueEntry;
-import jriot.objects.PlayerStatsSummary;
-import jriot.objects.Summoner;
 
 public class ChatService extends Service{
     private LolChat lolChat;
