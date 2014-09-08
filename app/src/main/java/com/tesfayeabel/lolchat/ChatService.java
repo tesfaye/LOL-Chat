@@ -59,7 +59,6 @@ public class ChatService extends Service{
     }
     public void connectLOLChat(final String username, final String password, final String server, final LoginCallBack callBack)
     {
-        final Notification.Builder notification = new Notification.Builder(this);
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -67,48 +66,23 @@ public class ChatService extends Service{
                 if(lolChat.login(username, password))
                 {
                     Intent mainIntent = new Intent(getApplicationContext(), LOLChatMain.class);
-                    notification
+                    startForeground(69, new Notification.Builder(getApplicationContext())
                             .setSmallIcon(R.drawable.ic_launcher)
                             .setContentText(getString(R.string.app_name) + " is running")
                             .setContentTitle(lolChat.getConnectedUsername())
                             .setTicker(getString(R.string.app_name) + " is now running")
                             .setContentIntent(PendingIntent.getActivity(getApplicationContext(), 0, mainIntent, PendingIntent.FLAG_UPDATE_CURRENT))
-                            .setDefaults(Notification.DEFAULT_VIBRATE);
-                    startForeground(69, notification.build());
-                    LolStatus lolStatus = new LolStatus();
-                    try {
-                        JRiot riot = lolChat.getRiotApi();
-                        Summoner connected = riot.getSummoner(lolChat.getConnectedUsername().replace(" ",""));
-                        lolStatus.setLevel((int)connected.getSummonerLevel());
-                        lolStatus.setProfileIconId(connected.getProfileIconId());
-                        for(PlayerStatsSummary p: riot.getPlayerStatsSummaryList(connected.getId(), 4).getPlayerStatSummaries())
-                        {
-                            if(p.getPlayerStatSummaryType().equals("RankedSolo5x5"))
-                            {
-                                lolStatus.setRankedWins(p.getWins());
-                            }
-                        }
-                        for(League l: riot.getLeagues(connected.getId()))
-                        {
-                            if(l.getQueue().equals(LolStatus.Queue.RANKED_SOLO_5x5.name()))
-                            {
-                                lolStatus.setRankedLeagueTier(LolStatus.Tier.valueOf(l.getTier()));
-                                for(LeagueEntry e: l.getEntries())
-                                {
-                                    if(e.getPlayerOrTeamId().equals(l.getParticipantId()))
-                                    {
-                                        lolStatus.setRankedLeagueDivision(LolStatus.Division.valueOf(e.getDivision()));
-                                    }
-                                }
-                                lolStatus.setRankedLeagueName(l.getName());
-                            }
-                        }
-                    }catch(JRiotException e)
-                    {
-                        e.printStackTrace();
-                    }
-                    lolStatus.setStatusMessage("USING BETA ABEL CHAT APP");
-                    lolChat.setStatus(lolStatus);
+                            .setDefaults(Notification.DEFAULT_VIBRATE)
+                            .build());
+                    Player connected = new Player(lolChat.getConnectedUsername().replace(" ",""), lolChat.getRiotApi());
+                    lolChat.setStatus(new LolStatus()
+                            .setLevel(connected.getSummonerLevel())
+                            .setProfileIconId(connected.getProfileIcon())
+                            .setRankedWins(connected.getRankedWins())
+                            .setRankedLeagueTier(LolStatus.Tier.valueOf(connected.getRankedLeagueTier()))
+                            .setRankedLeagueDivision(LolStatus.Division.valueOf(connected.getRankedDivision()))
+                            .setRankedLeagueName(connected.getRankedLeagueName())
+                            .setStatusMessage("USING BETA ABEL CHAT APP"));
                     lolChat.addChatListener(new ChatListener() {
                         @Override
                         public void onMessage(final Friend friend, final String message) {
@@ -160,7 +134,7 @@ public class ChatService extends Service{
             }
         }).start();
     }
-    public Notification.InboxStyle getStyle()
+    private Notification.InboxStyle getStyle()
     {
         Notification.InboxStyle style =  new Notification.InboxStyle();
         List<Message> list = missedMessages.subList(Math.max(missedMessages.size() - 3, 0), missedMessages.size());//get list of last three messages
