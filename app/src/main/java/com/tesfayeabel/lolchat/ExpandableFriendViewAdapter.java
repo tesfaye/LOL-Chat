@@ -128,17 +128,18 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
                 }
             });
             LolStatus.GameStatus gameStatus = friend.getStatus().getGameStatus();
-            String status;
-            String test = "";
-            if(friend.getStatus().getTimestamp() != null) {
-                Date d = new Date();
-                test = "for " + TimeUnit.MILLISECONDS.toMinutes(new Date(d.getTime()-friend.getStatus().getTimestamp().getTime()).getTime()) + " minutes";
-            }
-            if (gameStatus == null)
-                status = friend.getStatus().getStatusMessage() + "\n" + "Online";
+            StringBuilder status = new StringBuilder();
+            status.append(friend.getStatus().getStatusMessage() + "\n");
+            if(gameStatus == null)
+                status.append("Online");
             else
-                status = friend.getStatus().getStatusMessage() + "\n" + gameStatus.internal() + " " + test;
-            holder.artist.setText(status);
+                status.append(gameStatus.internal());
+            if(friend.getStatus().getTimestamp() != null && friend.getStatus().getSkin() != null && gameStatus == LolStatus.GameStatus.IN_GAME) {
+                Date d = new Date();
+                status.append(" as " + friend.getStatus().getSkin());
+                status.append(" for " + TimeUnit.MILLISECONDS.toMinutes(new Date(d.getTime()-friend.getStatus().getTimestamp().getTime()).getTime()) + " minutes");
+            }
+            holder.artist.setText(status.toString());
             int iconId = friend.getStatus().getProfileIconId();
             if (iconId == -1)
                 iconId = 1;
