@@ -107,6 +107,8 @@ public class ChatActivity extends Activity implements ServiceConnection, ChatLis
     public void onServiceConnected(final ComponentName name, final IBinder service) {
         chatService = ((ChatService.LocalBinder) service).getService();
         LolChat lolChat = chatService.getLolChat();
+        MessageAdapter adapter = (MessageAdapter)conversation.getAdapter();
+        adapter.setLolChat(lolChat);
         friend = lolChat.getFriendByName(friendName);
         chatService.setChatListener(this);
     }

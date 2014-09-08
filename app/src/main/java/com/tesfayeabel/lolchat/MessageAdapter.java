@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.github.theholywaffle.lolchatapi.LolChat;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ public class MessageAdapter extends BaseAdapter{
     private Context context;
     public static final int DIRECTION_INCOMING = 0;
     public static final int DIRECTION_OUTGOING = 1;
+    private LolChat lolChat;
 
     public MessageAdapter(Context con) {
         this(con, new ArrayList<Message>());
@@ -27,6 +29,10 @@ public class MessageAdapter extends BaseAdapter{
         messages = list;
     }
 
+    public void setLolChat(LolChat lolChat)
+    {
+        this.lolChat = lolChat;
+    }
     //Gets called every time you update the view with an
     //incoming or outgoing message
     public void addMessage(Message message) {
@@ -79,9 +85,10 @@ public class MessageAdapter extends BaseAdapter{
         }
         TextView view = (TextView)convertView.findViewById(R.id.text1);
         ImageView imageView = (ImageView) convertView.findViewById(R.id.imageView);
-        if(imageView != null)
-            Picasso.with(context.getApplicationContext()).load("http://ddragon.leagueoflegends.com/cdn/4.14.2/img/profileicon/" + 1 + ".png").into(imageView);
-        view.setText(getItem(i).getSender() + ": " + getItem(i).getMessage());
+        Message message = getItem(i);
+        if(lolChat != null && imageView != null)
+            Picasso.with(context.getApplicationContext()).load("http://ddragon.leagueoflegends.com/cdn/4.14.2/img/profileicon/" + lolChat.getFriendByName(message.getSender()).getStatus().getProfileIconId() + ".png").into(imageView);
+        view.setText(message.getSender() + ": " + message.getMessage());
         return convertView;
     }
 }
