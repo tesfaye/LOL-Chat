@@ -5,7 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,6 +78,9 @@ public class MessageAdapter extends BaseAdapter{
             }
         }
         TextView view = (TextView)convertView.findViewById(R.id.text1);
+        ImageView imageView = (ImageView) convertView.findViewById(R.id.imageView);
+        if(imageView != null)
+            Picasso.with(context.getApplicationContext()).load("http://ddragon.leagueoflegends.com/cdn/4.14.2/img/profileicon/" + 1 + ".png").into(imageView);
         view.setText(getItem(i).getSender() + ": " + getItem(i).getMessage());
         return convertView;
     }
