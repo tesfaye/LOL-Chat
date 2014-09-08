@@ -77,13 +77,7 @@ public class ChatService extends Service{
                             .setDefaults(Notification.DEFAULT_VIBRATE)
                             .build());
                     Player connected = new Player(lolChat.getConnectedUsername().replace(" ",""), lolChat.getRiotApi());
-                    lolChat.setStatus(new LolStatus()
-                            .setLevel(connected.getSummonerLevel())
-                            .setProfileIconId(connected.getProfileIcon())
-                            .setRankedWins(connected.getRankedWins())
-                            .setRankedLeagueTier(LolStatus.Tier.valueOf(connected.getRankedLeagueTier()))
-                            .setRankedLeagueDivision(LolStatus.Division.valueOf(connected.getRankedDivision()))
-                            .setRankedLeagueName(connected.getRankedLeagueName())
+                    lolChat.setStatus(connected.getStatus()
                             .setStatusMessage("USING BETA ABEL CHAT APP"));
                     lolChat.addChatListener(new ChatListener() {
                         @Override

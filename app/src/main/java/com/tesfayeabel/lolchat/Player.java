@@ -10,38 +10,42 @@ import jriot.objects.PlayerStatsSummary;
 import jriot.objects.Summoner;
 
 public class Player {
-    private int rankedWins;
-    private String rankedLeagueTier;
-    private String rankedDivision;
-    private String rankedLeagueName;
-    private int summonerLevel;
-    private int profileIcon;
+    private LolStatus lolStatus;
     public Player(String summonerName, JRiot jRiot)
     {
+        lolStatus = new LolStatus();
         try{
             Summoner summoner = jRiot.getSummoner(summonerName);
-            summonerLevel = (int)summoner.getSummonerLevel();
-            profileIcon = summoner.getProfileIconId();
+            lolStatus.setLevel((int)summoner.getSummonerLevel());
+            lolStatus.setProfileIconId(summoner.getProfileIconId());
+            int normalWins = 0;
             for(PlayerStatsSummary p: jRiot.getPlayerStatsSummaryList(summoner.getId(), 4).getPlayerStatSummaries())
             {
                 if(p.getPlayerStatSummaryType().equals("RankedSolo5x5"))
                 {
-                    rankedWins = p.getWins();
+                    lolStatus.setRankedWins(p.getWins());
+                }
+                if(p.getPlayerStatSummaryType().equals("Unranked"))
+                {
+                    normalWins += p.getWins();
+                }
+                if(p.getPlayerStatSummaryType().equals("Unranked3x3"))
+                {
+                    normalWins += p.getWins();
                 }
             }
-            for(League league: jRiot.getLeagues(summoner.getId()))
-            {
-                if(league.getQueue().equals(LolStatus.Queue.RANKED_SOLO_5x5.name()))
-                {
-                    rankedLeagueTier = league.getTier();
-                    for(LeagueEntry e: league.getEntries())
-                    {
-                        if(e.getPlayerOrTeamId().equals(league.getParticipantId()))
-                        {
-                            rankedDivision = e.getDivision();
+            lolStatus.setNormalWins(normalWins);
+            if(lolStatus.getRankedWins() != -1) {
+                for (League league : jRiot.getLeagues(summoner.getId())) {
+                    if (league.getQueue().equals(LolStatus.Queue.RANKED_SOLO_5x5.name())) {
+                        lolStatus.setRankedLeagueTier(LolStatus.Tier.valueOf(league.getTier()));
+                        for (LeagueEntry e : league.getEntries()) {
+                            if (e.getPlayerOrTeamId().equals(league.getParticipantId())) {
+                                lolStatus.setRankedLeagueDivision(LolStatus.Division.valueOf(e.getDivision()));
+                            }
                         }
+                        lolStatus.setRankedLeagueName(league.getName());
                     }
-                    rankedLeagueName = league.getName();
                 }
             }
         } catch(JRiotException exception)
@@ -50,27 +54,8 @@ public class Player {
         }
     }
 
-    public int getRankedWins() {
-        return rankedWins;
-    }
-
-    public String getRankedLeagueTier() {
-        return rankedLeagueTier;
-    }
-
-    public String getRankedDivision() {
-        return rankedDivision;
-    }
-
-    public String getRankedLeagueName() {
-        return rankedLeagueName;
-    }
-
-    public int getSummonerLevel() {
-        return summonerLevel;
-    }
-
-    public int getProfileIcon() {
-        return profileIcon;
+    public LolStatus getStatus()
+    {
+        return lolStatus;
     }
 }
