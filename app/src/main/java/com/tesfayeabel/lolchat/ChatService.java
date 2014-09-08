@@ -41,6 +41,7 @@ public class ChatService extends Service{
     private ChatListener chatListener;
     private Handler handler = new Handler();
     private Toast toast;
+    private NotificationManager notificationManager;
     private ArrayList<Message> missedMessages = new ArrayList<Message>();
 
     @Override
@@ -52,6 +53,7 @@ public class ChatService extends Service{
     public void onCreate()
     {
         toast = new Toast(getApplicationContext());
+        notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
     }
     public void setChatListener(ChatListener chatListener)
     {
@@ -101,8 +103,7 @@ public class ChatService extends Service{
                                         .setContentIntent(contentIntent)
                                         .build();
                                 notification.flags |= Notification.FLAG_AUTO_CANCEL;
-                                NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                                mNotificationManager.notify(79, notification);
+                                notificationManager.notify(79, notification);
 
                                 SharedPreferences sharedPreferences = getSharedPreferences("messageHistory", Context.MODE_PRIVATE);
                                 String messageHistory = sharedPreferences.getString(friend.getName() + "History", "");
@@ -172,6 +173,8 @@ public class ChatService extends Service{
                 }
             }).start();
         }
+        notificationManager.cancel(79);
+        notificationManager = null;
     }
     public class LocalBinder extends Binder {
         ChatService getService() {
