@@ -109,6 +109,7 @@ public class ChatActivity extends Activity implements ServiceConnection, ChatLis
         LolChat lolChat = chatService.getLolChat();
         MessageAdapter adapter = (MessageAdapter)conversation.getAdapter();
         adapter.setLolChat(lolChat);
+        adapter.notifyDataSetChanged();//force update of view
         friend = lolChat.getFriendByName(friendName);
         chatService.setChatListener(this);
     }
