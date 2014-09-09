@@ -14,25 +14,26 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MessageAdapter extends BaseAdapter{
-    private List<Message> messages;
-    private Context context;
+public class MessageAdapter extends BaseAdapter {
     public static final int DIRECTION_INCOMING = 0;
     public static final int DIRECTION_OUTGOING = 1;
+    private List<Message> messages;
+    private Context context;
     private LolChat lolChat;
 
     public MessageAdapter(Context con) {
         this(con, new ArrayList<Message>());
     }
+
     public MessageAdapter(Context con, List<Message> list) {
         context = con;
         messages = list;
     }
 
-    public void setLolChat(LolChat lolChat)
-    {
+    public void setLolChat(LolChat lolChat) {
         this.lolChat = lolChat;
     }
+
     //Gets called every time you update the view with an
     //incoming or outgoing message
     public void addMessage(Message message) {
@@ -68,14 +69,15 @@ public class MessageAdapter extends BaseAdapter{
     public int getItemViewType(int i) {
         return messages.get(i).getDirection();
     }
-    public List<Message> getMessages()
-    {
+
+    public List<Message> getMessages() {
         return messages;
     }
+
     @Override
     public View getView(int i, View convertView, ViewGroup viewGroup) {
         int direction = getItemViewType(i);
-        LayoutInflater mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (convertView == null) {
             if (direction == DIRECTION_INCOMING) {
                 convertView = mInflater.inflate(R.layout.message_left, viewGroup, false);
@@ -83,10 +85,10 @@ public class MessageAdapter extends BaseAdapter{
                 convertView = mInflater.inflate(R.layout.message_right, viewGroup, false);
             }
         }
-        TextView view = (TextView)convertView.findViewById(R.id.text1);
+        TextView view = (TextView) convertView.findViewById(R.id.text1);
         ImageView imageView = (ImageView) convertView.findViewById(R.id.imageView);
         Message message = getItem(i);
-        if(lolChat != null && imageView != null)
+        if (lolChat != null && imageView != null)
             Picasso.with(context.getApplicationContext()).load("http://ddragon.leagueoflegends.com/cdn/4.14.2/img/profileicon/" + lolChat.getFriendByName(message.getSender()).getStatus().getProfileIconId() + ".png").into(imageView);
         view.setText(message.getSender() + ": " + message.getMessage());
         return convertView;

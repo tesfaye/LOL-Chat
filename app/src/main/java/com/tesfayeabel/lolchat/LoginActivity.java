@@ -24,19 +24,18 @@ import com.github.theholywaffle.lolchatapi.ChatServer;
 
 import java.util.ArrayList;
 
-public class LoginActivity extends Activity implements ServiceConnection, LoginCallBack
-{
+public class LoginActivity extends Activity implements ServiceConnection, LoginCallBack {
     private String username, password, server;
     private boolean savePassword;
     private LinearLayout pbLayout;
-    public void onCreate(Bundle savedInstanceState)
-    {
+
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lolchat_login);
         SharedPreferences sharedPreferences = getSharedPreferences("loginData", Context.MODE_PRIVATE);
         username = sharedPreferences.getString("username", null);
         password = sharedPreferences.getString("password", null);
-        pbLayout = (LinearLayout)findViewById(R.id.pbLayout);
+        pbLayout = (LinearLayout) findViewById(R.id.pbLayout);
         final EditText usernameEdit = ((EditText) findViewById(R.id.usernameBox));
         final EditText passwordEdit = (EditText) findViewById(R.id.passwordBox);
         Button connect = (Button) findViewById(R.id.connectButton);
@@ -50,8 +49,7 @@ public class LoginActivity extends Activity implements ServiceConnection, LoginC
         });
         Spinner serverList = (Spinner) findViewById(R.id.serverlist);
         ArrayList<String> serverArrayList = new ArrayList<String>();
-        for(ChatServer server: ChatServer.getChatServersWithAPI())
-        {
+        for (ChatServer server : ChatServer.getChatServersWithAPI()) {
             serverArrayList.add(server.name);
         }
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, R.layout.spinner_item, serverArrayList);
@@ -81,17 +79,17 @@ public class LoginActivity extends Activity implements ServiceConnection, LoginC
                 return false;
             }
         });
-        if(username != null && password != null)
-        {
+        if (username != null && password != null) {
             savePassword = true;//remember to save password again
             bind();
         }
     }
-    public void bind()
-    {
+
+    public void bind() {
         pbLayout.setVisibility(View.VISIBLE);
         bindService(new Intent(this, ChatService.class), this, Context.BIND_AUTO_CREATE);
     }
+
     @Override
     public void onServiceConnected(final ComponentName name, final IBinder service) {
         ChatService chatService = ((ChatService.LocalBinder) service).getService();
@@ -99,27 +97,24 @@ public class LoginActivity extends Activity implements ServiceConnection, LoginC
     }
 
     @Override
-    public void onServiceDisconnected(final ComponentName name)
-    {
+    public void onServiceDisconnected(final ComponentName name) {
 
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         try {
             unbindService(this);
-        }catch(Exception e)
-        {
+        } catch (Exception e) {
             //exception thrown if unbind is called when no service is bound
         }
     }
-    public void onLogin(boolean successful)
-    {
-        if(successful)
-        {
+
+    public void onLogin(boolean successful) {
+        if (successful) {
             SharedPreferences.Editor editor = getSharedPreferences("loginData", Context.MODE_PRIVATE).edit();//TODO: ENCRYPTION
-            if(savePassword)
-            {
+            if (savePassword) {
                 editor.putString("username", username);
                 editor.putString("password", password);
             }
@@ -127,8 +122,7 @@ public class LoginActivity extends Activity implements ServiceConnection, LoginC
             editor.apply();
             Intent intent = new Intent(this, LOLChatMain.class);
             startActivity(intent);
-        }else
-        {
+        } else {
             unbindService(this);
         }
         runOnUiThread(new Runnable() {

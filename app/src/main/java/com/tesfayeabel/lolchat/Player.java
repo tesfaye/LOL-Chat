@@ -11,31 +11,27 @@ import jriot.objects.Summoner;
 
 public class Player {
     private LolStatus lolStatus;
-    public Player(String summonerName, JRiot jRiot)
-    {
+
+    public Player(String summonerName, JRiot jRiot) {
         lolStatus = new LolStatus();
-        try{
+        try {
             Summoner summoner = jRiot.getSummoner(summonerName);
-            lolStatus.setLevel((int)summoner.getSummonerLevel());
+            lolStatus.setLevel((int) summoner.getSummonerLevel());
             lolStatus.setProfileIconId(summoner.getProfileIconId());
             int normalWins = 0;
-            for(PlayerStatsSummary p: jRiot.getPlayerStatsSummaryList(summoner.getId(), 4).getPlayerStatSummaries())
-            {
-                if(p.getPlayerStatSummaryType().equals("RankedSolo5x5"))
-                {
+            for (PlayerStatsSummary p : jRiot.getPlayerStatsSummaryList(summoner.getId(), 4).getPlayerStatSummaries()) {
+                if (p.getPlayerStatSummaryType().equals("RankedSolo5x5")) {
                     lolStatus.setRankedWins(p.getWins());
                 }
-                if(p.getPlayerStatSummaryType().equals("Unranked"))
-                {
+                if (p.getPlayerStatSummaryType().equals("Unranked")) {
                     normalWins += p.getWins();
                 }
-                if(p.getPlayerStatSummaryType().equals("Unranked3x3"))
-                {
+                if (p.getPlayerStatSummaryType().equals("Unranked3x3")) {
                     normalWins += p.getWins();
                 }
             }
             lolStatus.setNormalWins(normalWins);
-            if(lolStatus.getRankedWins() != -1) {
+            if (lolStatus.getRankedWins() != -1) {
                 for (League league : jRiot.getLeagues(summoner.getId())) {
                     if (league.getQueue().equals(LolStatus.Queue.RANKED_SOLO_5x5.name())) {
                         lolStatus.setRankedLeagueTier(LolStatus.Tier.valueOf(league.getTier()));
@@ -48,14 +44,12 @@ public class Player {
                     }
                 }
             }
-        } catch(JRiotException exception)
-        {
+        } catch (JRiotException exception) {
             exception.printStackTrace();
         }
     }
 
-    public LolStatus getStatus()
-    {
+    public LolStatus getStatus() {
         return lolStatus;
     }
 }

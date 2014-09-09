@@ -15,30 +15,29 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class MainFragment extends LOLChatFragment
-{
+public class MainFragment extends LOLChatFragment {
     private ExpandableListView listView;
     private List<Friend> updateList;
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState)
-    {
+
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_lolchat_main, container, false);
-        listView  = (ExpandableListView) view.findViewById(R.id.listView);
+        listView = (ExpandableListView) view.findViewById(R.id.listView);
         updateList = new ArrayList<Friend>();
-        if(savedInstanceState != null) {
+        if (savedInstanceState != null) {
             listView.onRestoreInstanceState(savedInstanceState.getParcelable("listView"));
         }
         return view;
     }
+
     @Override
-    public void onResume()
-    {
+    public void onResume() {
         super.onResume();
-        final ExpandableFriendViewAdapter adapter = (ExpandableFriendViewAdapter)listView.getExpandableListAdapter();
-        for(Friend f: updateList)
-        {
+        final ExpandableFriendViewAdapter adapter = (ExpandableFriendViewAdapter) listView.getExpandableListAdapter();
+        for (Friend f : updateList) {
             adapter.setFriendOnline(f, f.isOnline());
         }
     }
+
     public void onChatConnected(final LolChat chat) {
         List<Friend> online = chat.getOnlineFriends();
         List<Friend> offline = chat.getOfflineFriends();
@@ -69,48 +68,45 @@ public class MainFragment extends LOLChatFragment
 
             @Override
             public void onFriendJoin(final Friend friend) {
-                final ExpandableFriendViewAdapter adapter = (ExpandableFriendViewAdapter)listView.getExpandableListAdapter();
-                if(getActivity() != null) {
+                final ExpandableFriendViewAdapter adapter = (ExpandableFriendViewAdapter) listView.getExpandableListAdapter();
+                if (getActivity() != null) {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             adapter.setFriendOnline(friend, true);
                         }
                     });
-                }else
-                {
+                } else {
                     updateList.add(friend);
                 }
             }
 
             @Override
             public void onFriendLeave(final Friend friend) {
-                final ExpandableFriendViewAdapter adapter = (ExpandableFriendViewAdapter)listView.getExpandableListAdapter();
-                if(getActivity() != null) {
+                final ExpandableFriendViewAdapter adapter = (ExpandableFriendViewAdapter) listView.getExpandableListAdapter();
+                if (getActivity() != null) {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             adapter.setFriendOnline(friend, false);
                         }
                     });
-                }else
-                {
+                } else {
                     updateList.add(friend);
                 }
             }
 
             @Override
             public void onFriendStatusChange(final Friend friend) {
-                final ExpandableFriendViewAdapter adapter = (ExpandableFriendViewAdapter)listView.getExpandableListAdapter();
-                if(getActivity() != null) {
+                final ExpandableFriendViewAdapter adapter = (ExpandableFriendViewAdapter) listView.getExpandableListAdapter();
+                if (getActivity() != null) {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             adapter.updateFriendStatus(friend);
                         }
                     });
-                }else
-                {
+                } else {
                     updateList.add(friend);
                 }
             }
@@ -127,6 +123,7 @@ public class MainFragment extends LOLChatFragment
         });
         listView.expandGroup(0);
     }
+
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);

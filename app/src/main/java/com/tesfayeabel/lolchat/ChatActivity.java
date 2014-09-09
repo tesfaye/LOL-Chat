@@ -26,14 +26,13 @@ import com.github.theholywaffle.lolchatapi.wrapper.Friend;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChatActivity extends Activity implements ServiceConnection, ChatListener
-{
+public class ChatActivity extends Activity implements ServiceConnection, ChatListener {
     private String friendName;
     private Friend friend;
     private ChatService chatService;
     private ListView conversation;
-    public void onCreate(Bundle savedInstanceState)
-    {
+
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lolchat_chat);
         final EditText messageBox = (EditText) findViewById(R.id.messageBox);
@@ -41,13 +40,11 @@ public class ChatActivity extends Activity implements ServiceConnection, ChatLis
         messageBox.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                if(i == EditorInfo.IME_ACTION_SEND)
-                {
+                if (i == EditorInfo.IME_ACTION_SEND) {
                     String message = messageBox.getText().toString();
-                    if(friend != null && !message.isEmpty())
-                    {
+                    if (friend != null && !message.isEmpty()) {
                         friend.sendMessage(message);
-                        MessageAdapter adapter = (MessageAdapter)conversation.getAdapter();
+                        MessageAdapter adapter = (MessageAdapter) conversation.getAdapter();
                         adapter.addMessage(new Message("Me", message, MessageAdapter.DIRECTION_OUTGOING));
                         conversation.setSelection(adapter.getCount() - 1);
                         messageBox.setText("");
@@ -64,30 +61,28 @@ public class ChatActivity extends Activity implements ServiceConnection, ChatLis
             @Override
             public void onClick(View view) {
                 String message = messageBox.getText().toString();
-                if(friend != null && !message.isEmpty())
-                {
+                if (friend != null && !message.isEmpty()) {
                     friend.sendMessage(message);
-                    MessageAdapter adapter = (MessageAdapter)conversation.getAdapter();
+                    MessageAdapter adapter = (MessageAdapter) conversation.getAdapter();
                     adapter.addMessage(new Message("Me", message, MessageAdapter.DIRECTION_OUTGOING));
                     conversation.setSelection(adapter.getCount() - 1);
                     messageBox.setText("");
                 }
             }
         });
-        if(savedInstanceState != null)
-        {
-            conversation.setAdapter(new MessageAdapter(this, (ArrayList)savedInstanceState.getParcelableArrayList("messages")));
+        if (savedInstanceState != null) {
+            conversation.setAdapter(new MessageAdapter(this, (ArrayList) savedInstanceState.getParcelableArrayList("messages")));
             conversation.onRestoreInstanceState(savedInstanceState.getParcelable("listView"));
-        }else
-        {
+        } else {
             conversation.setAdapter(new MessageAdapter(this));
         }
         bindService(new Intent(this, ChatService.class), this, Context.BIND_AUTO_CREATE);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action buttons
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case R.id.action_clear:
                 SharedPreferences.Editor editor = getSharedPreferences("messageHistory", Context.MODE_PRIVATE).edit();
                 editor.remove(friendName + "History").apply();
@@ -97,22 +92,25 @@ public class ChatActivity extends Activity implements ServiceConnection, ChatLis
                 return super.onOptionsItemSelected(item);
         }
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.chat, menu);
         return super.onCreateOptionsMenu(menu);
     }
+
     @Override
     public void onServiceConnected(final ComponentName name, final IBinder service) {
         chatService = ((ChatService.LocalBinder) service).getService();
         LolChat lolChat = chatService.getLolChat();
-        MessageAdapter adapter = (MessageAdapter)conversation.getAdapter();
+        MessageAdapter adapter = (MessageAdapter) conversation.getAdapter();
         adapter.setLolChat(lolChat);
         adapter.notifyDataSetChanged();//force update of view
         friend = lolChat.getFriendByName(friendName);
         chatService.setChatListener(this);
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -120,36 +118,38 @@ public class ChatActivity extends Activity implements ServiceConnection, ChatLis
         chatService = null;
         unbindService(this);
     }
-    @Override
-    public void onServiceDisconnected(final ComponentName name) {}
 
     @Override
-    public void onMessage(final Friend friend, final String message)
-    {
+    public void onServiceDisconnected(final ComponentName name) {
+    }
+
+    @Override
+    public void onMessage(final Friend friend, final String message) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                MessageAdapter adapter = (MessageAdapter)conversation.getAdapter();
-                for(String m: message.split("\n")) {
-                    if(!m.isEmpty())
+                MessageAdapter adapter = (MessageAdapter) conversation.getAdapter();
+                for (String m : message.split("\n")) {
+                    if (!m.isEmpty())
                         adapter.addMessage(new Message(friend.getName(), m, MessageAdapter.DIRECTION_INCOMING));
                 }
                 conversation.setSelection(adapter.getCount() - 1);
             }
         });
     }
+
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
         savedInstanceState.putParcelable("listView", conversation.onSaveInstanceState());
-        savedInstanceState.putParcelableArrayList("messages", (ArrayList<Message>)((MessageAdapter)conversation.getAdapter()).getMessages());
+        savedInstanceState.putParcelableArrayList("messages", (ArrayList<Message>) ((MessageAdapter) conversation.getAdapter()).getMessages());
     }
-    public void onPause()
-    {
+
+    public void onPause() {
         super.onPause();
         SharedPreferences.Editor editor = getSharedPreferences("messageHistory", Context.MODE_PRIVATE).edit();
-        List<Message> messages = ((MessageAdapter)conversation.getAdapter()).getMessages();
-        if(messages.size() > 0) {
+        List<Message> messages = ((MessageAdapter) conversation.getAdapter()).getMessages();
+        if (messages.size() > 0) {
             StringBuilder history = new StringBuilder();
             for (int i = 0; i < messages.size(); i++) {
                 history.append(messages.get(i));
@@ -160,8 +160,8 @@ public class ChatActivity extends Activity implements ServiceConnection, ChatLis
             editor.apply();
         }
     }
-    public void onResume()
-    {
+
+    public void onResume() {
         super.onResume();
         SharedPreferences preferences = getSharedPreferences("messageHistory", Context.MODE_PRIVATE);
         String messages = preferences.getString(friendName + "History", null);

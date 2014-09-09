@@ -105,7 +105,7 @@ public class LOLChatMain extends Activity implements ServiceConnection {
             return true;
         }
         // Handle action buttons
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case R.id.action_leave:
                 finish();
                 stopService(new Intent(this, ChatService.class));
@@ -116,14 +116,6 @@ public class LOLChatMain extends Activity implements ServiceConnection {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
-        }
-    }
-
-    /* The click listener for ListView in the navigation drawer */
-    private class DrawerItemClickListener implements ListView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            selectItem(position);
         }
     }
 
@@ -139,9 +131,8 @@ public class LOLChatMain extends Activity implements ServiceConnection {
         mDrawerLayout.closeDrawer(mDrawerList);
     }
 
-    public LOLChatFragment getFragmentByName(String name)
-    {
-        if(name.equals("Main"))
+    public LOLChatFragment getFragmentByName(String name) {
+        if (name.equals("Main"))
             return new MainFragment();
         return null;
     }
@@ -170,17 +161,29 @@ public class LOLChatMain extends Activity implements ServiceConnection {
         // Pass any configuration change to the drawer toggls
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
+
     @Override
     public void onServiceConnected(final ComponentName name, final IBinder service) {
         ChatService chatService = ((ChatService.LocalBinder) service).getService();
         final LolChat lolChat = chatService.getLolChat();
-        ((LOLChatFragment)getFragmentManager().findFragmentById(R.id.content_frame)).onChatConnected(lolChat);
+        ((LOLChatFragment) getFragmentManager().findFragmentById(R.id.content_frame)).onChatConnected(lolChat);
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         unbindService(this);
     }
+
     @Override
-    public void onServiceDisconnected(final ComponentName name) {}
+    public void onServiceDisconnected(final ComponentName name) {
+    }
+
+    /* The click listener for ListView in the navigation drawer */
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            selectItem(position);
+        }
+    }
 }

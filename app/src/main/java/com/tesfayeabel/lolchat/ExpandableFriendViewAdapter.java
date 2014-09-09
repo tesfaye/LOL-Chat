@@ -25,64 +25,50 @@ import java.util.concurrent.TimeUnit;
  */
 public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
 
-    public class ViewHolder
-    {
-        TextView title;
-        TextView artist;
-        ImageView thumb_image;
-        View view;
-        Button button;
-    }
-
     private List<Friend> onlineFriends;
     private List<Friend> offlineFriends;
     private Context context;
-
     public ExpandableFriendViewAdapter(Context context, List<Friend> onlineFriends, List<Friend> offlineFriends) {
         this.context = context;
         this.onlineFriends = onlineFriends;
         this.offlineFriends = offlineFriends;
     }
+
     @Override
     public Friend getChild(int groupPosition, int childPosition) {
         return getGroup(groupPosition).get(childPosition);
     }
-    public void updateFriendStatus(Friend friend)
-    {
+
+    public void updateFriendStatus(Friend friend) {
         List<Friend> friends = getGroup(friend.isOnline() ? 0 : 1);
-        for(Friend f: friends)
-        {
-            if(f.getUserId().equals(friend.getUserId()))
-            {
+        for (Friend f : friends) {
+            if (f.getUserId().equals(friend.getUserId())) {
                 f.setStatus(friend.getStatus());
                 notifyDataSetChanged();
                 return;
             }
         }
     }
-    public void setFriendOnline(Friend friend, boolean online)
-    {
+
+    public void setFriendOnline(Friend friend, boolean online) {
         List<Friend> old = getGroup(online ? 1 : 0);
-        for(int i =0; i< old.size(); i++)
-        {
+        for (int i = 0; i < old.size(); i++) {
             Friend f = old.get(i);
-            if(f.getUserId().equals(friend.getUserId()))
-            {
+            if (f.getUserId().equals(friend.getUserId())) {
                 old.remove(f);
                 break;
             }
         }
         List<Friend> newList = getGroup(online ? 0 : 1);
-        for(int i =0; i< newList.size(); i++)
-        {
-            if(friend.getName().toLowerCase().compareTo(newList.get(i).getName().toLowerCase()) < 0)
-            {
+        for (int i = 0; i < newList.size(); i++) {
+            if (friend.getName().toLowerCase().compareTo(newList.get(i).getName().toLowerCase()) < 0) {
                 newList.add(i, friend);
                 break;
             }
         }
         notifyDataSetChanged();
     }
+
     @Override
     public long getChildId(int groupPosition, int childPosition) {
         return childPosition;
@@ -90,7 +76,7 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        if(groupPosition == 0)
+        if (groupPosition == 0)
             return onlineFriends.size();
         return offlineFriends.size();
     }
@@ -100,12 +86,12 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
         final ViewHolder holder;
         final Friend friend = getChild(groupPosition, childPosition);
         if (convertView == null) {
-            LayoutInflater mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = mInflater.inflate(R.layout.friend_row, parent, false);
             holder = new ViewHolder();
-            holder.title = (TextView)convertView.findViewById(R.id.title);
-            holder.artist = (TextView)convertView.findViewById(R.id.artist);
-            holder.thumb_image = (ImageView)convertView.findViewById(R.id.list_image);
+            holder.title = (TextView) convertView.findViewById(R.id.title);
+            holder.artist = (TextView) convertView.findViewById(R.id.artist);
+            holder.thumb_image = (ImageView) convertView.findViewById(R.id.list_image);
             holder.view = convertView.findViewById(R.id.statusCircle);
             holder.button = (Button) convertView.findViewById(R.id.button);
             convertView.setTag(holder);
@@ -114,7 +100,7 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
         }
         GradientDrawable shapeDrawable = (GradientDrawable) holder.view.getBackground();
         holder.title.setText(friend.getName());
-        if(groupPosition == 0) {
+        if (groupPosition == 0) {
             holder.artist.setVisibility(View.VISIBLE);
             holder.thumb_image.setVisibility(View.VISIBLE);
             holder.view.setVisibility(View.VISIBLE);
@@ -130,14 +116,14 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
             LolStatus.GameStatus gameStatus = friend.getStatus().getGameStatus();
             StringBuilder status = new StringBuilder();
             status.append(friend.getStatus().getStatusMessage() + "\n");
-            if(gameStatus == null)
+            if (gameStatus == null)
                 status.append("Online");
             else
                 status.append(gameStatus.internal());
-            if(friend.getStatus().getTimestamp() != null && friend.getStatus().getSkin() != null && gameStatus == LolStatus.GameStatus.IN_GAME) {
+            if (friend.getStatus().getTimestamp() != null && friend.getStatus().getSkin() != null && gameStatus == LolStatus.GameStatus.IN_GAME) {
                 Date d = new Date();
                 status.append(" as " + friend.getStatus().getSkin());
-                status.append(" for " + TimeUnit.MILLISECONDS.toMinutes(new Date(d.getTime()-friend.getStatus().getTimestamp().getTime()).getTime()) + " minutes");
+                status.append(" for " + TimeUnit.MILLISECONDS.toMinutes(new Date(d.getTime() - friend.getStatus().getTimestamp().getTime()).getTime()) + " minutes");
             }
             holder.artist.setText(status.toString());
             int iconId = friend.getStatus().getProfileIconId();
@@ -155,8 +141,7 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
                     break;
             }
             Picasso.with(context.getApplicationContext()).load("http://ddragon.leagueoflegends.com/cdn/4.14.2/img/profileicon/" + iconId + ".png").into(holder.thumb_image);
-        }else
-        {
+        } else {
             holder.artist.setVisibility(View.GONE);
             holder.thumb_image.setVisibility(View.GONE);
             holder.view.setVisibility(View.GONE);
@@ -167,7 +152,7 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
 
     @Override
     public List<Friend> getGroup(int groupPosition) {
-        if(groupPosition == 0)
+        if (groupPosition == 0)
             return onlineFriends;
         return offlineFriends;
     }
@@ -188,12 +173,10 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
         convertView = mInflater.inflate(android.R.layout.simple_expandable_list_item_1, null);
         TextView textView = (TextView) convertView.findViewById(android.R.id.text1);
         String text = "";
-        if(groupPosition == 0)
-        {
+        if (groupPosition == 0) {
             text = "Online (" + onlineFriends.size() + ")";
         }
-        if(groupPosition == 1)
-        {
+        if (groupPosition == 1) {
             text = "Offline (" + offlineFriends.size() + ")";
         }
         textView.setText(text);
@@ -208,6 +191,14 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;
+    }
+
+    public class ViewHolder {
+        TextView title;
+        TextView artist;
+        ImageView thumb_image;
+        View view;
+        Button button;
     }
 
 }
