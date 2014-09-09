@@ -10,6 +10,7 @@ import com.github.theholywaffle.lolchatapi.LolChat;
 import com.github.theholywaffle.lolchatapi.listeners.FriendListener;
 import com.github.theholywaffle.lolchatapi.wrapper.Friend;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -17,14 +18,26 @@ import java.util.List;
 public class MainFragment extends LOLChatFragment
 {
     private ExpandableListView listView;
+    private List<Friend> updateList;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.fragment_lolchat_main, container, false);
         listView  = (ExpandableListView) view.findViewById(R.id.listView);
+        updateList = new ArrayList<Friend>();
         if(savedInstanceState != null) {
             listView.onRestoreInstanceState(savedInstanceState.getParcelable("listView"));
         }
         return view;
+    }
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        final ExpandableFriendViewAdapter adapter = (ExpandableFriendViewAdapter)listView.getExpandableListAdapter();
+        for(Friend f: updateList)
+        {
+            adapter.setFriendOnline(f, f.isOnline());
+        }
     }
     public void onChatConnected(final LolChat chat) {
         List<Friend> online = chat.getOnlineFriends();
@@ -57,34 +70,49 @@ public class MainFragment extends LOLChatFragment
             @Override
             public void onFriendJoin(final Friend friend) {
                 final ExpandableFriendViewAdapter adapter = (ExpandableFriendViewAdapter)listView.getExpandableListAdapter();
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        adapter.setFriendOnline(friend, true);
-                    }
-                });
+                if(getActivity() != null) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            adapter.setFriendOnline(friend, true);
+                        }
+                    });
+                }else
+                {
+                    updateList.add(friend);
+                }
             }
 
             @Override
             public void onFriendLeave(final Friend friend) {
                 final ExpandableFriendViewAdapter adapter = (ExpandableFriendViewAdapter)listView.getExpandableListAdapter();
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        adapter.setFriendOnline(friend, false);
-                    }
-                });
+                if(getActivity() != null) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            adapter.setFriendOnline(friend, false);
+                        }
+                    });
+                }else
+                {
+                    updateList.add(friend);
+                }
             }
 
             @Override
             public void onFriendStatusChange(final Friend friend) {
                 final ExpandableFriendViewAdapter adapter = (ExpandableFriendViewAdapter)listView.getExpandableListAdapter();
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        adapter.updateFriendStatus(friend);
-                    }
-                });
+                if(getActivity() != null) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            adapter.updateFriendStatus(friend);
+                        }
+                    });
+                }else
+                {
+                    updateList.add(friend);
+                }
             }
 
             @Override
