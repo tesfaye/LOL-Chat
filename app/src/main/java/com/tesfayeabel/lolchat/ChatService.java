@@ -30,6 +30,7 @@ import java.util.List;
 public class ChatService extends Service {
     public static final int foreground_ID = 69;
     public static final int notification_ID = 79;
+    public static LoginCallBack callBack;
     private final IBinder mBinder = new LocalBinder();
     private LolChat lolChat;
     private ChatListener chatListener;
@@ -37,19 +38,20 @@ public class ChatService extends Service {
     private Toast toast;
     private NotificationManager notificationManager;
     private ArrayList<Message> missedMessages = new ArrayList<Message>();
-    public static LoginCallBack callBack;
 
     @Override
     public IBinder onBind(Intent intent) {
         return mBinder;
     }
+
     @Override
     public void onCreate() {
         toast = new Toast(getApplicationContext());
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
     }
+
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId){
+    public int onStartCommand(Intent intent, int flags, int startId) {
         final String username = intent.getStringExtra("username");
         final String password = intent.getStringExtra("password");
         final String server = intent.getStringExtra("server");
@@ -121,8 +123,7 @@ public class ChatService extends Service {
         if (savePassword) {
             editor.putString("username", username);
             editor.putString("password", password);
-        } else
-        {
+        } else {
             editor.remove("username");//remove previously store auth info
             editor.remove("password");
         }
@@ -130,6 +131,7 @@ public class ChatService extends Service {
         editor.apply();
         return START_STICKY;
     }
+
     public void setChatListener(ChatListener chatListener) {
         this.chatListener = chatListener;
     }

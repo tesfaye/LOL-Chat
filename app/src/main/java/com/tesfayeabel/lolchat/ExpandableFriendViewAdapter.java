@@ -28,6 +28,7 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
     private List<Friend> onlineFriends;
     private List<Friend> offlineFriends;
     private Context context;
+
     public ExpandableFriendViewAdapter(Context context, List<Friend> onlineFriends, List<Friend> offlineFriends) {
         this.context = context;
         this.onlineFriends = onlineFriends;
