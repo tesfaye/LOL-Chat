@@ -28,8 +28,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChatService extends Service {
-    public static final int foregroundId = 69;
-    public static final int notificationId = 79;
+    public static final int foreground_ID = 69;
+    public static final int notification_ID = 79;
     private final IBinder mBinder = new LocalBinder();
     private LolChat lolChat;
     private ChatListener chatListener;
@@ -37,30 +37,30 @@ public class ChatService extends Service {
     private Toast toast;
     private NotificationManager notificationManager;
     private ArrayList<Message> missedMessages = new ArrayList<Message>();
+    public static LoginCallBack callBack;
 
     @Override
     public IBinder onBind(Intent intent) {
         return mBinder;
     }
-
     @Override
     public void onCreate() {
         toast = new Toast(getApplicationContext());
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
     }
-
-    public void setChatListener(ChatListener chatListener) {
-        this.chatListener = chatListener;
-    }
-
-    public void connectLOLChat(final String username, final String password, final String server, final LoginCallBack callBack) {
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId){
+        final String username = intent.getStringExtra("username");
+        final String password = intent.getStringExtra("password");
+        final String server = intent.getStringExtra("server");
+        final boolean savePassword = intent.getBooleanExtra("savePassword", false);
         new Thread(new Runnable() {
             @Override
             public void run() {
                 lolChat = new LolChat(ChatServer.getChatServerByName(server), FriendRequestPolicy.REJECT_ALL, "99a0d299-2476-4539-901f-0fdd0598bcf8");
                 if (lolChat.login(username, password)) {
                     Intent mainIntent = new Intent(getApplicationContext(), LOLChatMain.class);
-                    startForeground(foregroundId, new Notification.Builder(getApplicationContext())
+                    startForeground(foreground_ID, new Notification.Builder(getApplicationContext())
                             .setSmallIcon(R.drawable.ic_launcher)
                             .setContentText(getString(R.string.app_name) + " is running")
                             .setContentTitle(lolChat.getConnectedUsername())
@@ -88,7 +88,7 @@ public class ChatService extends Service {
                                         .setContentIntent(contentIntent)
                                         .build();
                                 notification.flags |= Notification.FLAG_AUTO_CANCEL;
-                                notificationManager.notify(notificationId, notification);
+                                notificationManager.notify(notification_ID, notification);
 
                                 SharedPreferences sharedPreferences = getSharedPreferences("messageHistory", Context.MODE_PRIVATE);
                                 String messageHistory = sharedPreferences.getString(friend.getName() + "History", "");
@@ -117,6 +117,21 @@ public class ChatService extends Service {
                 callBack.onLogin(lolChat.isAuthenticated());
             }
         }).start();
+        SharedPreferences.Editor editor = getSharedPreferences("loginData", Context.MODE_PRIVATE).edit();//TODO: ENCRYPTION
+        if (savePassword) {
+            editor.putString("username", username);
+            editor.putString("password", password);
+        } else
+        {
+            editor.remove("username");//remove previously store auth info
+            editor.remove("password");
+        }
+        editor.putString("server", server);
+        editor.apply();
+        return START_STICKY;
+    }
+    public void setChatListener(ChatListener chatListener) {
+        this.chatListener = chatListener;
     }
 
     private Notification.InboxStyle getStyle() {
@@ -167,5 +182,4 @@ public class ChatService extends Service {
             return ChatService.this;
         }
     }
-
 }

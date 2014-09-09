@@ -77,7 +77,6 @@ public class LOLChatMain extends Activity implements ServiceConnection {
             selectItem(0);
         }
         Intent intent = new Intent(this, ChatService.class);
-        startService(intent);
         bindService(intent, this, Context.BIND_AUTO_CREATE);
     }
 

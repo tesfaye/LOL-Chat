@@ -1,14 +1,11 @@
 package com.tesfayeabel.lolchat;
 
 import android.app.Activity;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -24,20 +21,22 @@ import com.github.theholywaffle.lolchatapi.ChatServer;
 
 import java.util.ArrayList;
 
-public class LoginActivity extends Activity implements ServiceConnection, LoginCallBack {
-    private String username, password, server;
-    private boolean savePassword;
+public class LoginActivity extends Activity implements LoginCallBack {
     private LinearLayout pbLayout;
+    private EditText usernameEdit;
+    private EditText passwordEdit;
+    private CheckBox rememberBox;
+    private Spinner serverList;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lolchat_login);
         SharedPreferences sharedPreferences = getSharedPreferences("loginData", Context.MODE_PRIVATE);
-        username = sharedPreferences.getString("username", null);
-        password = sharedPreferences.getString("password", null);
         pbLayout = (LinearLayout) findViewById(R.id.pbLayout);
-        final EditText usernameEdit = ((EditText) findViewById(R.id.usernameBox));
-        final EditText passwordEdit = (EditText) findViewById(R.id.passwordBox);
+        usernameEdit = ((EditText) findViewById(R.id.usernameBox));
+        passwordEdit = (EditText) findViewById(R.id.passwordBox);
+        rememberBox = (CheckBox) findViewById(R.id.rememberbox);
+        serverList = (Spinner) findViewById(R.id.serverlist);
         Button connect = (Button) findViewById(R.id.connectButton);
         TextView passwordForgot = (TextView) findViewById(R.id.forgot_Button);
         passwordForgot.setOnClickListener(new View.OnClickListener() {
@@ -47,7 +46,6 @@ public class LoginActivity extends Activity implements ServiceConnection, LoginC
                 startActivity(browserIntent);
             }
         });
-        Spinner serverList = (Spinner) findViewById(R.id.serverlist);
         ArrayList<String> serverArrayList = new ArrayList<String>();
         for (ChatServer server : ChatServer.getChatServersWithAPI()) {
             serverArrayList.add(server.name);
@@ -58,72 +56,46 @@ public class LoginActivity extends Activity implements ServiceConnection, LoginC
         connect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                username = usernameEdit.getText().toString();
-                password = passwordEdit.getText().toString();
-                savePassword = ((CheckBox) findViewById(R.id.rememberbox)).isChecked();
-                server = ((Spinner) findViewById(R.id.serverlist)).getSelectedItem().toString();
-                bind();
+                login();
             }
         });
         passwordEdit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    username = usernameEdit.getText().toString();
-                    password = passwordEdit.getText().toString();
-                    savePassword = ((CheckBox) findViewById(R.id.rememberbox)).isChecked();
-                    server = ((Spinner) findViewById(R.id.serverlist)).getSelectedItem().toString();
-                    bind();
+                    login();
                     return true;
                 }
                 return false;
             }
         });
-        if (username != null && password != null) {
-            savePassword = true;//remember to save password again
-            bind();
+        String username = sharedPreferences.getString("username", null);
+        String password = sharedPreferences.getString("password", null);
+        String server = sharedPreferences.getString("server", null);
+        if (username != null && password != null && server != null) {
+            usernameEdit.setText(username);
+            passwordEdit.setText(password);
+            rememberBox.setChecked(true);
         }
     }
 
-    public void bind() {
+    private void login() {
         pbLayout.setVisibility(View.VISIBLE);
-        bindService(new Intent(this, ChatService.class), this, Context.BIND_AUTO_CREATE);
-    }
-
-    @Override
-    public void onServiceConnected(final ComponentName name, final IBinder service) {
-        ChatService chatService = ((ChatService.LocalBinder) service).getService();
-        chatService.connectLOLChat(username, password, server, this);
-    }
-
-    @Override
-    public void onServiceDisconnected(final ComponentName name) {
-
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        try {
-            unbindService(this);
-        } catch (Exception e) {
-            //exception thrown if unbind is called when no service is bound
-        }
+        Intent service = new Intent(this, ChatService.class);
+        service.putExtra("username", usernameEdit.getText().toString());
+        service.putExtra("password", passwordEdit.getText().toString());
+        service.putExtra("server", serverList.getSelectedItem().toString());
+        service.putExtra("savePassword", rememberBox.isChecked());
+        ChatService.callBack = this;
+        startService(service);
     }
 
     public void onLogin(boolean successful) {
         if (successful) {
-            SharedPreferences.Editor editor = getSharedPreferences("loginData", Context.MODE_PRIVATE).edit();//TODO: ENCRYPTION
-            if (savePassword) {
-                editor.putString("username", username);
-                editor.putString("password", password);
-            }
-            editor.putString("server", server);
-            editor.apply();
-            Intent intent = new Intent(this, LOLChatMain.class);
+            Intent intent = new Intent(getApplicationContext(), LOLChatMain.class);
             startActivity(intent);
         } else {
-            unbindService(this);
+            stopService(new Intent(getApplicationContext(), ChatService.class));
         }
         runOnUiThread(new Runnable() {
             @Override
