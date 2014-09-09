@@ -172,7 +172,7 @@ public class ChatService extends Service {
                 }
             }).start();
         }
-        notificationManager.cancel(79);
+        notificationManager.cancel(notification_ID);
     }
 
     public LolChat getLolChat() {
