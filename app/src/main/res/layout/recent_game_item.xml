@@ -8,7 +8,7 @@
         android:layout_width="fill_parent"
         android:layout_height="80dp"
         android:layout_margin="8dp"
-        android:background="#ff002548">
+        android:background="#ff134466">
 
         <ImageView
             android:layout_width="70dp"
@@ -93,10 +93,10 @@
             android:layout_width="16dp"
             android:layout_height="16dp"
             android:id="@+id/handicon"
-            android:layout_alignBottom="@+id/labelstatus"
-            android:layout_toLeftOf="@+id/handval"
             android:layout_toStartOf="@+id/handval"
-            android:src="@drawable/lclogo" />
+            android:src="@drawable/lclogo"
+            android:layout_alignTop="@+id/handval"
+            android:layout_toLeftOf="@+id/handval" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -114,10 +114,10 @@
             android:layout_width="16dp"
             android:layout_height="16dp"
             android:id="@+id/skullicon"
-            android:layout_above="@+id/labelip"
-            android:layout_toLeftOf="@+id/skullval"
             android:layout_toStartOf="@+id/skullval"
-            android:src="@drawable/lclogo" />
+            android:src="@drawable/lclogo"
+            android:layout_alignTop="@+id/skullval"
+            android:layout_toLeftOf="@+id/skullval" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -125,20 +125,20 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="10"
             android:id="@+id/swordval"
-            android:layout_alignBottom="@+id/skullval"
-            android:layout_toLeftOf="@+id/skullicon"
             android:layout_toStartOf="@+id/skullicon"
             android:paddingLeft="3dp"
-            android:paddingRight="3dp" />
+            android:paddingRight="3dp"
+            android:layout_alignTop="@+id/skullicon"
+            android:layout_toLeftOf="@+id/skullicon" />
 
         <ImageView
             android:layout_width="16dp"
             android:layout_height="16dp"
             android:id="@+id/swordicon"
-            android:layout_alignBottom="@+id/swordval"
-            android:layout_toLeftOf="@+id/swordval"
             android:layout_toStartOf="@+id/swordval"
-            android:src="@drawable/lclogo" />
+            android:src="@drawable/lclogo"
+            android:layout_alignTop="@+id/swordval"
+            android:layout_toLeftOf="@+id/swordval" />
 
     </RelativeLayout>
 </LinearLayout>
