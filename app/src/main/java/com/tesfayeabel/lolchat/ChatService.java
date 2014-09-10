@@ -115,20 +115,20 @@ public class ChatService extends Service {
                             }
                         }
                     });
+                    SharedPreferences.Editor editor = getSharedPreferences("loginData", Context.MODE_PRIVATE).edit();//TODO: ENCRYPTION
+                    if (savePassword) {
+                        editor.putString("username", username);
+                        editor.putString("password", password);
+                    } else {
+                        editor.remove("username");//remove previously store auth info
+                        editor.remove("password");
+                    }
+                    editor.putString("server", server);
+                    editor.apply();
                 }
                 callBack.onLogin(lolChat.isAuthenticated());
             }
         }).start();
-        SharedPreferences.Editor editor = getSharedPreferences("loginData", Context.MODE_PRIVATE).edit();//TODO: ENCRYPTION
-        if (savePassword) {
-            editor.putString("username", username);
-            editor.putString("password", password);
-        } else {
-            editor.remove("username");//remove previously store auth info
-            editor.remove("password");
-        }
-        editor.putString("server", server);
-        editor.apply();
         return START_STICKY;
     }
 
