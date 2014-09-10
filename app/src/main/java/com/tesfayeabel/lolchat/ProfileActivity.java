@@ -56,7 +56,7 @@ public class ProfileActivity extends Activity implements ServiceConnection {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            recentGames.setAdapter(new RecentGamesAdapter(getApplicationContext(), games));
+                            recentGames.setAdapter(new RecentGamesAdapter(getApplicationContext(), games, jRiot));
                         }
                     });
                 } catch (JRiotException exception) {

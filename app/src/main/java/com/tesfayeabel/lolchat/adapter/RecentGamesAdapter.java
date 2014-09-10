@@ -9,19 +9,26 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+import com.tesfayeabel.lolchat.LOLChatApplication;
 import com.tesfayeabel.lolchat.R;
 
 import java.util.List;
 
+import jriot.main.JRiot;
+import jriot.main.JRiotException;
 import jriot.objects.Game;
+import jriot.objects.RawStats;
 
 public class RecentGamesAdapter extends BaseAdapter {
 
     private List<Game> games;
     private Context context;
+    private JRiot jRiot;
 
-    public RecentGamesAdapter(Context context, List<Game> list) {
+    public RecentGamesAdapter(Context context, List<Game> list, JRiot jRiot) {
         this.context = context;
+        this.jRiot = jRiot;
         games = list;
     }
 
@@ -74,7 +81,15 @@ public class RecentGamesAdapter extends BaseAdapter {
         {
             holder = (ViewHolder) convertView.getTag();
         }
-        Game game = getItem(i);
+        final Game game = getItem(i);
+        RawStats stats = game.getStats();
+        holder.outcome.setText(stats.getWin() ? "Victory" : "Defeat");
+        holder.type.setText(game.getGameMode());
+        //holder.map.setText();
+        //holder.ip.setText(stats.get);
+        //holder.kills.setText(stats.getKIll);
+        //holder.deaths.setText(stats.getNumDeaths());
+        //holder.assists.setText(stats.getAssists());
         return convertView;
     }
 
