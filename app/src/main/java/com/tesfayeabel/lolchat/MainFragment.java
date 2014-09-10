@@ -50,6 +50,7 @@ public class MainFragment extends LOLChatFragment {
         Collections.sort(online, comparator);
         Collections.sort(offline, comparator);
         listView.setAdapter(new ExpandableFriendViewAdapter(getActivity(), online, offline));
+        listView.expandGroup(0);
         chat.addFriendListener(new FriendListener() {
             @Override
             public void onFriendAvailable(Friend friend) {
@@ -121,7 +122,6 @@ public class MainFragment extends LOLChatFragment {
 
             }
         });
-        listView.expandGroup(0);
     }
 
     @Override

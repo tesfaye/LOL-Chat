@@ -1,7 +1,6 @@
 package com.tesfayeabel.lolchat;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -31,6 +30,7 @@ public class LOLChatMain extends Activity implements ServiceConnection {
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
     private String[] fragmentNames;
+    private LolChat lolChat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,10 +120,13 @@ public class LOLChatMain extends Activity implements ServiceConnection {
 
     private void selectItem(int position) {
         // update the main content by replacing fragments
-        Fragment fragment = getFragmentByName(fragmentNames[position]);
+        LOLChatFragment fragment = getFragmentByName(fragmentNames[position]);
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
-
+        if (lolChat != null) {
+            fragmentManager.executePendingTransactions();
+            fragment.onChatConnected(lolChat);
+        }
         // update selected item and title, then close the drawer
         mDrawerList.setItemChecked(position, true);
         setTitle(fragmentNames[position]);
@@ -164,7 +167,7 @@ public class LOLChatMain extends Activity implements ServiceConnection {
     @Override
     public void onServiceConnected(final ComponentName name, final IBinder service) {
         ChatService chatService = ((ChatService.LocalBinder) service).getService();
-        final LolChat lolChat = chatService.getLolChat();
+        lolChat = chatService.getLolChat();
         ((LOLChatFragment) getFragmentManager().findFragmentById(R.id.content_frame)).onChatConnected(lolChat);
     }
 
@@ -172,6 +175,7 @@ public class LOLChatMain extends Activity implements ServiceConnection {
     protected void onDestroy() {
         super.onDestroy();
         unbindService(this);
+        lolChat = null;
     }
 
     @Override
