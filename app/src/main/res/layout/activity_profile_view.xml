@@ -34,7 +34,7 @@
             android:text="Level"
             android:fontFamily="sans-serif-bold"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:id="@+id/labelstatus"
+            android:id="@+id/level"
             android:layout_below="@+id/name"
             android:layout_toRightOf="@+id/gameavatar"
             android:layout_toEndOf="@+id/gameavatar"
