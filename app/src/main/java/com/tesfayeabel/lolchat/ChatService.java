@@ -158,7 +158,7 @@ public class ChatService extends Service {
         ImageView imageView = (ImageView) view.findViewById(R.id.icon);
         friendView.setText(friend);
         messageView.setText(message);
-        Picasso.with(getApplicationContext()).load("http://ddragon.leagueoflegends.com/cdn/4.14.2/img/profileicon/" + iconId + ".png").into(imageView);
+        Picasso.with(getApplicationContext()).load(LOLChatApplication.getRiotResourceURL() + "/img/profileicon/" + iconId + ".png").into(imageView);
         toast.show();
     }
 

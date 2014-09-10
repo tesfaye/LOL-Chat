@@ -34,7 +34,7 @@ public class ProfileActivity extends Activity implements ServiceConnection {
         imageView = (ImageView) findViewById(R.id.imageView);
         TextView textView = (TextView) findViewById(R.id.name);
         textView.setText(friendName);
-        level = (TextView) findViewById(R.id.level);
+        level = (TextView) findViewById(R.id.textView);
         bindService(new Intent(this, ChatService.class), this, Context.BIND_AUTO_CREATE);
     }
 
@@ -45,12 +45,12 @@ public class ProfileActivity extends Activity implements ServiceConnection {
         Friend friend = lolChat.getFriendByName(friendName);
         LolStatus status = friend.getStatus();
         level.setText("Level: " + status.getLevel());
-        try {
-            recentGames.setAdapter(new RecentGamesAdapter(this, jRiot.getRecentGames(jRiot.getSummoner(friendName).getId()).getGames()));
-        } catch (JRiotException exception) {
-            exception.printStackTrace();
-        }
-        Picasso.with(getApplicationContext()).load("http://ddragon.leagueoflegends.com/cdn/4.14.2/img/profileicon/" + status.getProfileIconId() + ".png").into(imageView);
+//        try {
+//            recentGames.setAdapter(new RecentGamesAdapter(this, jRiot.getRecentGames(jRiot.getSummoner(friendName).getId()).getGames()));
+//        } catch (JRiotException exception) {
+//            exception.printStackTrace();
+//        }
+        Picasso.with(getApplicationContext()).load(LOLChatApplication.getRiotResourceURL() + "/img/profileicon/" + status.getProfileIconId() + ".png").into(imageView);
     }
 
     @Override

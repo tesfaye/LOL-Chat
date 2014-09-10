@@ -16,6 +16,7 @@ import com.github.theholywaffle.lolchatapi.LolStatus;
 import com.github.theholywaffle.lolchatapi.wrapper.Friend;
 import com.squareup.picasso.Picasso;
 import com.tesfayeabel.lolchat.ChatActivity;
+import com.tesfayeabel.lolchat.LOLChatApplication;
 import com.tesfayeabel.lolchat.R;
 
 import java.util.Date;
@@ -143,7 +144,7 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
                     shapeDrawable.setColor(Color.RED);
                     break;
             }
-            Picasso.with(context.getApplicationContext()).load("http://ddragon.leagueoflegends.com/cdn/4.14.2/img/profileicon/" + iconId + ".png").into(holder.thumb_image);
+            Picasso.with(context.getApplicationContext()).load(LOLChatApplication.getRiotResourceURL() + "/img/profileicon/" + iconId + ".png").into(holder.thumb_image);
         } else {
             holder.artist.setVisibility(View.GONE);
             holder.thumb_image.setVisibility(View.GONE);

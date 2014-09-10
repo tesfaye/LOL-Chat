@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.github.theholywaffle.lolchatapi.LolChat;
 import com.squareup.picasso.Picasso;
+import com.tesfayeabel.lolchat.LOLChatApplication;
 import com.tesfayeabel.lolchat.Message;
 import com.tesfayeabel.lolchat.R;
 
@@ -91,7 +92,7 @@ public class MessageAdapter extends BaseAdapter {
         ImageView imageView = (ImageView) convertView.findViewById(R.id.imageView);
         Message message = getItem(i);
         if (lolChat != null && imageView != null)
-            Picasso.with(context.getApplicationContext()).load("http://ddragon.leagueoflegends.com/cdn/4.14.2/img/profileicon/" + lolChat.getFriendByName(message.getSender()).getStatus().getProfileIconId() + ".png").into(imageView);
+            Picasso.with(context.getApplicationContext()).load(LOLChatApplication.getRiotResourceURL() + "/img/profileicon/" + lolChat.getFriendByName(message.getSender()).getStatus().getProfileIconId() + ".png").into(imageView);
         view.setText(message.getSender() + ": " + message.getMessage());
         return convertView;
     }
