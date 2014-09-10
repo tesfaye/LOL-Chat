@@ -89,7 +89,7 @@ public class MessageAdapter extends BaseAdapter {
             }
         }
         TextView view = (TextView) convertView.findViewById(R.id.text1);
-        ImageView imageView = (ImageView) convertView.findViewById(R.id.imageView);
+        ImageView imageView = (ImageView) convertView.findViewById(R.id.gameavatar);
         Message message = getItem(i);
         if (lolChat != null && imageView != null)
             Picasso.with(context.getApplicationContext()).load(LOLChatApplication.getRiotResourceURL() + "/img/profileicon/" + lolChat.getFriendByName(message.getSender()).getStatus().getProfileIconId() + ".png").into(imageView);

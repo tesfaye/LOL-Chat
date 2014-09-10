@@ -31,7 +31,7 @@ public class ProfileActivity extends Activity implements ServiceConnection {
         setContentView(R.layout.activity_profile_view);
         friendName = getIntent().getStringExtra("friend");
         recentGames = (ListView) findViewById(R.id.listView);
-        imageView = (ImageView) findViewById(R.id.imageView);
+        imageView = (ImageView) findViewById(R.id.gameavatar);
         TextView textView = (TextView) findViewById(R.id.name);
         textView.setText(friendName);
         level = (TextView) findViewById(R.id.textView);

@@ -16,7 +16,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="@string/friendslist"
-                    android:id="@+id/textView"
+                    android:id="@+id/labelstatus"
                     android:textColor="#FFFFFF"
                     android:paddingTop="15dp"
                     android:paddingLeft="20dp"

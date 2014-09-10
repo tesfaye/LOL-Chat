@@ -11,7 +11,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imageView"
+            android:id="@+id/gameavatar"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginBottom="10dp" />
@@ -23,8 +23,8 @@
             android:fontFamily="sans-serif-light"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/imageView"
-            android:layout_toEndOf="@+id/imageView"
+            android:layout_toRightOf="@+id/gameavatar"
+            android:layout_toEndOf="@+id/gameavatar"
             android:textSize="30dp"
             android:layout_marginTop="15dp"
             android:layout_marginLeft="5dp" />
@@ -34,10 +34,10 @@
             android:text="Level"
             android:fontFamily="sans-serif-bold"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:id="@+id/textView"
+            android:id="@+id/labelstatus"
             android:layout_below="@+id/name"
-            android:layout_toRightOf="@+id/imageView"
-            android:layout_toEndOf="@+id/imageView"
+            android:layout_toRightOf="@+id/gameavatar"
+            android:layout_toEndOf="@+id/gameavatar"
             android:layout_marginLeft="5dp"
             android:textColor="#ffb6b6b6" />
     </RelativeLayout>

@@ -12,14 +12,14 @@
         android:paddingLeft="?android:attr/listPreferredItemPaddingLeft"
         android:paddingRight="?android:attr/listPreferredItemPaddingRight"
         android:minHeight="?android:attr/listPreferredItemHeightSmall"
-        android:layout_toRightOf="@+id/imageView"
-        android:layout_toEndOf="@+id/imageView" />
+        android:layout_toRightOf="@+id/gameavatar"
+        android:layout_toEndOf="@+id/gameavatar" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/lclogo"
-        android:id="@+id/imageView"
+        android:id="@+id/gameavatar"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
