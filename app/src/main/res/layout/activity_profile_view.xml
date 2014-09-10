@@ -38,7 +38,8 @@
             android:layout_below="@+id/name"
             android:layout_toRightOf="@+id/imageView"
             android:layout_toEndOf="@+id/imageView"
-            android:layout_marginLeft="5dp" />
+            android:layout_marginLeft="5dp"
+            android:textColor="#ffb6b6b6" />
     </RelativeLayout>
     <ListView
         android:layout_width="match_parent"
