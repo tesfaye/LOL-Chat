@@ -8,5 +8,11 @@
     <string name="action_leave">Logout</string>
     <string name="login">Login</string>
     <string name="friendslist">Friends List</string>
+    <string name="gamestatus">Game Status</string>
+    <string name="gametype">Game Type</string>
+    <string name="gamelevel">(Normal Game)</string>
+    <string name="gamelocation">Game Location</string>
+    <string name="gamedate">01/12/99</string>
+    <string name="gameip">+250IP</string>
 
 </resources>
