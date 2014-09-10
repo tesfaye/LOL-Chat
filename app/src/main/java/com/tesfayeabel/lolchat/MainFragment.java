@@ -1,5 +1,6 @@
 package com.tesfayeabel.lolchat;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.ExpandableListView;
 import com.github.theholywaffle.lolchatapi.LolChat;
 import com.github.theholywaffle.lolchatapi.listeners.FriendListener;
 import com.github.theholywaffle.lolchatapi.wrapper.Friend;
+import com.tesfayeabel.lolchat.adapter.ExpandableFriendViewAdapter;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,6 +28,16 @@ public class MainFragment extends LOLChatFragment {
         if (savedInstanceState != null) {
             listView.onRestoreInstanceState(savedInstanceState.getParcelable("listView"));
         }
+        listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView expandableListView, View view, int groupPosition, int childPosition, long l) {
+                Intent intent = new Intent(getActivity(), ProfileActivity.class);
+                ExpandableFriendViewAdapter adapter = (ExpandableFriendViewAdapter) listView.getExpandableListAdapter();
+                intent.putExtra("friend", adapter.getChild(groupPosition, childPosition).getName());
+                startActivity(intent);
+                return false;
+            }
+        });
         return view;
     }
 

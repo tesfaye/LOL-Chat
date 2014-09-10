@@ -23,6 +23,7 @@ import com.github.theholywaffle.lolchatapi.LolChat;
 import com.github.theholywaffle.lolchatapi.listeners.ChatListener;
 import com.github.theholywaffle.lolchatapi.wrapper.Friend;
 import com.squareup.picasso.Picasso;
+import com.tesfayeabel.lolchat.adapter.MessageAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

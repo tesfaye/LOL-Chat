@@ -1,4 +1,4 @@
-package com.tesfayeabel.lolchat;
+package com.tesfayeabel.lolchat.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.github.theholywaffle.lolchatapi.LolChat;
 import com.squareup.picasso.Picasso;
+import com.tesfayeabel.lolchat.Message;
+import com.tesfayeabel.lolchat.R;
 
 import java.util.ArrayList;
 import java.util.List;
