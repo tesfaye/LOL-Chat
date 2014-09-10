@@ -17,8 +17,11 @@ import com.github.theholywaffle.lolchatapi.wrapper.Friend;
 import com.squareup.picasso.Picasso;
 import com.tesfayeabel.lolchat.adapter.RecentGamesAdapter;
 
+import java.util.List;
+
 import jriot.main.JRiot;
 import jriot.main.JRiotException;
+import jriot.objects.Game;
 
 public class ProfileActivity extends Activity implements ServiceConnection {
     private String friendName;
@@ -41,15 +44,26 @@ public class ProfileActivity extends Activity implements ServiceConnection {
     @Override
     public void onServiceConnected(final ComponentName name, final IBinder service) {
         LolChat lolChat = ((ChatService.LocalBinder) service).getService().getLolChat();
-        JRiot jRiot = lolChat.getRiotApi();
+        final JRiot jRiot = lolChat.getRiotApi();
         Friend friend = lolChat.getFriendByName(friendName);
         LolStatus status = friend.getStatus();
         level.setText("Level: " + status.getLevel());
-//        try {
-//            recentGames.setAdapter(new RecentGamesAdapter(this, jRiot.getRecentGames(jRiot.getSummoner(friendName).getId()).getGames()));
-//        } catch (JRiotException exception) {
-//            exception.printStackTrace();
-//        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    final List<Game> games = jRiot.getRecentGames(jRiot.getSummoner(friendName).getId()).getGames();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            recentGames.setAdapter(new RecentGamesAdapter(getApplicationContext(), games));
+                        }
+                    });
+                } catch (JRiotException exception) {
+                    exception.printStackTrace();
+                }
+            }
+        }).start();
         Picasso.with(getApplicationContext()).load(LOLChatApplication.getRiotResourceURL() + "/img/profileicon/" + status.getProfileIconId() + ".png").into(imageView);
     }
 

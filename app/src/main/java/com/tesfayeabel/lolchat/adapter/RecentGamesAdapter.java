@@ -5,6 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.tesfayeabel.lolchat.R;
 
@@ -51,14 +54,39 @@ public class RecentGamesAdapter extends BaseAdapter {
         return 0;
     }
 
-
     @Override
     public View getView(int i, View convertView, ViewGroup viewGroup) {
+        final ViewHolder holder;
         if (convertView == null) {
             LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = mInflater.inflate(R.layout.message_left, viewGroup, false);
+            convertView = mInflater.inflate(R.layout.recent_game_item, viewGroup, false);
+            holder = new ViewHolder();
+            holder.avatar = (ImageView) convertView.findViewById(R.id.gameavatar);
+            holder.outcome = (TextView) convertView.findViewById(R.id.labelstatus);
+            holder.type = (TextView) convertView.findViewById(R.id.labeltype);
+            holder.map = (TextView) convertView.findViewById(R.id.labellocation);
+            holder.date = (TextView) convertView.findViewById(R.id.labeldate);
+            holder.ip = (TextView) convertView.findViewById(R.id.labelip);
+            holder.assists = (TextView) convertView.findViewById(R.id.handval);
+            holder.deaths = (TextView) convertView.findViewById(R.id.skullval);
+            holder.kills = (TextView) convertView.findViewById(R.id.swordval);
+        }else
+        {
+            holder = (ViewHolder) convertView.getTag();
         }
         Game game = getItem(i);
         return convertView;
+    }
+
+    public class ViewHolder {
+        ImageView avatar;
+        TextView outcome;
+        TextView type;
+        TextView map;
+        TextView date;
+        TextView ip;
+        TextView assists;
+        TextView deaths;
+        TextView kills;
     }
 }
