@@ -12,23 +12,34 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/lclogo"
-            android:id="@+id/imageView" />
+            android:id="@+id/imageView"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Name"
+            android:fontFamily="sans-serif-light"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/imageView"
-            android:layout_toEndOf="@+id/imageView" />
+            android:layout_toEndOf="@+id/imageView"
+            android:textSize="30dp"
+            android:id="@+id/textView2"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="5dp" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Level"
+            android:fontFamily="sans-serif-bold"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/textView"
-            android:layout_marginTop="20dip"
-            android:layout_toRightOf="@+id/imageView" />
+            android:layout_below="@+id/textView2"
+            android:layout_toRightOf="@+id/imageView"
+            android:layout_toEndOf="@+id/imageView"
+            android:layout_marginLeft="5dp" />
     </RelativeLayout>
     <ListView
         android:layout_width="match_parent"
