@@ -12,8 +12,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.github.theholywaffle.lolchatapi.LolChat;
-import com.github.theholywaffle.lolchatapi.LolStatus;
-import com.github.theholywaffle.lolchatapi.wrapper.Friend;
 import com.squareup.picasso.Picasso;
 import com.tesfayeabel.lolchat.adapter.RecentGamesAdapter;
 
@@ -33,7 +31,7 @@ public class ProfileActivity extends Activity implements ServiceConnection {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_view);
-        friendName = getIntent().getStringExtra("friend").replace(" ", "");
+        friendName = getIntent().getStringExtra("friend");
         recentGames = (ListView) findViewById(R.id.listView);
         imageView = (ImageView) findViewById(R.id.gameavatar);
         TextView textView = (TextView) findViewById(R.id.name);
@@ -50,7 +48,7 @@ public class ProfileActivity extends Activity implements ServiceConnection {
             @Override
             public void run() {
                 try {
-                    final Summoner summoner = jRiot.getSummoner(friendName);
+                    final Summoner summoner = jRiot.getSummoner(friendName.replace(" ", ""));
                     final List<Game> games = jRiot.getRecentGames(summoner.getId()).getGames();
                     runOnUiThread(new Runnable() {
                         @Override

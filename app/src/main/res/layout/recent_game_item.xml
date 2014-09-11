@@ -136,7 +136,7 @@
             android:layout_height="16dp"
             android:id="@+id/swordicon"
             android:layout_toStartOf="@+id/swordval"
-            android:src="@drawable/lclogo"
+            android:src="@drawable/sword"
             android:layout_alignTop="@+id/swordval"
             android:layout_toLeftOf="@+id/swordval" />
 
