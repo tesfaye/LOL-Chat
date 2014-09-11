@@ -94,7 +94,7 @@
             android:layout_height="16dp"
             android:id="@+id/handicon"
             android:layout_toStartOf="@+id/handval"
-            android:src="@drawable/lclogo"
+            android:src="@drawable/assist"
             android:layout_alignTop="@+id/handval"
             android:layout_toLeftOf="@+id/handval" />
 
@@ -115,7 +115,7 @@
             android:layout_height="16dp"
             android:id="@+id/skullicon"
             android:layout_toStartOf="@+id/skullval"
-            android:src="@drawable/lclogo"
+            android:src="@drawable/death"
             android:layout_alignTop="@+id/skullval"
             android:layout_toLeftOf="@+id/skullval" />
 
