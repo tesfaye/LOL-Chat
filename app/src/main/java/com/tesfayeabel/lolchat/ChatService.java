@@ -60,7 +60,7 @@ public class ChatService extends Service {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                lolChat = new LolChat(ChatServer.getChatServerByName(server), FriendRequestPolicy.REJECT_ALL, "99a0d299-2476-4539-901f-0fdd0598bcf8");
+                lolChat = new LolChat(ChatServer.getChatServerByName(server), FriendRequestPolicy.REJECT_ALL, getString(R.string.riot_api));
                 if (lolChat.login(username, password)) {
                     Intent mainIntent = new Intent(getApplicationContext(), LOLChatMain.class);
                     startForeground(foreground_ID, new Notification.Builder(getApplicationContext())
