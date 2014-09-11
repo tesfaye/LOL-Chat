@@ -22,6 +22,7 @@ import java.util.List;
 import jriot.main.JRiot;
 import jriot.main.JRiotException;
 import jriot.objects.Game;
+import jriot.objects.Summoner;
 
 public class ProfileActivity extends Activity implements ServiceConnection {
     private String friendName;
@@ -32,7 +33,7 @@ public class ProfileActivity extends Activity implements ServiceConnection {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_view);
-        friendName = getIntent().getStringExtra("friend");
+        friendName = getIntent().getStringExtra("friend").replace(" ", "");
         recentGames = (ListView) findViewById(R.id.listView);
         imageView = (ImageView) findViewById(R.id.gameavatar);
         TextView textView = (TextView) findViewById(R.id.name);
@@ -45,18 +46,18 @@ public class ProfileActivity extends Activity implements ServiceConnection {
     public void onServiceConnected(final ComponentName name, final IBinder service) {
         LolChat lolChat = ((ChatService.LocalBinder) service).getService().getLolChat();
         final JRiot jRiot = lolChat.getRiotApi();
-        Friend friend = lolChat.getFriendByName(friendName);
-        LolStatus status = friend.getStatus();
-        level.setText("Level: " + status.getLevel());
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    final List<Game> games = jRiot.getRecentGames(jRiot.getSummoner(friendName).getId()).getGames();
+                    final Summoner summoner = jRiot.getSummoner(friendName);
+                    final List<Game> games = jRiot.getRecentGames(summoner.getId()).getGames();
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            recentGames.setAdapter(new RecentGamesAdapter(getApplicationContext(), games, jRiot));
+                            recentGames.setAdapter(new RecentGamesAdapter(getApplicationContext(), games));
+                            level.setText("Level: " + (int) summoner.getSummonerLevel());
+                            Picasso.with(getApplicationContext()).load(LOLChatApplication.getRiotResourceURL() + "/img/profileicon/" + summoner.getProfileIconId() + ".png").into(imageView);
                         }
                     });
                 } catch (JRiotException exception) {
@@ -64,7 +65,6 @@ public class ProfileActivity extends Activity implements ServiceConnection {
                 }
             }
         }).start();
-        Picasso.with(getApplicationContext()).load(LOLChatApplication.getRiotResourceURL() + "/img/profileicon/" + status.getProfileIconId() + ".png").into(imageView);
     }
 
     @Override

@@ -15,12 +15,14 @@ public class Game {
                 + ", subType=" + subType + ", teamId=" + teamId + "]";
     }
     private int championId;
+    private String championName;
     private long createDate;
     private ArrayList<Player> fellowPlayers;
     private long gameId;
     private String gameMode;
     private String gameType;
     private boolean invalid;
+    private int ipEarned;
     private int level;
     private int mapId;
     private int spell1;
@@ -28,6 +30,16 @@ public class Game {
     private RawStats stats;
     private String subType;
     private int teamId;
+
+    public String getChampionName()
+    {
+        return championName;
+    }
+
+    public void setChampionName(String championName)
+    {
+        this.championName = championName;
+    }
 
     public int getChampionId() {
         return championId;
@@ -141,4 +153,12 @@ public class Game {
         this.teamId = teamId;
     }
 
+    public int getIpEarned(){
+        return ipEarned;
+    }
+
+    public void setIpEarned(int ipEarned)
+    {
+        this.ipEarned = ipEarned;
+    }
 }

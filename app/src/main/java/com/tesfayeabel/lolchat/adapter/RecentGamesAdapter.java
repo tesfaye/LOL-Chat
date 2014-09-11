@@ -13,6 +13,8 @@ import com.squareup.picasso.Picasso;
 import com.tesfayeabel.lolchat.LOLChatApplication;
 import com.tesfayeabel.lolchat.R;
 
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.List;
 
 import jriot.main.JRiot;
@@ -24,11 +26,9 @@ public class RecentGamesAdapter extends BaseAdapter {
 
     private List<Game> games;
     private Context context;
-    private JRiot jRiot;
 
-    public RecentGamesAdapter(Context context, List<Game> list, JRiot jRiot) {
+    public RecentGamesAdapter(Context context, List<Game> list) {
         this.context = context;
-        this.jRiot = jRiot;
         games = list;
     }
 
@@ -77,6 +77,7 @@ public class RecentGamesAdapter extends BaseAdapter {
             holder.assists = (TextView) convertView.findViewById(R.id.handval);
             holder.deaths = (TextView) convertView.findViewById(R.id.skullval);
             holder.kills = (TextView) convertView.findViewById(R.id.swordval);
+            convertView.setTag(holder);
         }else
         {
             holder = (ViewHolder) convertView.getTag();
@@ -85,11 +86,13 @@ public class RecentGamesAdapter extends BaseAdapter {
         RawStats stats = game.getStats();
         holder.outcome.setText(stats.getWin() ? "Victory" : "Defeat");
         holder.type.setText(game.getGameMode());
-        //holder.map.setText();
-        //holder.ip.setText(stats.get);
-        //holder.kills.setText(stats.getKIll);
-        //holder.deaths.setText(stats.getNumDeaths());
-        //holder.assists.setText(stats.getAssists());
+        Picasso.with(context.getApplicationContext()).load(LOLChatApplication.getRiotResourceURL() + "/img/champion/" + game.getChampionName().replace(" ", "") + ".png").into(holder.avatar);
+        holder.map.setText(LOLChatApplication.getMapName(game.getMapId()));
+        holder.ip.setText(String.valueOf(game.getIpEarned()) + " IP");
+        holder.date.setText(DateFormat.getDateInstance().format(new Date(game.getCreateDate())));
+        holder.kills.setText(String.valueOf(stats.getChampionsKilled()));
+        holder.deaths.setText(String.valueOf(stats.getNumDeaths()));
+        holder.assists.setText(String.valueOf(stats.getAssists()));
         return convertView;
     }
 

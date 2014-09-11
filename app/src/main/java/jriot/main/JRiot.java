@@ -100,9 +100,33 @@ public class JRiot {
         ApiCaller caller = new ApiCaller();
         String response = caller.request(generateBaseUrl() + "/v1.3/game/by-summoner/" + summonerId + "/recent" + "?api_key=" + apiKey);
         RecentGames recentGames = gson.fromJson(response, RecentGames.class);
+        for(Game game: recentGames.getGames())
+        {
+            String name = getChampionById(game.getChampionId()).getName();
+            if(name.equals("Kog'Maw"))
+                name = "KogMaw";//just Riot inconsistency
+            if(name.equals("Vel'Koz"))
+                name = "Velkoz";
+            if(name.equals("LeBlanc"))
+                name = "Leblanc";
+            if(name.equals("Kha'Zix"))
+                name = "Khazix";
+            if(name.equals("Cho'Gath"))
+                name = "Chogath";
+            if(name.equals("Wukong"))
+                name = "MonkeyKing";//wtf Riot
+            game.setChampionName(name);
+        }
         return recentGames;
     }
-
+    //this method is free to call unlike the other
+    public Champion getChampionById(int id) throws JRiotException
+    {
+        ApiCaller caller = new ApiCaller();
+        String response = caller.request("https://" + region + ".api.pvp.net/api/lol/static-data/" + region + "/v1.2/champion/" + id + "?api_key=" + apiKey);
+        Champion champion = gson.fromJson(response, Champion.class);
+        return champion;
+    }
     /**
      * Get Challenger tier leagues
      *
