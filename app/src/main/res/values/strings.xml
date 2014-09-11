@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="api_riot">99a0d299-2476-4539-901f-0fdd0598bcf8</string>
 
     <string name="app_name">LOL Chat</string>
