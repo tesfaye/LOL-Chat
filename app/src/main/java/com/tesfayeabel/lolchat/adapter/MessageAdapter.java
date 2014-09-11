@@ -80,20 +80,30 @@ public class MessageAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View convertView, ViewGroup viewGroup) {
         int direction = getItemViewType(i);
+        ViewHolder holder;
         LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (convertView == null) {
+            holder = new ViewHolder();
             if (direction == DIRECTION_INCOMING) {
                 convertView = mInflater.inflate(R.layout.message_left, viewGroup, false);
             } else if (direction == DIRECTION_OUTGOING) {
                 convertView = mInflater.inflate(R.layout.message_right, viewGroup, false);
             }
+            holder.view = (TextView) convertView.findViewById(R.id.text1);
+            holder.imageView = (ImageView) convertView.findViewById(R.id.gameavatar);
+            convertView.setTag(holder);
+        }else
+        {
+            holder = (ViewHolder) convertView.getTag();
         }
-        TextView view = (TextView) convertView.findViewById(R.id.text1);
-        ImageView imageView = (ImageView) convertView.findViewById(R.id.gameavatar);
         Message message = getItem(i);
-        if (lolChat != null && imageView != null)
-            Picasso.with(context.getApplicationContext()).load(LOLChatApplication.getRiotResourceURL() + "/img/profileicon/" + lolChat.getFriendByName(message.getSender()).getStatus().getProfileIconId() + ".png").into(imageView);
-        view.setText(message.getSender() + ": " + message.getMessage());
+        if (lolChat != null && holder.imageView != null)
+            Picasso.with(context.getApplicationContext()).load(LOLChatApplication.getRiotResourceURL() + "/img/profileicon/" + lolChat.getFriendByName(message.getSender()).getStatus().getProfileIconId() + ".png").into(holder.imageView);
+        holder.view.setText(message.getSender() + ": " + message.getMessage());
         return convertView;
+    }
+    public class ViewHolder{
+        TextView view;
+        ImageView imageView;
     }
 }
