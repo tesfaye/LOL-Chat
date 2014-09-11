@@ -48,7 +48,7 @@ public class LOLChatApplication extends Application {
         maps.put(4, "Twisted Treeline");
         maps.put(8, "The Crystal Scar");
         maps.put(10, "Twisted Treeline");
-        maps.put(12, " Howling Abyss ");
+        maps.put(12, "Howling Abyss ");
         new Thread(new Runnable() {
             @Override
             public void run() {
