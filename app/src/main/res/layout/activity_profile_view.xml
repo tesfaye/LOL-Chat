@@ -41,7 +41,7 @@
             android:layout_marginLeft="5dp"
             android:textColor="#ffb6b6b6" />
     </RelativeLayout>
-    <ListView
+    <ExpandableListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/listView"  />

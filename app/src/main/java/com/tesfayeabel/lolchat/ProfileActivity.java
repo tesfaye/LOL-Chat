@@ -7,8 +7,8 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.github.theholywaffle.lolchatapi.LolChat;
@@ -24,7 +24,7 @@ import jriot.objects.Summoner;
 
 public class ProfileActivity extends Activity implements ServiceConnection {
     private String friendName;
-    private ListView recentGames;
+    private ExpandableListView recentGames;
     private ImageView imageView;
     private TextView level;
 
@@ -32,7 +32,7 @@ public class ProfileActivity extends Activity implements ServiceConnection {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_view);
         friendName = getIntent().getStringExtra("friend");
-        recentGames = (ListView) findViewById(R.id.listView);
+        recentGames = (ExpandableListView) findViewById(R.id.listView);
         imageView = (ImageView) findViewById(R.id.gameavatar);
         TextView textView = (TextView) findViewById(R.id.name);
         textView.setText(friendName);

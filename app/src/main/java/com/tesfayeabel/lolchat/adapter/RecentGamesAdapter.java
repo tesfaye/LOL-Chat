@@ -4,8 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.Button;
+import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,12 +16,10 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
 
-import jriot.main.JRiot;
-import jriot.main.JRiotException;
 import jriot.objects.Game;
 import jriot.objects.RawStats;
 
-public class RecentGamesAdapter extends BaseAdapter {
+public class RecentGamesAdapter extends BaseExpandableListAdapter {
 
     private List<Game> games;
     private Context context;
@@ -32,42 +29,38 @@ public class RecentGamesAdapter extends BaseAdapter {
         games = list;
     }
 
-    //Returns how many messages are in the list
     @Override
-    public int getCount() {
+    public int getGroupCount() {
         return games.size();
     }
 
     @Override
-    public Game getItem(int i) {
-        return games.get(i);
+    public Game getChild(int group, int child) {
+        return games.get(group);
     }
 
     @Override
-    public long getItemId(int i) {
-        return i;
-    }
-
-    //Tells your app how many possible layouts there are
-    //In our case, right and left messages are our only 2 options
-    @Override
-    public int getViewTypeCount() {
-        return 2;
-    }
-
-    //This returns either DIRECTION_INCOMING or DIRECTION_OUTGOING
-    @Override
-    public int getItemViewType(int i) {
-        return 0;
+    public int getChildrenCount(int groupPosition) {
+        return 1;
     }
 
     @Override
-    public View getView(int i, View convertView, ViewGroup viewGroup) {
-        final ViewHolder holder;
+    public long getChildId(int group, int child) {
+        return child;
+    }
+
+    @Override
+    public long getGroupId(int groupPosition) {
+        return groupPosition;
+    }
+
+    @Override
+    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+        final GroupHolder holder;
         if (convertView == null) {
             LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = mInflater.inflate(R.layout.recent_game_item, viewGroup, false);
-            holder = new ViewHolder();
+            convertView = mInflater.inflate(R.layout.recent_game_item, parent, false);
+            holder = new GroupHolder();
             holder.avatar = (ImageView) convertView.findViewById(R.id.gameavatar);
             holder.outcome = (TextView) convertView.findViewById(R.id.labelstatus);
             holder.type = (TextView) convertView.findViewById(R.id.labeltype);
@@ -78,11 +71,10 @@ public class RecentGamesAdapter extends BaseAdapter {
             holder.deaths = (TextView) convertView.findViewById(R.id.skullval);
             holder.kills = (TextView) convertView.findViewById(R.id.swordval);
             convertView.setTag(holder);
-        }else
-        {
-            holder = (ViewHolder) convertView.getTag();
+        } else {
+            holder = (GroupHolder) convertView.getTag();
         }
-        final Game game = getItem(i);
+        final Game game = getGroup(groupPosition);
         RawStats stats = game.getStats();
         holder.outcome.setText(stats.getWin() ? "Victory" : "Defeat");
         holder.type.setText(game.getGameMode());
@@ -96,7 +88,38 @@ public class RecentGamesAdapter extends BaseAdapter {
         return convertView;
     }
 
-    public class ViewHolder {
+    @Override
+    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+        final ChildHolder holder;
+        if (convertView == null) {
+            LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = mInflater.inflate(R.layout.recent_game_item, parent, false);
+            holder = new ChildHolder();
+
+            convertView.setTag(holder);
+        } else {
+            holder = (ChildHolder) convertView.getTag();
+        }
+        Game game = getChild(groupPosition, childPosition);
+        return convertView;
+    }
+
+    @Override
+    public Game getGroup(int groupPosition) {
+        return games.get(groupPosition);
+    }
+
+    @Override
+    public boolean hasStableIds() {
+        return false;
+    }
+
+    @Override
+    public boolean isChildSelectable(int groupPosition, int childPosition) {
+        return true;
+    }
+
+    public class GroupHolder {
         ImageView avatar;
         TextView outcome;
         TextView type;
@@ -106,5 +129,9 @@ public class RecentGamesAdapter extends BaseAdapter {
         TextView assists;
         TextView deaths;
         TextView kills;
+    }
+
+    public class ChildHolder {
+
     }
 }
