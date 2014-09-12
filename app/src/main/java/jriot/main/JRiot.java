@@ -102,20 +102,7 @@ public class JRiot {
         RecentGames recentGames = gson.fromJson(response, RecentGames.class);
         for(Game game: recentGames.getGames())
         {
-            String name = getChampionById(game.getChampionId()).getName();
-            if(name.equals("Kog'Maw"))
-                name = "KogMaw";//just Riot inconsistency
-            if(name.equals("Vel'Koz"))
-                name = "Velkoz";
-            if(name.equals("LeBlanc"))
-                name = "Leblanc";
-            if(name.equals("Kha'Zix"))
-                name = "Khazix";
-            if(name.equals("Cho'Gath"))
-                name = "Chogath";
-            if(name.equals("Wukong"))
-                name = "MonkeyKing";//wtf Riot
-            game.setChampionName(name);
+            game.setChampionName(getChampionById(game.getChampionId()).getName());
         }
         return recentGames;
     }

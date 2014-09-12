@@ -1,6 +1,10 @@
 package com.tesfayeabel.lolchat;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 import org.json.JSONObject;
 
@@ -60,5 +64,15 @@ public class LOLChatApplication extends Application {
                 }
             }
         }).start();
+    }
+
+    public static Bitmap loadChampionImage(Context context, String name)
+    {
+        Resources resources = context.getResources();
+        name = name.toLowerCase().replace("'", "").replace(" ", "");
+        if(name.equals("wukong"))
+            name = "monkeyking";
+        Bitmap bitmap = BitmapFactory.decodeResource(resources, resources.getIdentifier("champion" + name, "drawable", context.getPackageName()));
+        return  bitmap;
     }
 }

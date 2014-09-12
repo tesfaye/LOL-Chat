@@ -1,6 +1,8 @@
 package com.tesfayeabel.lolchat.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,7 +80,8 @@ public class RecentGamesAdapter extends BaseExpandableListAdapter {
         RawStats stats = game.getStats();
         holder.outcome.setText(stats.getWin() ? "Victory" : "Defeat");
         holder.type.setText(game.getGameMode());
-        Picasso.with(context.getApplicationContext()).load(LOLChatApplication.getRiotResourceURL() + "/img/champion/" + game.getChampionName().replace(" ", "") + ".png").into(holder.avatar);
+        holder.avatar.setImageBitmap(LOLChatApplication.loadChampionImage(context, game.getChampionName()));
+        //Picasso.with(context.getApplicationContext()).load(LOLChatApplication.getRiotResourceURL() + "/img/champion/" + game.getChampionName().replace(" ", "") + ".png").into(holder.avatar);
         holder.map.setText(LOLChatApplication.getMapName(game.getMapId()));
         holder.ip.setText(String.valueOf(game.getIpEarned()) + " IP");
         holder.date.setText(DateFormat.getDateInstance().format(new Date(game.getCreateDate())));
