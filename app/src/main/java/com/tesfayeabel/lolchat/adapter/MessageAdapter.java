@@ -92,8 +92,7 @@ public class MessageAdapter extends BaseAdapter {
             holder.view = (TextView) convertView.findViewById(R.id.text1);
             holder.imageView = (ImageView) convertView.findViewById(R.id.gameavatar);
             convertView.setTag(holder);
-        }else
-        {
+        } else {
             holder = (ViewHolder) convertView.getTag();
         }
         Message message = getItem(i);
@@ -102,7 +101,8 @@ public class MessageAdapter extends BaseAdapter {
         holder.view.setText(message.getSender() + ": " + message.getMessage());
         return convertView;
     }
-    public class ViewHolder{
+
+    public class ViewHolder {
         TextView view;
         ImageView imageView;
     }

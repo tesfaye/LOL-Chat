@@ -13,19 +13,16 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.HashMap;
-import java.util.Map;
 
 public class LOLChatApplication extends Application {
     private static String clientVersion;
     private static HashMap<Integer, String> maps;
 
-    public static String getRiotResourceURL()
-    {
+    public static String getRiotResourceURL() {
         return "http://ddragon.leagueoflegends.com/cdn/" + clientVersion;
     }
 
-    public static String getMapName(int id)
-    {
+    public static String getMapName(int id) {
         return maps.get(id);
     }
 
@@ -42,6 +39,15 @@ public class LOLChatApplication extends Application {
         in.close();
 
         return response.toString();
+    }
+
+    public static Bitmap loadChampionImage(Context context, String name) {
+        Resources resources = context.getResources();
+        name = name.toLowerCase().replace("'", "").replace(" ", "");
+        if (name.equals("wukong"))
+            name = "monkeyking";
+        Bitmap bitmap = BitmapFactory.decodeResource(resources, resources.getIdentifier("champion" + name, "drawable", context.getPackageName()));
+        return bitmap;
     }
 
     public void onCreate() {
@@ -64,15 +70,5 @@ public class LOLChatApplication extends Application {
                 }
             }
         }).start();
-    }
-
-    public static Bitmap loadChampionImage(Context context, String name)
-    {
-        Resources resources = context.getResources();
-        name = name.toLowerCase().replace("'", "").replace(" ", "");
-        if(name.equals("wukong"))
-            name = "monkeyking";
-        Bitmap bitmap = BitmapFactory.decodeResource(resources, resources.getIdentifier("champion" + name, "drawable", context.getPackageName()));
-        return  bitmap;
     }
 }
