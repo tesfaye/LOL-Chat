@@ -130,7 +130,7 @@ public class ChatService extends Service {
                 callBack.onLogin(lolChat.isAuthenticated());
             }
         }).start();
-        return START_STICKY;
+        return START_NOT_STICKY;
     }
 
     public void setChatListener(ChatListener chatListener) {
