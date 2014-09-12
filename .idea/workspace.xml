@@ -29,11 +29,8 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="app: com.tesfaye.lolchat" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90a872de-00c9-46c2-aaca-1b47ff15231d" name="Default" comment="cleanup">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/tesfayeabel/lolchat/LOLChatApplication.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/tesfayeabel/lolchat/LOLChatApplication.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/tesfayeabel/lolchat/adapter/MessageAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/tesfayeabel/lolchat/adapter/MessageAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/tesfayeabel/lolchat/adapter/RecentGamesAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/tesfayeabel/lolchat/adapter/RecentGamesAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+    <list default="true" id="90a872de-00c9-46c2-aaca-1b47ff15231d" name="Default" comment="">
+      <change type="DELETED" beforePath="C:\Users\Abel Tesfaye\Documents\AndroidStudioProjects\LOL-Chat\.idea\workspace.xml" afterPath="" />
     </list>
     <ignored path="LOL Chat.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -1506,7 +1503,11 @@
       <created>1410564611607</created>
       <updated>1410564611607</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="cleanup">
+      <created>1410564801638</created>
+      <updated>1410564801638</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1596,7 +1597,8 @@
     <MESSAGE value="lowered min version" />
     <MESSAGE value="images" />
     <MESSAGE value="removed file" />
-    <option name="LAST_COMMIT_MESSAGE" value="removed file" />
+    <MESSAGE value="cleanup" />
+    <option name="LAST_COMMIT_MESSAGE" value="cleanup" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
