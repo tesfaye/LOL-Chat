@@ -46,8 +46,17 @@ public class LOLChatApplication extends Application {
         name = name.toLowerCase().replace("'", "").replace(" ", "");
         if (name.equals("wukong"))
             name = "monkeyking";
-        Bitmap bitmap = BitmapFactory.decodeResource(resources, resources.getIdentifier("champion_" + name, "drawable", context.getPackageName()));
-        return bitmap;
+        return BitmapFactory.decodeResource(resources, resources.getIdentifier("champion_" + name, "drawable", context.getPackageName()));
+    }
+
+    public static String getGameSubType(String name) {
+        if (name.equals("NONE"))
+            return "Custom";
+        if (name.equals("RANKED_SOLO_5x5") || name.equals("RANKED_TEAM_3x3") || name.equals("RANKED_TEAM_5x5"))
+            return "Ranked";
+        if (name.equals("BOT"))
+            return "Co-op vs AI";
+        return "Normal";
     }
 
     public void onCreate() {
