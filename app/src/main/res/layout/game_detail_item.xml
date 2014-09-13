@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="80dp"
+        android:layout_margin="8dp"
+        android:background="#ff134466">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/summonerSpell1"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:src="@drawable/lolchat_lclogo"
+            android:layout_margin="5dp" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/summonerSpell2"
+            android:src="@drawable/lolchat_lclogo"
+            android:baselineAlignBottom="false"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/summonerSpell1"
+            android:layout_margin="5dp"/>
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/summonerItem1"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/lolchat_lclogo"
+            android:layout_margin="5dp"/>
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/summonerItem2"
+            android:src="@drawable/lolchat_lclogo"
+            android:layout_toLeftOf="@+id/summonerItem1"
+            android:layout_margin="5dp"/>
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/summonerItem3"
+            android:src="@drawable/lolchat_lclogo"
+            android:layout_toLeftOf="@+id/summonerItem2"
+            android:layout_margin="5dp"/>
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/summonerItem6"
+            android:src="@drawable/lolchat_lclogo"
+            android:layout_below="@+id/summonerItem1"
+            android:layout_alignParentRight="true"
+            android:layout_alignBottom="true"
+            android:layout_margin="5dp"/>
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/summonerItem5"
+            android:src="@drawable/lolchat_lclogo"
+            android:layout_toLeftOf="@+id/summonerItem6"
+            android:baselineAlignBottom="true"
+            android:layout_margin="5dp"/>
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/summonerItem4"
+            android:src="@drawable/lolchat_lclogo"
+            android:layout_below="@+id/summonerItem3"
+            android:layout_margin="5dp"/>
+    </RelativeLayout>
+</LinearLayout>
