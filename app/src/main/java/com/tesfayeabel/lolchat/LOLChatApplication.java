@@ -46,7 +46,7 @@ public class LOLChatApplication extends Application {
         name = name.toLowerCase().replace("'", "").replace(" ", "");
         if (name.equals("wukong"))
             name = "monkeyking";
-        Bitmap bitmap = BitmapFactory.decodeResource(resources, resources.getIdentifier("champion" + name, "drawable", context.getPackageName()));
+        Bitmap bitmap = BitmapFactory.decodeResource(resources, resources.getIdentifier("champion_" + name, "drawable", context.getPackageName()));
         return bitmap;
     }
 
