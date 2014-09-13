@@ -17,7 +17,7 @@
             android:id="@+id/list_image"
             android:layout_width="50dip"
             android:layout_height="50dip"
-            android:src="@drawable/lclogo"
+            android:src="@drawable/lolchat_lclogo"
             />
 
     </LinearLayout>
@@ -61,7 +61,7 @@
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:id="@+id/statusCircle"
-        android:background="@drawable/circle"
+        android:background="@drawable/lolchat_circle"
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@+id/button"
         android:layout_toStartOf="@+id/button" />

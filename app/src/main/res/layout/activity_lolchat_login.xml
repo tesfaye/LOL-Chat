@@ -1,7 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/friendsgradient"
+    android:background="@drawable/lolchat_friendsgradient"
     android:weightSum="1"
     android:orientation="vertical">
 
@@ -34,7 +34,7 @@
                 android:layout_height="100dp"
                 android:id="@+id/gameavatar"
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/lclogo"
+                android:src="@drawable/lolchat_lclogo"
                 android:layout_marginBottom="20dp"
                 android:layout_marginTop="25dp" />
 

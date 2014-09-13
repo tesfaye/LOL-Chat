@@ -18,7 +18,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/lclogo"
+        android:src="@drawable/lolchat_lclogo"
         android:id="@+id/gameavatar"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"

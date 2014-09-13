@@ -4,11 +4,11 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:padding="8dp"
-    android:background="@drawable/rectangle"
+    android:background="@drawable/lolchat_rectangle"
     >
     <ImageView
         android:id="@+id/icon"
-        android:src="@drawable/lclogo"
+        android:src="@drawable/lolchat_lclogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="8dp"

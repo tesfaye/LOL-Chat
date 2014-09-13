@@ -17,7 +17,7 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:src="@drawable/lclogo"
+            android:src="@drawable/lolchat_lclogo"
             android:layout_margin="5dp" />
 
         <TextView
@@ -94,7 +94,7 @@
             android:layout_height="16dp"
             android:id="@+id/handicon"
             android:layout_toStartOf="@+id/handval"
-            android:src="@drawable/assist"
+            android:src="@drawable/lolchat_assist"
             android:layout_alignTop="@+id/handval"
             android:layout_toLeftOf="@+id/handval" />
 
@@ -115,7 +115,7 @@
             android:layout_height="16dp"
             android:id="@+id/skullicon"
             android:layout_toStartOf="@+id/skullval"
-            android:src="@drawable/death"
+            android:src="@drawable/lolchat_death"
             android:layout_alignTop="@+id/skullval"
             android:layout_toLeftOf="@+id/skullval" />
 
@@ -136,7 +136,7 @@
             android:layout_height="16dp"
             android:id="@+id/swordicon"
             android:layout_toStartOf="@+id/swordval"
-            android:src="@drawable/sword"
+            android:src="@drawable/lolchat_sword"
             android:layout_alignTop="@+id/swordval"
             android:layout_toLeftOf="@+id/swordval" />
 
