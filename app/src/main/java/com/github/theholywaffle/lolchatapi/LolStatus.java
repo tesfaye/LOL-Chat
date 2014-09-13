@@ -177,10 +177,10 @@ public class LolStatus {
 					found = true;
 				}
 			}
-			if (!found) {
-				System.err.println("XMLProperty \"" + e.getName()
-						+ "\" not implemented yet!");
-			}
+//			if (!found) {
+////				System.err.println("XMLProperty \"" + e.getName()
+////						+ "\" not implemented yet!");
+//			}
 		}
 	}
 

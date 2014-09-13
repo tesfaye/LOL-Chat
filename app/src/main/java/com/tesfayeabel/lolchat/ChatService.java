@@ -37,7 +37,7 @@ public class ChatService extends Service {
     private Handler handler = new Handler();
     private Toast toast;
     private NotificationManager notificationManager;
-    private ArrayList<Message> missedMessages = new ArrayList<Message>();
+    private ArrayList<Message> missedMessages;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -48,6 +48,7 @@ public class ChatService extends Service {
     public void onCreate() {
         toast = new Toast(getApplicationContext());
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        missedMessages = new ArrayList<Message>();
     }
 
     @Override
