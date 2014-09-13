@@ -20,23 +20,23 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.github.theholywaffle.lolchatapi.LolChat;
-import com.github.theholywaffle.lolchatapi.listeners.ChatListener;
 import com.github.theholywaffle.lolchatapi.wrapper.Friend;
 import com.tesfayeabel.lolchat.adapter.MessageAdapter;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class ChatActivity extends Activity implements ServiceConnection, ChatListener {
+public class ChatActivity extends Activity implements ServiceConnection, SharedPreferences.OnSharedPreferenceChangeListener {
     private String friendName;
     private Friend friend;
-    private ChatService chatService;
     private ListView conversation;
+    private SharedPreferences sharedPreferences;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lolchat_chat);
         final EditText messageBox = (EditText) findViewById(R.id.messageBox);
+        sharedPreferences = getSharedPreferences("messageHistory", Context.MODE_PRIVATE);
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
         Button send = (Button) findViewById(R.id.messageSend);
         messageBox.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -103,20 +103,18 @@ public class ChatActivity extends Activity implements ServiceConnection, ChatLis
 
     @Override
     public void onServiceConnected(final ComponentName name, final IBinder service) {
-        chatService = ((ChatService.LocalBinder) service).getService();
+        ChatService chatService = ((ChatService.LocalBinder) service).getService();
         LolChat lolChat = chatService.getLolChat();
-        MessageAdapter adapter = (MessageAdapter) conversation.getAdapter();
-        adapter.setLolChat(lolChat);
-        adapter.notifyDataSetChanged();//force update of view
         friend = lolChat.getFriendByName(friendName);
-        chatService.setChatListener(this);
+        MessageAdapter adapter = (MessageAdapter) conversation.getAdapter();
+        adapter.setFriendProfileIcon(friend.getStatus().getProfileIconId());
+        adapter.notifyDataSetChanged();//force update of view
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        chatService.setChatListener(null);
-        chatService = null;
+        sharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
         unbindService(this);
     }
 
@@ -125,18 +123,12 @@ public class ChatActivity extends Activity implements ServiceConnection, ChatLis
     }
 
     @Override
-    public void onMessage(final Friend friend, final String message) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                MessageAdapter adapter = (MessageAdapter) conversation.getAdapter();
-                for (String m : message.split("\n")) {
-                    if (!m.isEmpty())
-                        adapter.addMessage(new Message(friend.getName(), m, MessageAdapter.DIRECTION_INCOMING));
-                }
-                conversation.setSelection(adapter.getCount() - 1);
-            }
-        });
+    public void onSharedPreferenceChanged(SharedPreferences preferences, String key)
+    {
+        String[] messages = preferences.getString(key, "").split("\n");
+        MessageAdapter adapter = (MessageAdapter) conversation.getAdapter();
+        adapter.addMessage(new Message(messages[messages.length-1]));//get last message
+        conversation.setSelection(adapter.getCount() - 1);
     }
 
     @Override
@@ -144,22 +136,6 @@ public class ChatActivity extends Activity implements ServiceConnection, ChatLis
         super.onSaveInstanceState(savedInstanceState);
         savedInstanceState.putParcelable("listView", conversation.onSaveInstanceState());
         savedInstanceState.putParcelableArrayList("messages", (ArrayList<Message>) ((MessageAdapter) conversation.getAdapter()).getMessages());
-    }
-
-    public void onPause() {
-        super.onPause();
-        SharedPreferences.Editor editor = getSharedPreferences("messageHistory", Context.MODE_PRIVATE).edit();
-        List<Message> messages = ((MessageAdapter) conversation.getAdapter()).getMessages();
-        if (messages.size() > 0) {
-            StringBuilder history = new StringBuilder();
-            for (int i = 0; i < messages.size(); i++) {
-                history.append(messages.get(i));
-                if (i < messages.size() - 1)
-                    history.append("\n");
-            }
-            editor.putString(friendName + "History", history.toString());
-            editor.apply();
-        }
     }
 
     public void onResume() {

@@ -8,7 +8,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.github.theholywaffle.lolchatapi.LolChat;
 import com.squareup.picasso.Picasso;
 import com.tesfayeabel.lolchat.LOLChatApplication;
 import com.tesfayeabel.lolchat.Message;
@@ -22,7 +21,7 @@ public class MessageAdapter extends BaseAdapter {
     public static final int DIRECTION_OUTGOING = 1;
     private List<Message> messages;
     private Context context;
-    private LolChat lolChat;
+    private int friendProfileIcon;
 
     public MessageAdapter(Context con) {
         this(con, new ArrayList<Message>());
@@ -33,8 +32,9 @@ public class MessageAdapter extends BaseAdapter {
         messages = list;
     }
 
-    public void setLolChat(LolChat lolChat) {
-        this.lolChat = lolChat;
+    public void setFriendProfileIcon(int friendProfileIcon)
+    {
+        this.friendProfileIcon = friendProfileIcon;
     }
 
     //Gets called every time you update the view with an
@@ -96,13 +96,13 @@ public class MessageAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         Message message = getItem(i);
-        if (lolChat != null && holder.imageView != null)
-            Picasso.with(context.getApplicationContext()).load(LOLChatApplication.getRiotResourceURL() + "/img/profileicon/" + lolChat.getFriendByName(message.getSender()).getStatus().getProfileIconId() + ".png").into(holder.imageView);
+        if (holder.imageView != null)
+            Picasso.with(context.getApplicationContext()).load(LOLChatApplication.getRiotResourceURL() + "/img/profileicon/" + friendProfileIcon + ".png").into(holder.imageView);
         holder.view.setText(message.getSender() + ": " + message.getMessage());
         return convertView;
     }
 
-    public class ViewHolder {
+    private class ViewHolder {
         TextView view;
         ImageView imageView;
     }

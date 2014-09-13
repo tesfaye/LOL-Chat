@@ -34,7 +34,6 @@ public class ChatService extends Service {
     public static LoginCallBack callBack;
     private final IBinder mBinder = new LocalBinder();
     private LolChat lolChat;
-    private ChatListener chatListener;
     private Handler handler = new Handler();
     private Toast toast;
     private NotificationManager notificationManager;
@@ -77,43 +76,40 @@ public class ChatService extends Service {
                     lolChat.addChatListener(new ChatListener() {
                         @Override
                         public void onMessage(final Friend friend, final String message) {
-                            if (chatListener != null && ((ChatActivity) chatListener).getIntent().getStringExtra("friend").equals(friend.getName())) {
-                                chatListener.onMessage(friend, message);
-                            } else {
-                                missedMessages.add(new Message(friend.getName(), message, MessageAdapter.DIRECTION_INCOMING));
-                                PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(),
-                                        0, new Intent(getApplicationContext(), LOLChatMain.class), 0);
-                                Notification notification = new Notification.Builder(ChatService.this)
-                                        .setContentTitle("New message")
-                                        .setContentText("Message from " + friend.getName())
-                                        .setSmallIcon(R.drawable.ic_launcher)
-                                        .setStyle(getStyle())
-                                        .setContentIntent(contentIntent)
-                                        .build();
-                                notification.flags |= Notification.FLAG_AUTO_CANCEL;
-                                notificationManager.notify(notification_ID, notification);
 
-                                SharedPreferences sharedPreferences = getSharedPreferences("messageHistory", Context.MODE_PRIVATE);
-                                String messageHistory = sharedPreferences.getString(friend.getName() + "History", "");
-                                SharedPreferences.Editor editor = sharedPreferences.edit();
-                                if (!messageHistory.equals("")) {
-                                    messageHistory += "\n";
-                                }
-                                for (String m : message.split("\n")) {
-                                    if (!m.isEmpty())
-                                        messageHistory += new Message(friend.getName(), m, MessageAdapter.DIRECTION_INCOMING) + "\n";
-                                }
-                                if (messageHistory.charAt(messageHistory.length() - 1) == '\n')//remove extra \n at end of string
-                                    messageHistory = messageHistory.substring(0, messageHistory.length() - 1);
-                                editor.putString(friend.getName() + "History", messageHistory);
-                                editor.apply();
-                                handler.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        showFriendToast(friend.getName(), message, friend.getStatus().getProfileIconId());
-                                    }
-                                });
+                            missedMessages.add(new Message(friend.getName(), message, MessageAdapter.DIRECTION_INCOMING));
+                            PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(),
+                                    0, new Intent(getApplicationContext(), LOLChatMain.class), 0);
+                            Notification notification = new Notification.Builder(ChatService.this)
+                                    .setContentTitle("New message")
+                                    .setContentText("Message from " + friend.getName())
+                                    .setSmallIcon(R.drawable.ic_launcher)
+                                    .setStyle(getStyle())
+                                    .setContentIntent(contentIntent)
+                                    .build();
+                            notification.flags |= Notification.FLAG_AUTO_CANCEL;
+                            notificationManager.notify(notification_ID, notification);
+
+                            SharedPreferences sharedPreferences = getSharedPreferences("messageHistory", Context.MODE_PRIVATE);
+                            String messageHistory = sharedPreferences.getString(friend.getName() + "History", "");
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            if (!messageHistory.equals("")) {
+                                messageHistory += "\n";
                             }
+                            for (String m : message.split("\n")) {
+                                if (!m.isEmpty())
+                                    messageHistory += new Message(friend.getName(), m, MessageAdapter.DIRECTION_INCOMING) + "\n";
+                            }
+                            if (messageHistory.charAt(messageHistory.length() - 1) == '\n')//remove extra \n at end of string
+                                messageHistory = messageHistory.substring(0, messageHistory.length() - 1);
+                            editor.putString(friend.getName() + "History", messageHistory);
+                            editor.apply();
+                            handler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    showFriendToast(friend.getName(), message, friend.getStatus().getProfileIconId());
+                                }
+                            });
                         }
                     });
                     SharedPreferences.Editor editor = getSharedPreferences("loginData", Context.MODE_PRIVATE).edit();//TODO: ENCRYPTION
@@ -131,10 +127,6 @@ public class ChatService extends Service {
             }
         }).start();
         return START_NOT_STICKY;
-    }
-
-    public void setChatListener(ChatListener chatListener) {
-        this.chatListener = chatListener;
     }
 
     private Notification.InboxStyle getStyle() {

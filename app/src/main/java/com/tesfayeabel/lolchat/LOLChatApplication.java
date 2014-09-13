@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 
 import org.json.JSONObject;
 
@@ -41,12 +42,12 @@ public class LOLChatApplication extends Application {
         return response.toString();
     }
 
-    public static Bitmap loadChampionImage(Context context, String name) {
+    public static Drawable loadChampionImage(Context context, String name) {
         Resources resources = context.getResources();
         name = name.toLowerCase().replace("'", "").replace(" ", "");
         if (name.equals("wukong"))
             name = "monkeyking";
-        return BitmapFactory.decodeResource(resources, resources.getIdentifier("champion_" + name, "drawable", context.getPackageName()));
+        return resources.getDrawable(resources.getIdentifier("champion_" + name, "drawable", context.getPackageName()));
     }
 
     public static String getGameSubType(String name) {

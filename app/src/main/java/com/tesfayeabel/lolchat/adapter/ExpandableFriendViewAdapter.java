@@ -197,7 +197,7 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
         return true;
     }
 
-    public class ViewHolder {
+    private class ViewHolder {
         TextView title;
         TextView artist;
         ImageView thumb_image;

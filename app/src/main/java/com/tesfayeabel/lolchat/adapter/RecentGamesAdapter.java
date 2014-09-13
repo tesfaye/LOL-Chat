@@ -77,7 +77,7 @@ public class RecentGamesAdapter extends BaseExpandableListAdapter {
         RawStats stats = game.getStats();
         holder.outcome.setText((stats.getWin() ? "Victory" : "Defeat") + " (" + LOLChatApplication.getGameSubType(game.getSubType()) + ")");
         holder.type.setText(game.getGameMode());
-        holder.avatar.setImageBitmap(LOLChatApplication.loadChampionImage(context, game.getChampionName()));
+        holder.avatar.setImageDrawable(LOLChatApplication.loadChampionImage(context, game.getChampionName()));
         holder.map.setText(LOLChatApplication.getMapName(game.getMapId()));
         holder.ip.setText(String.valueOf(game.getIpEarned()) + " IP");
         holder.date.setText(DateFormat.getDateInstance().format(new Date(game.getCreateDate())));
@@ -118,7 +118,7 @@ public class RecentGamesAdapter extends BaseExpandableListAdapter {
         return true;
     }
 
-    public class GroupHolder {
+    private class GroupHolder {
         ImageView avatar;
         TextView outcome;
         TextView type;
@@ -130,7 +130,7 @@ public class RecentGamesAdapter extends BaseExpandableListAdapter {
         TextView kills;
     }
 
-    public class ChildHolder {
+    private class ChildHolder {
 
     }
 }
