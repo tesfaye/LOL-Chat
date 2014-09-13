@@ -144,12 +144,12 @@ public class ChatActivity extends Activity implements ServiceConnection, SharedP
         String messages = preferences.getString(friendName + "History", null);
         if (messages != null) {
             String[] text = messages.split("\n");
-            ArrayList<Message> list = new ArrayList<Message>();
+            MessageAdapter adapter = (MessageAdapter) conversation.getAdapter();
+            adapter.clear();
             for (String s : text) {
-                list.add(new Message(s));
+                adapter.addMessage(new Message(s));
             }
-            conversation.setAdapter(new MessageAdapter(this, list));
-            conversation.setSelection(list.size() - 1);
+            conversation.setSelection(adapter.getCount() - 1);
         }
     }
 }

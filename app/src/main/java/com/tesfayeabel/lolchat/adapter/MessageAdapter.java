@@ -32,8 +32,7 @@ public class MessageAdapter extends BaseAdapter {
         messages = list;
     }
 
-    public void setFriendProfileIcon(int friendProfileIcon)
-    {
+    public void setFriendProfileIcon(int friendProfileIcon) {
         this.friendProfileIcon = friendProfileIcon;
     }
 
@@ -100,6 +99,11 @@ public class MessageAdapter extends BaseAdapter {
             Picasso.with(context.getApplicationContext()).load(LOLChatApplication.getRiotResourceURL() + "/img/profileicon/" + friendProfileIcon + ".png").into(holder.imageView);
         holder.view.setText(message.getSender() + ": " + message.getMessage());
         return convertView;
+    }
+
+    public void clear() {
+        messages.clear();
+        notifyDataSetChanged();
     }
 
     private class ViewHolder {
