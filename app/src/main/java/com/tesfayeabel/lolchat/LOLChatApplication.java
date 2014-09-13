@@ -3,8 +3,6 @@ package com.tesfayeabel.lolchat;
 import android.app.Application;
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 
 import org.json.JSONObject;
@@ -13,18 +11,12 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.HashMap;
 
 public class LOLChatApplication extends Application {
     private static String clientVersion;
-    private static HashMap<Integer, String> maps;
 
     public static String getRiotResourceURL() {
         return "http://ddragon.leagueoflegends.com/cdn/" + clientVersion;
-    }
-
-    public static String getMapName(int id) {
-        return maps.get(id);
     }
 
     private static String getString(String url) throws Exception {
@@ -60,15 +52,29 @@ public class LOLChatApplication extends Application {
         return "Normal";
     }
 
+    public static String getMapName(int id)
+    {
+        switch(id)
+        {
+            case 1:
+                return "Summoner's Rift";
+            case 2:
+                return "Summoner's Rift";
+            case 3:
+                return "The Proving Grounds";
+            case 4:
+                return "Twisted Treeline";
+            case 8:
+                return "The Crystal Scar";
+            case 10:
+                return "Twisted Treeline";
+            case 12:
+                return "Howling Abyss";
+            default:
+                return "";
+        }
+    }
     public void onCreate() {
-        maps = new HashMap<Integer, String>();
-        maps.put(1, "Summoner's Rift");
-        maps.put(2, "Summoner's Rift");
-        maps.put(3, "The Proving Grounds");
-        maps.put(4, "Twisted Treeline");
-        maps.put(8, "The Crystal Scar");
-        maps.put(10, "Twisted Treeline");
-        maps.put(12, "Howling Abyss");
         new Thread(new Runnable() {
             @Override
             public void run() {
