@@ -52,10 +52,8 @@ public class LOLChatApplication extends Application {
         return "Normal";
     }
 
-    public static String getMapName(int id)
-    {
-        switch(id)
-        {
+    public static String getMapName(int id) {
+        switch (id) {
             case 1:
                 return "Summoner's Rift";
             case 2:
@@ -74,6 +72,7 @@ public class LOLChatApplication extends Application {
                 return "";
         }
     }
+
     public void onCreate() {
         new Thread(new Runnable() {
             @Override

@@ -35,7 +35,7 @@ public class MainFragment extends LOLChatFragment {
                 ExpandableFriendViewAdapter adapter = (ExpandableFriendViewAdapter) listView.getExpandableListAdapter();
                 intent.putExtra("friend", adapter.getChild(groupPosition, childPosition).getName());
                 startActivity(intent);
-                return false;
+                return true;
             }
         });
         return view;
