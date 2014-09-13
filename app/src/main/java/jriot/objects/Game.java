@@ -15,7 +15,6 @@ public class Game {
                 + ", subType=" + subType + ", teamId=" + teamId + "]";
     }
     private int championId;
-    private String championName;
     private long createDate;
     private ArrayList<Player> fellowPlayers;
     private long gameId;
@@ -30,16 +29,6 @@ public class Game {
     private RawStats stats;
     private String subType;
     private int teamId;
-
-    public String getChampionName()
-    {
-        return championName;
-    }
-
-    public void setChampionName(String championName)
-    {
-        this.championName = championName;
-    }
 
     public int getChampionId() {
         return championId;

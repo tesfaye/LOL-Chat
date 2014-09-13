@@ -60,7 +60,6 @@
             android:src="@drawable/lolchat_lclogo"
             android:layout_below="@+id/summonerItem1"
             android:layout_alignParentRight="true"
-            android:layout_alignBottom="true"
             android:layout_margin="5dp"/>
         <ImageView
             android:layout_width="30dp"

@@ -4,7 +4,9 @@ import android.app.Application;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.util.SparseArray;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -14,7 +16,7 @@ import java.net.URLConnection;
 
 public class LOLChatApplication extends Application {
     private static String clientVersion;
-
+    private static SparseArray<String> championArray;
     public static String getRiotResourceURL() {
         return "http://ddragon.leagueoflegends.com/cdn/" + clientVersion;
     }
@@ -23,19 +25,17 @@ public class LOLChatApplication extends Application {
         URL website = new URL(url);
         URLConnection connection = website.openConnection();
         BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-
         StringBuilder response = new StringBuilder();
         String inputLine;
         while ((inputLine = in.readLine()) != null)
             response.append(inputLine);
-
         in.close();
-
         return response.toString();
     }
 
-    public static Drawable loadChampionImage(Context context, String name) {
+    public static Drawable loadChampionImage(Context context, int id) {
         Resources resources = context.getResources();
+        String name = championArray.get(id);
         name = name.toLowerCase().replace("'", "").replace(" ", "");
         if (name.equals("wukong"))
             name = "monkeyking";
@@ -74,12 +74,22 @@ public class LOLChatApplication extends Application {
     }
 
     public void onCreate() {
+        championArray = new SparseArray<String>();
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    JSONObject json = new JSONObject(getString("http://ddragon.leagueoflegends.com/realms/na.json"));
-                    clientVersion = json.getString("v");
+                    JSONObject version = new JSONObject(getString("http://ddragon.leagueoflegends.com/realms/na.json"));
+                    clientVersion = version.getString("v");
+
+                    JSONObject champs = new JSONObject(getString("https://na.api.pvp.net/api/lol/static-data/na/v1.2/champion?api_key=" + getString(R.string.api_riot)));
+                    JSONObject data = champs.getJSONObject("data");
+                    JSONArray array = data.names();
+                    for(int i = 0; i< array.length(); i++)
+                    {
+                        String name = array.get(i).toString();
+                        championArray.put(data.getJSONObject(name).getInt("id"), name);
+                    }
                 } catch (Exception exception) {
                     exception.printStackTrace();
                 }
