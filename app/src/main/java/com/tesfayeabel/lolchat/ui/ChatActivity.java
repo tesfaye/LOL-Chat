@@ -1,4 +1,4 @@
-package com.tesfayeabel.lolchat;
+package com.tesfayeabel.lolchat.ui;
 
 import android.app.Activity;
 import android.content.ComponentName;
@@ -21,7 +21,10 @@ import android.widget.TextView;
 
 import com.github.theholywaffle.lolchatapi.LolChat;
 import com.github.theholywaffle.lolchatapi.wrapper.Friend;
-import com.tesfayeabel.lolchat.adapter.MessageAdapter;
+import com.tesfayeabel.lolchat.ChatService;
+import com.tesfayeabel.lolchat.Message;
+import com.tesfayeabel.lolchat.R;
+import com.tesfayeabel.lolchat.ui.adapter.MessageAdapter;
 
 import java.util.ArrayList;
 

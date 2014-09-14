@@ -1,4 +1,4 @@
-package com.tesfayeabel.lolchat;
+package com.tesfayeabel.lolchat.ui;
 
 import android.app.Fragment;
 

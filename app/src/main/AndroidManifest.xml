@@ -10,30 +10,30 @@
         android:name=".LOLChatApplication"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".LOLChatMain"
+            android:name=".ui.LOLChatMain"
             android:launchMode="singleTop"
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name=".ChatActivity"
+            android:name=".ui.ChatActivity"
             android:label="Chat"
-            android:parentActivityName=".ChatActivity" >
+            android:parentActivityName=".ui.ChatActivity" >
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ChatActivity" />
         </activity>
         <activity
-            android:name=".ProfileActivity"
+            android:name=".ui.ProfileActivity"
             android:label="Profile Viewer"
-            android:parentActivityName=".ProfileActivity" >
+            android:parentActivityName=".ui.ProfileActivity" >
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ProfileActivity" />
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name=".ui.LoginActivity"
             android:label="@string/app_name"
             android:noHistory="true"  >
             <intent-filter>

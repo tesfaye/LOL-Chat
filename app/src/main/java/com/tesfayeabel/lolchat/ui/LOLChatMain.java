@@ -1,4 +1,4 @@
-package com.tesfayeabel.lolchat;
+package com.tesfayeabel.lolchat.ui;
 
 import android.app.Activity;
 import android.app.FragmentManager;
@@ -21,6 +21,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.github.theholywaffle.lolchatapi.LolChat;
+import com.tesfayeabel.lolchat.ChatService;
+import com.tesfayeabel.lolchat.R;
 
 public class LOLChatMain extends Activity implements ServiceConnection {
     private DrawerLayout mDrawerLayout;

@@ -1,4 +1,4 @@
-package com.tesfayeabel.lolchat;
+package com.tesfayeabel.lolchat.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +10,8 @@ import android.widget.ExpandableListView;
 import com.github.theholywaffle.lolchatapi.LolChat;
 import com.github.theholywaffle.lolchatapi.listeners.FriendListener;
 import com.github.theholywaffle.lolchatapi.wrapper.Friend;
-import com.tesfayeabel.lolchat.adapter.ExpandableFriendViewAdapter;
+import com.tesfayeabel.lolchat.R;
+import com.tesfayeabel.lolchat.ui.adapter.ExpandableFriendViewAdapter;
 
 import java.util.ArrayList;
 import java.util.Collections;

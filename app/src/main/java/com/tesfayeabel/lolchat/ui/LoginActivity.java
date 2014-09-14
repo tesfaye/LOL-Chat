@@ -1,4 +1,4 @@
-package com.tesfayeabel.lolchat;
+package com.tesfayeabel.lolchat.ui;
 
 import android.app.Activity;
 import android.content.Context;
@@ -18,6 +18,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.github.theholywaffle.lolchatapi.ChatServer;
+import com.tesfayeabel.lolchat.ChatService;
+import com.tesfayeabel.lolchat.LoginCallBack;
+import com.tesfayeabel.lolchat.R;
 
 import java.util.ArrayList;
 

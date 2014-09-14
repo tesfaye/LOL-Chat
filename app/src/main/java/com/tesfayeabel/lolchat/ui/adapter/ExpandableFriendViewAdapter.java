@@ -1,4 +1,4 @@
-package com.tesfayeabel.lolchat.adapter;
+package com.tesfayeabel.lolchat.ui.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.github.theholywaffle.lolchatapi.LolStatus;
 import com.github.theholywaffle.lolchatapi.wrapper.Friend;
 import com.squareup.picasso.Picasso;
-import com.tesfayeabel.lolchat.ChatActivity;
+import com.tesfayeabel.lolchat.ui.ChatActivity;
 import com.tesfayeabel.lolchat.LOLChatApplication;
 import com.tesfayeabel.lolchat.R;
 

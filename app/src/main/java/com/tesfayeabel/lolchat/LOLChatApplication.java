@@ -21,7 +21,7 @@ public class LOLChatApplication extends Application {
         return "http://ddragon.leagueoflegends.com/cdn/" + clientVersion;
     }
 
-    private static String getString(String url) throws Exception {
+    private static String getHTML(String url) throws Exception {
         URL website = new URL(url);
         URLConnection connection = website.openConnection();
         BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -94,10 +94,10 @@ public class LOLChatApplication extends Application {
             @Override
             public void run() {
                 try {
-                    JSONObject version = new JSONObject(getString("http://ddragon.leagueoflegends.com/realms/na.json"));
+                    JSONObject version = new JSONObject(getHTML("http://ddragon.leagueoflegends.com/realms/na.json"));
                     clientVersion = version.getString("v");
 
-                    JSONObject champs = new JSONObject(getString("https://na.api.pvp.net/api/lol/static-data/na/v1.2/champion?api_key=" + getString(R.string.api_riot)));
+                    JSONObject champs = new JSONObject(getHTML("https://na.api.pvp.net/api/lol/static-data/na/v1.2/champion?api_key=" + getString(R.string.api_riot)));
                     JSONObject data = champs.getJSONObject("data");
                     JSONArray array = data.names();
                     for(int i = 0; i< array.length(); i++)

@@ -1,4 +1,4 @@
-package com.tesfayeabel.lolchat;
+package com.tesfayeabel.lolchat.ui;
 
 import android.app.Activity;
 import android.content.ComponentName;
@@ -13,7 +13,10 @@ import android.widget.TextView;
 
 import com.github.theholywaffle.lolchatapi.LolChat;
 import com.squareup.picasso.Picasso;
-import com.tesfayeabel.lolchat.adapter.RecentGamesAdapter;
+import com.tesfayeabel.lolchat.ChatService;
+import com.tesfayeabel.lolchat.LOLChatApplication;
+import com.tesfayeabel.lolchat.R;
+import com.tesfayeabel.lolchat.ui.adapter.RecentGamesAdapter;
 
 import java.util.List;
 
@@ -54,7 +57,7 @@ public class ProfileActivity extends Activity implements ServiceConnection {
                         @Override
                         public void run() {
                             recentGames.setAdapter(new RecentGamesAdapter(getApplicationContext(), games));
-                            level.setText("Level: " + (int) summoner.getSummonerLevel());
+                            level.setText("Level " + (int) summoner.getSummonerLevel());
                             Picasso.with(getApplicationContext()).load(LOLChatApplication.getRiotResourceURL() + "/img/profileicon/" + summoner.getProfileIconId() + ".png").into(imageView);
                         }
                     });

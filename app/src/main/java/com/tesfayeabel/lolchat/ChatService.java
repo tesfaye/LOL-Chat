@@ -23,7 +23,8 @@ import com.github.theholywaffle.lolchatapi.LolChat;
 import com.github.theholywaffle.lolchatapi.listeners.ChatListener;
 import com.github.theholywaffle.lolchatapi.wrapper.Friend;
 import com.squareup.picasso.Picasso;
-import com.tesfayeabel.lolchat.adapter.MessageAdapter;
+import com.tesfayeabel.lolchat.ui.adapter.MessageAdapter;
+import com.tesfayeabel.lolchat.ui.LOLChatMain;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -174,7 +175,7 @@ public class ChatService extends Service {
     }
 
     public class LocalBinder extends Binder {
-        ChatService getService() {
+        public ChatService getService() {
             return ChatService.this;
         }
     }
