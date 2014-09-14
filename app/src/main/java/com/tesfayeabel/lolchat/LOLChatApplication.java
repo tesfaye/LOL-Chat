@@ -35,11 +35,10 @@ public class LOLChatApplication extends Application {
 
     public static Drawable loadChampionImage(Context context, int id) {
         Resources resources = context.getResources();
-        String name = championArray.get(id);
-        name = name.toLowerCase().replace("'", "").replace(" ", "");
-        if (name.equals("wukong"))
-            name = "monkeyking";
-        return resources.getDrawable(resources.getIdentifier("champion_" + name, "drawable", context.getPackageName()));
+        int resource = resources.getIdentifier("champion_" + championArray.get(id).toLowerCase(), "drawable", context.getPackageName());
+        if(resource == 0)//resource not found
+            resource = R.drawable.lolchat_lclogo;
+        return resources.getDrawable(resource);
     }
 
     public static String getGameSubType(String name) {
