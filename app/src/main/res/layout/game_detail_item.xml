@@ -17,14 +17,14 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:src="@drawable/lolchat_lclogo"
+            android:src="@drawable/summoner_flash"
             android:layout_margin="5dp" />
 
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:id="@+id/summonerSpell2"
-            android:src="@drawable/lolchat_lclogo"
+            android:src="@drawable/summoner_flash"
             android:baselineAlignBottom="false"
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/summonerSpell1"
