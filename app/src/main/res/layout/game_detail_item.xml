@@ -33,48 +33,54 @@
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:id="@+id/summonerItem1"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/lolchat_lclogo"
-            android:layout_margin="5dp"/>
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:id="@+id/summonerItem2"
-            android:src="@drawable/lolchat_lclogo"
-            android:layout_toLeftOf="@+id/summonerItem1"
-            android:layout_margin="5dp"/>
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:id="@+id/summonerItem3"
-            android:src="@drawable/lolchat_lclogo"
-            android:layout_toLeftOf="@+id/summonerItem2"
-            android:layout_margin="5dp"/>
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
             android:id="@+id/summonerItem6"
             android:src="@drawable/lolchat_lclogo"
-            android:layout_below="@+id/summonerItem1"
-            android:layout_alignParentRight="true"
+            android:layout_toLeftOf="@id/trinket"
             android:layout_margin="5dp"/>
+
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:id="@+id/summonerItem5"
             android:src="@drawable/lolchat_lclogo"
             android:layout_toLeftOf="@+id/summonerItem6"
-            android:baselineAlignBottom="true"
             android:layout_margin="5dp"/>
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:id="@+id/summonerItem4"
             android:src="@drawable/lolchat_lclogo"
-            android:layout_below="@+id/summonerItem3"
+            android:layout_toLeftOf="@+id/summonerItem5"
+            android:layout_margin="5dp"/>
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/summonerItem3"
+            android:src="@drawable/lolchat_lclogo"
+            android:layout_toLeftOf="@+id/summonerItem4"
+            android:layout_margin="5dp"/>
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/summonerItem2"
+            android:src="@drawable/lolchat_lclogo"
+            android:layout_toLeftOf="@+id/summonerItem3"
+            android:baselineAlignBottom="true"
+            android:layout_margin="5dp"/>
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/summonerItem1"
+            android:src="@drawable/lolchat_lclogo"
+            android:layout_toLeftOf="@+id/summonerItem2"
+            android:layout_margin="5dp"/>
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:id="@+id/trinket"
+            android:src="@drawable/lolchat_lclogo"
             android:layout_margin="5dp"/>
     </RelativeLayout>
 </LinearLayout>
