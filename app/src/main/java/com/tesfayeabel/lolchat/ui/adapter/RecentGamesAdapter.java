@@ -8,6 +8,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.tesfayeabel.lolchat.LOLChatApplication;
 import com.tesfayeabel.lolchat.R;
 
@@ -94,12 +95,25 @@ public class RecentGamesAdapter extends BaseExpandableListAdapter {
             LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = mInflater.inflate(R.layout.game_detail_item, parent, false);
             holder = new ChildHolder();
-
+            holder.summonerSpell1 = (ImageView) convertView.findViewById(R.id.summonerSpell1);
+            holder.summonerSpell2 = (ImageView) convertView.findViewById(R.id.summonerSpell2);
+            holder.item1 = (ImageView) convertView.findViewById(R.id.summonerItem1);
+            holder.item2 = (ImageView) convertView.findViewById(R.id.summonerItem2);
+            holder.item3 = (ImageView) convertView.findViewById(R.id.summonerItem3);
+            holder.item4 = (ImageView) convertView.findViewById(R.id.summonerItem4);
+            holder.item5 = (ImageView) convertView.findViewById(R.id.summonerItem5);
+            holder.item6 = (ImageView) convertView.findViewById(R.id.summonerItem5);
             convertView.setTag(holder);
         } else {
             holder = (ChildHolder) convertView.getTag();
         }
         Game game = getChild(groupPosition, childPosition);
+        holder.item1.setImageResource(context.getResources().getIdentifier("item_" + game.getStats().getItem0(), "drawable", context.getPackageName()));
+        holder.item2.setImageResource(context.getResources().getIdentifier("item_" + game.getStats().getItem1(), "drawable", context.getPackageName()));
+        holder.item3.setImageResource(context.getResources().getIdentifier("item_" + game.getStats().getItem2(), "drawable", context.getPackageName()));
+        holder.item4.setImageResource(context.getResources().getIdentifier("item_" + game.getStats().getItem3(), "drawable", context.getPackageName()));
+        holder.item5.setImageResource(context.getResources().getIdentifier("item_" + game.getStats().getItem4(), "drawable", context.getPackageName()));
+        holder.item6.setImageResource(context.getResources().getIdentifier("item_" + game.getStats().getItem5(), "drawable", context.getPackageName()));
         return convertView;
     }
 
@@ -131,6 +145,13 @@ public class RecentGamesAdapter extends BaseExpandableListAdapter {
     }
 
     private class ChildHolder {
-
+        ImageView summonerSpell1;
+        ImageView summonerSpell2;
+        ImageView item1;
+        ImageView item2;
+        ImageView item3;
+        ImageView item4;
+        ImageView item5;
+        ImageView item6;
     }
 }

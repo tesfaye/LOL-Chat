@@ -33,6 +33,15 @@
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:id="@+id/trinket"
+            android:src="@drawable/lolchat_lclogo"
+            android:layout_margin="5dp"/>
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:id="@+id/summonerItem6"
             android:src="@drawable/lolchat_lclogo"
             android:layout_toLeftOf="@id/trinket"
@@ -73,14 +82,6 @@
             android:id="@+id/summonerItem1"
             android:src="@drawable/lolchat_lclogo"
             android:layout_toLeftOf="@+id/summonerItem2"
-            android:layout_margin="5dp"/>
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:id="@+id/trinket"
-            android:src="@drawable/lolchat_lclogo"
             android:layout_margin="5dp"/>
     </RelativeLayout>
 </LinearLayout>
