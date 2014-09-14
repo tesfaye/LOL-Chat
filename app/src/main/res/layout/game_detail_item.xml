@@ -1,87 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="80dp"
+    android:layout_margin="8dp"
+    android:background="#ff134466">
 
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="80dp"
-        android:layout_margin="8dp"
-        android:background="#ff134466">
+    <ImageView
+        android:id="@+id/summonerSpell1"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_margin="2dp"
+        android:src="@drawable/summoner_flash" />
 
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:id="@+id/summonerSpell1"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:src="@drawable/summoner_flash"
-            android:layout_margin="2dp" />
+    <ImageView
+        android:id="@+id/summonerSpell2"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentTop="true"
+        android:layout_margin="2dp"
+        android:layout_toRightOf="@+id/summonerSpell1"
+        android:baselineAlignBottom="false"
+        android:src="@drawable/summoner_flash" />
 
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:id="@+id/summonerSpell2"
-            android:src="@drawable/summoner_flash"
-            android:baselineAlignBottom="false"
-            android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/summonerSpell1"
-            android:layout_margin="2dp"/>
+    <ImageView
+        android:id="@+id/trinket"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_margin="2dp"
+        android:src="@drawable/summoner_flash" />
 
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:id="@+id/trinket"
-            android:src="@drawable/summoner_flash"
-            android:layout_margin="2dp"/>
+    <ImageView
+        android:id="@+id/summonerItem6"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_margin="2dp"
+        android:layout_toLeftOf="@id/trinket"
+        android:src="@drawable/summoner_flash" />
 
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:id="@+id/summonerItem6"
-            android:src="@drawable/summoner_flash"
-            android:layout_toLeftOf="@id/trinket"
-            android:layout_margin="2dp"/>
+    <ImageView
+        android:id="@+id/summonerItem5"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_margin="2dp"
+        android:layout_toLeftOf="@+id/summonerItem6"
+        android:src="@drawable/summoner_flash" />
 
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:id="@+id/summonerItem5"
-            android:src="@drawable/summoner_flash"
-            android:layout_toLeftOf="@+id/summonerItem6"
-            android:layout_margin="2dp"/>
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:id="@+id/summonerItem4"
-            android:src="@drawable/summoner_flash"
-            android:layout_toLeftOf="@+id/summonerItem5"
-            android:layout_margin="2dp"/>
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:id="@+id/summonerItem3"
-            android:src="@drawable/summoner_flash"
-            android:layout_toLeftOf="@+id/summonerItem4"
-            android:layout_margin="2dp"/>
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:id="@+id/summonerItem2"
-            android:src="@drawable/summoner_flash"
-            android:layout_toLeftOf="@+id/summonerItem3"
-            android:baselineAlignBottom="true"
-            android:layout_margin="2dp"/>
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:id="@+id/summonerItem1"
-            android:src="@drawable/summoner_flash"
-            android:layout_toLeftOf="@+id/summonerItem2"
-            android:layout_margin="2dp"/>
-    </RelativeLayout>
-</LinearLayout>
+    <ImageView
+        android:id="@+id/summonerItem4"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_margin="2dp"
+        android:layout_toLeftOf="@+id/summonerItem5"
+        android:src="@drawable/summoner_flash" />
+
+    <ImageView
+        android:id="@+id/summonerItem3"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_margin="2dp"
+        android:layout_toLeftOf="@+id/summonerItem4"
+        android:src="@drawable/summoner_flash" />
+
+    <ImageView
+        android:id="@+id/summonerItem2"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_margin="2dp"
+        android:layout_toLeftOf="@+id/summonerItem3"
+        android:baselineAlignBottom="true"
+        android:src="@drawable/summoner_flash" />
+
+    <ImageView
+        android:id="@+id/summonerItem1"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_margin="2dp"
+        android:layout_toLeftOf="@+id/summonerItem2"
+        android:src="@drawable/summoner_flash" />
+</RelativeLayout>
