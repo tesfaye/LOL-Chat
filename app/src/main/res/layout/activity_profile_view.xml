@@ -8,13 +8,23 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <ImageView
+        <FrameLayout
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:id="@+id/gameavatar"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginBottom="10dp" />
+            android:layout_marginBottom="10dp"
+            android:id="@+id/iconLayout" >
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                android:id="@+id/gameavatar" />
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </FrameLayout>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -23,8 +33,8 @@
             android:fontFamily="sans-serif-light"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/gameavatar"
-            android:layout_toEndOf="@+id/gameavatar"
+            android:layout_toRightOf="@+id/iconLayout"
+            android:layout_toEndOf="@+id/iconLayout"
             android:textSize="30dp"
             android:layout_marginTop="15dp"
             android:layout_marginLeft="5dp" />
@@ -36,8 +46,8 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/level"
             android:layout_below="@+id/name"
-            android:layout_toRightOf="@+id/gameavatar"
-            android:layout_toEndOf="@+id/gameavatar"
+            android:layout_toRightOf="@+id/iconLayout"
+            android:layout_toEndOf="@+id/iconLayout"
             android:layout_marginLeft="5dp"
             android:textColor="#ffb6b6b6" />
     </RelativeLayout>
