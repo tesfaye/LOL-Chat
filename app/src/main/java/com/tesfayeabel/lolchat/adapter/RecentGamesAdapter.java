@@ -76,7 +76,7 @@ public class RecentGamesAdapter extends BaseExpandableListAdapter {
         final Game game = getGroup(groupPosition);
         RawStats stats = game.getStats();
         holder.outcome.setText((stats.getWin() ? "Victory" : "Defeat") + " (" + LOLChatApplication.getGameSubType(game.getSubType()) + ")");
-        holder.type.setText(game.getGameMode());
+        holder.type.setText(LOLChatApplication.getGameMode(game.getGameMode()));
         holder.avatar.setImageDrawable(LOLChatApplication.loadChampionImage(context, game.getChampionId()));
         holder.map.setText(LOLChatApplication.getMapName(game.getMapId()));
         holder.ip.setText(String.valueOf(game.getIpEarned()) + " IP");

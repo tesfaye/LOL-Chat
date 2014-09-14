@@ -51,6 +51,22 @@ public class LOLChatApplication extends Application {
         return "Normal";
     }
 
+    public static String getGameMode(String name)  {
+        if(name.equals("CLASSIC"))
+            return "Classic";
+        if(name.equals("ODIN"))
+            return "Dominion";
+        if(name.equals("ARAM"))
+            return "ARAM";
+        if(name.equals("TUTORIAL"))
+            return "Tutorial";
+        if(name.equals("ONEFORALL"))
+            return "One for All";
+        if(name.equals("ASCENSION"))
+            return "Ascension";
+        return "?";
+    }
+
     public static String getMapName(int id) {
         switch (id) {
             case 1:
