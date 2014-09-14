@@ -26,7 +26,7 @@ import jriot.objects.Game;
 import jriot.objects.Summoner;
 
 public class ProfileActivity extends Activity implements ServiceConnection {
-    private String friendName;
+    private String playerName;
     private ExpandableListView recentGames;
     private ImageView imageView;
     private TextView level;
@@ -34,11 +34,11 @@ public class ProfileActivity extends Activity implements ServiceConnection {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_view);
-        friendName = getIntent().getStringExtra("friend");
+        playerName = getIntent().getStringExtra("player");
         recentGames = (ExpandableListView) findViewById(R.id.listView);
         imageView = (ImageView) findViewById(R.id.gameavatar);
         TextView textView = (TextView) findViewById(R.id.name);
-        textView.setText(friendName);
+        textView.setText(playerName);
         level = (TextView) findViewById(R.id.level);
         bindService(new Intent(this, ChatService.class), this, Context.BIND_AUTO_CREATE);
     }
@@ -51,7 +51,7 @@ public class ProfileActivity extends Activity implements ServiceConnection {
             @Override
             public void run() {
                 try {
-                    final Summoner summoner = jRiot.getSummoner(friendName.replace(" ", ""));
+                    final Summoner summoner = jRiot.getSummoner(playerName.replace(" ", ""));
                     final List<Game> games = jRiot.getRecentGames(summoner.getId()).getGames();
                     runOnUiThread(new Runnable() {
                         @Override

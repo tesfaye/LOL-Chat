@@ -34,7 +34,7 @@ public class MainFragment extends LOLChatFragment {
             public boolean onChildClick(ExpandableListView expandableListView, View view, int groupPosition, int childPosition, long l) {
                 Intent intent = new Intent(getActivity(), ProfileActivity.class);
                 ExpandableFriendViewAdapter adapter = (ExpandableFriendViewAdapter) listView.getExpandableListAdapter();
-                intent.putExtra("friend", adapter.getChild(groupPosition, childPosition).getName());
+                intent.putExtra("player", adapter.getChild(groupPosition, childPosition).getName());
                 startActivity(intent);
                 return true;
             }

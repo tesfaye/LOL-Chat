@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.github.theholywaffle.lolchatapi.ChatServer;
 import com.tesfayeabel.lolchat.ChatService;
+import com.tesfayeabel.lolchat.LOLChatMain;
 import com.tesfayeabel.lolchat.LoginCallBack;
 import com.tesfayeabel.lolchat.R;
 

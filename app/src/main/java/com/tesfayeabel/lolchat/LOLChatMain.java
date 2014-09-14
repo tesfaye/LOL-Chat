@@ -1,4 +1,4 @@
-package com.tesfayeabel.lolchat.ui;
+package com.tesfayeabel.lolchat;
 
 import android.app.Activity;
 import android.app.FragmentManager;
@@ -21,8 +21,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.github.theholywaffle.lolchatapi.LolChat;
-import com.tesfayeabel.lolchat.ChatService;
-import com.tesfayeabel.lolchat.R;
+import com.tesfayeabel.lolchat.ui.LOLChatFragment;
+import com.tesfayeabel.lolchat.ui.LoginActivity;
+import com.tesfayeabel.lolchat.ui.MainFragment;
+import com.tesfayeabel.lolchat.ui.SummonerSearch;
 
 public class LOLChatMain extends Activity implements ServiceConnection {
     private DrawerLayout mDrawerLayout;
@@ -40,7 +42,7 @@ public class LOLChatMain extends Activity implements ServiceConnection {
         setContentView(R.layout.activity_lolchat_main);
 
         mTitle = mDrawerTitle = getTitle();
-        fragmentNames = new String[]{"Main"};
+        fragmentNames = new String[]{"Main", "Search"};
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
@@ -138,6 +140,8 @@ public class LOLChatMain extends Activity implements ServiceConnection {
     public LOLChatFragment getFragmentByName(String name) {
         if (name.equals("Main"))
             return new MainFragment();
+        if(name.equals("Search"))
+            return new SummonerSearch();
         return null;
     }
 
