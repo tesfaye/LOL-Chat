@@ -18,7 +18,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:src="@drawable/summoner_flash"
-            android:layout_margin="5dp" />
+            android:layout_margin="2dp" />
 
         <ImageView
             android:layout_width="30dp"
@@ -28,7 +28,7 @@
             android:baselineAlignBottom="false"
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/summonerSpell1"
-            android:layout_margin="5dp"/>
+            android:layout_margin="2dp"/>
 
         <ImageView
             android:layout_width="30dp"
@@ -37,7 +37,7 @@
             android:layout_alignParentRight="true"
             android:id="@+id/trinket"
             android:src="@drawable/summoner_flash"
-            android:layout_margin="5dp"/>
+            android:layout_margin="2dp"/>
 
         <ImageView
             android:layout_width="30dp"
@@ -45,7 +45,7 @@
             android:id="@+id/summonerItem6"
             android:src="@drawable/summoner_flash"
             android:layout_toLeftOf="@id/trinket"
-            android:layout_margin="5dp"/>
+            android:layout_margin="2dp"/>
 
         <ImageView
             android:layout_width="30dp"
@@ -53,21 +53,21 @@
             android:id="@+id/summonerItem5"
             android:src="@drawable/summoner_flash"
             android:layout_toLeftOf="@+id/summonerItem6"
-            android:layout_margin="5dp"/>
+            android:layout_margin="2dp"/>
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:id="@+id/summonerItem4"
             android:src="@drawable/summoner_flash"
             android:layout_toLeftOf="@+id/summonerItem5"
-            android:layout_margin="5dp"/>
+            android:layout_margin="2dp"/>
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:id="@+id/summonerItem3"
             android:src="@drawable/summoner_flash"
             android:layout_toLeftOf="@+id/summonerItem4"
-            android:layout_margin="5dp"/>
+            android:layout_margin="2dp"/>
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -75,13 +75,13 @@
             android:src="@drawable/summoner_flash"
             android:layout_toLeftOf="@+id/summonerItem3"
             android:baselineAlignBottom="true"
-            android:layout_margin="5dp"/>
+            android:layout_margin="2dp"/>
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:id="@+id/summonerItem1"
             android:src="@drawable/summoner_flash"
             android:layout_toLeftOf="@+id/summonerItem2"
-            android:layout_margin="5dp"/>
+            android:layout_margin="2dp"/>
     </RelativeLayout>
 </LinearLayout>
