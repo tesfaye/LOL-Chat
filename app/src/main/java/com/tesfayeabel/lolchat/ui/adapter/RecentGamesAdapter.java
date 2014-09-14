@@ -102,18 +102,23 @@ public class RecentGamesAdapter extends BaseExpandableListAdapter {
             holder.item3 = (ImageView) convertView.findViewById(R.id.summonerItem3);
             holder.item4 = (ImageView) convertView.findViewById(R.id.summonerItem4);
             holder.item5 = (ImageView) convertView.findViewById(R.id.summonerItem5);
-            holder.item6 = (ImageView) convertView.findViewById(R.id.summonerItem5);
+            holder.item6 = (ImageView) convertView.findViewById(R.id.summonerItem6);
+            holder.item7 = (ImageView) convertView.findViewById(R.id.trinket);
             convertView.setTag(holder);
         } else {
             holder = (ChildHolder) convertView.getTag();
         }
         Game game = getChild(groupPosition, childPosition);
+        holder.summonerSpell1.setImageResource(R.drawable.summoner_boost);
+        holder.summonerSpell2.setImageResource(R.drawable.summoner_flash);
+
         holder.item1.setImageResource(context.getResources().getIdentifier("item_" + game.getStats().getItem0(), "drawable", context.getPackageName()));
         holder.item2.setImageResource(context.getResources().getIdentifier("item_" + game.getStats().getItem1(), "drawable", context.getPackageName()));
         holder.item3.setImageResource(context.getResources().getIdentifier("item_" + game.getStats().getItem2(), "drawable", context.getPackageName()));
         holder.item4.setImageResource(context.getResources().getIdentifier("item_" + game.getStats().getItem3(), "drawable", context.getPackageName()));
         holder.item5.setImageResource(context.getResources().getIdentifier("item_" + game.getStats().getItem4(), "drawable", context.getPackageName()));
         holder.item6.setImageResource(context.getResources().getIdentifier("item_" + game.getStats().getItem5(), "drawable", context.getPackageName()));
+        holder.item7.setImageResource(context.getResources().getIdentifier("item_" + game.getStats().getItem6(), "drawable", context.getPackageName()));
         return convertView;
     }
 
@@ -153,5 +158,6 @@ public class RecentGamesAdapter extends BaseExpandableListAdapter {
         ImageView item4;
         ImageView item5;
         ImageView item6;
+        ImageView item7;
     }
 }
