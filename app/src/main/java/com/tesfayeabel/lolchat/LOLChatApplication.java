@@ -1,9 +1,6 @@
 package com.tesfayeabel.lolchat;
 
 import android.app.Application;
-import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.util.SparseArray;
 
 import org.json.JSONArray;
@@ -33,14 +30,6 @@ public class LOLChatApplication extends Application {
         return response.toString();
     }
 
-    public static Drawable loadChampionImage(Context context, int id) {
-        Resources resources = context.getResources();
-        int resource = resources.getIdentifier("champion_" + championArray.get(id).toLowerCase(), "drawable", context.getPackageName());
-        if(resource == 0)//resource not found
-            resource = R.drawable.lolchat_lclogo;
-        return resources.getDrawable(resource);
-    }
-
     public static String getGameSubType(String name) {
         if (name.equals("NONE"))
             return "Custom";
@@ -65,6 +54,11 @@ public class LOLChatApplication extends Application {
         if(name.equals("ASCENSION"))
             return "Ascension";
         return "?";
+    }
+
+    public static String getChampionName(int id)
+    {
+        return championArray.get(id);
     }
 
     public static String getMapName(int id) {
@@ -103,7 +97,7 @@ public class LOLChatApplication extends Application {
                     for(int i = 0; i< array.length(); i++)
                     {
                         String name = array.get(i).toString();
-                        championArray.put(data.getJSONObject(name).getInt("id"), name);
+                        championArray.put(data.getJSONObject(name).getInt("id"), name.toLowerCase());
                     }
                 } catch (Exception exception) {
                     exception.printStackTrace();
