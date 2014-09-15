@@ -14,6 +14,7 @@ import java.net.URLConnection;
 public class LOLChatApplication extends Application {
     private static String clientVersion;
     private static SparseArray<String> championArray;
+    private static SparseArray<String> summonerSpellArray;
 
     public static String getRiotResourceURL() {
         return "http://ddragon.leagueoflegends.com/cdn/" + clientVersion;
@@ -61,6 +62,11 @@ public class LOLChatApplication extends Application {
         return championArray.get(id);
     }
 
+    public static String getSpellName(int id)
+    {
+        return summonerSpellArray.get(id);
+    }
+
     public static String getMapName(int id) {
         switch (id) {
             case 1:
@@ -84,6 +90,7 @@ public class LOLChatApplication extends Application {
 
     public void onCreate() {
         championArray = new SparseArray<String>();
+        summonerSpellArray = new SparseArray<String>();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -97,6 +104,14 @@ public class LOLChatApplication extends Application {
                     for (int i = 0; i < array.length(); i++) {
                         String name = array.get(i).toString();
                         championArray.put(data.getJSONObject(name).getInt("id"), name.toLowerCase());
+                    }
+
+                    JSONObject spells = new JSONObject(getHTML("https://na.api.pvp.net/api/lol/static-data/na/v1.2/summoner-spell?api_key=" + getString(R.string.api_riot)));
+                    JSONObject spellData = spells.getJSONObject("data");
+                    JSONArray array2 = spellData.names();
+                    for (int i = 0; i < array2.length(); i++) {
+                        String name = array2.get(i).toString();
+                        summonerSpellArray.put(spellData.getJSONObject(name).getInt("id"), name.replace("Summoner", "").toLowerCase());
                     }
                 } catch (Exception exception) {
                     exception.printStackTrace();

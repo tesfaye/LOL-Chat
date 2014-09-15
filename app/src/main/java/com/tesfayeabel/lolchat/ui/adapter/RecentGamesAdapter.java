@@ -108,16 +108,18 @@ public class RecentGamesAdapter extends BaseExpandableListAdapter {
             holder = (ChildHolder) convertView.getTag();
         }
         Game game = getChild(groupPosition, childPosition);
-        holder.summonerSpell1.setImageResource(R.drawable.summoner_boost);
-        holder.summonerSpell2.setImageResource(R.drawable.summoner_flash);
+        RawStats stats = game.getStats();
 
-        holder.item1.setImageResource(context.getResources().getIdentifier("item_" + game.getStats().getItem0(), "drawable", context.getPackageName()));
-        holder.item2.setImageResource(context.getResources().getIdentifier("item_" + game.getStats().getItem1(), "drawable", context.getPackageName()));
-        holder.item3.setImageResource(context.getResources().getIdentifier("item_" + game.getStats().getItem2(), "drawable", context.getPackageName()));
-        holder.item4.setImageResource(context.getResources().getIdentifier("item_" + game.getStats().getItem3(), "drawable", context.getPackageName()));
-        holder.item5.setImageResource(context.getResources().getIdentifier("item_" + game.getStats().getItem4(), "drawable", context.getPackageName()));
-        holder.item6.setImageResource(context.getResources().getIdentifier("item_" + game.getStats().getItem5(), "drawable", context.getPackageName()));
-        holder.item7.setImageResource(context.getResources().getIdentifier("item_" + game.getStats().getItem6(), "drawable", context.getPackageName()));
+        holder.summonerSpell1.setImageResource(context.getResources().getIdentifier("summoner_" + LOLChatApplication.getSpellName(game.getSpell1()), "drawable", context.getPackageName()));
+        holder.summonerSpell2.setImageResource(context.getResources().getIdentifier("summoner_" + LOLChatApplication.getSpellName(game.getSpell2()), "drawable", context.getPackageName()));
+
+        holder.item1.setImageResource(context.getResources().getIdentifier("item_" + stats.getItem0(), "drawable", context.getPackageName()));
+        holder.item2.setImageResource(context.getResources().getIdentifier("item_" + stats.getItem1(), "drawable", context.getPackageName()));
+        holder.item3.setImageResource(context.getResources().getIdentifier("item_" + stats.getItem2(), "drawable", context.getPackageName()));
+        holder.item4.setImageResource(context.getResources().getIdentifier("item_" + stats.getItem3(), "drawable", context.getPackageName()));
+        holder.item5.setImageResource(context.getResources().getIdentifier("item_" + stats.getItem4(), "drawable", context.getPackageName()));
+        holder.item6.setImageResource(context.getResources().getIdentifier("item_" + stats.getItem5(), "drawable", context.getPackageName()));
+        holder.item7.setImageResource(context.getResources().getIdentifier("item_" + stats.getItem6(), "drawable", context.getPackageName()));
         return convertView;
     }
 
