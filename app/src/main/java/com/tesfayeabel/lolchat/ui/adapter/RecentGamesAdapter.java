@@ -110,8 +110,8 @@ public class RecentGamesAdapter extends BaseExpandableListAdapter {
         Game game = getChild(groupPosition, childPosition);
         RawStats stats = game.getStats();
 
-        holder.summonerSpell1.setImageResource(context.getResources().getIdentifier("summoner_" + LOLChatApplication.getSpellName(game.getSpell1()), "drawable", context.getPackageName()));
-        holder.summonerSpell2.setImageResource(context.getResources().getIdentifier("summoner_" + LOLChatApplication.getSpellName(game.getSpell2()), "drawable", context.getPackageName()));
+        holder.summonerSpell1.setImageResource(context.getResources().getIdentifier(LOLChatApplication.getSpellName(game.getSpell1()), "drawable", context.getPackageName()));
+        holder.summonerSpell2.setImageResource(context.getResources().getIdentifier(LOLChatApplication.getSpellName(game.getSpell2()), "drawable", context.getPackageName()));
 
         holder.item1.setImageResource(context.getResources().getIdentifier("item_" + stats.getItem0(), "drawable", context.getPackageName()));
         holder.item2.setImageResource(context.getResources().getIdentifier("item_" + stats.getItem1(), "drawable", context.getPackageName()));

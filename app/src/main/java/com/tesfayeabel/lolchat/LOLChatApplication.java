@@ -64,7 +64,7 @@ public class LOLChatApplication extends Application {
 
     public static String getSpellName(int id)
     {
-        return summonerSpellArray.get(id);
+        return summonerSpellArray.get(id).replace("summoner", "summoner_");
     }
 
     public static String getMapName(int id) {
@@ -88,31 +88,28 @@ public class LOLChatApplication extends Application {
         }
     }
 
+    private SparseArray<String> parseRiotStaticData(String type) throws Exception
+    {
+        JSONObject champs = new JSONObject(getHTML("https://na.api.pvp.net/api/lol/static-data/na/v1.2/" + type + "?api_key=" + getString(R.string.api_riot)));
+        JSONObject data = champs.getJSONObject("data");
+        JSONArray array = data.names();
+        SparseArray<String> ret = new SparseArray<String>();
+        for (int i = 0; i < array.length(); i++) {
+            String name = array.get(i).toString();
+            ret.put(data.getJSONObject(name).getInt("id"), name.toLowerCase());
+        }
+        return ret;
+    }
+
     public void onCreate() {
-        championArray = new SparseArray<String>();
-        summonerSpellArray = new SparseArray<String>();
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     JSONObject version = new JSONObject(getHTML("http://ddragon.leagueoflegends.com/realms/na.json"));
                     clientVersion = version.getString("v");
-
-                    JSONObject champs = new JSONObject(getHTML("https://na.api.pvp.net/api/lol/static-data/na/v1.2/champion?api_key=" + getString(R.string.api_riot)));
-                    JSONObject data = champs.getJSONObject("data");
-                    JSONArray array = data.names();
-                    for (int i = 0; i < array.length(); i++) {
-                        String name = array.get(i).toString();
-                        championArray.put(data.getJSONObject(name).getInt("id"), name.toLowerCase());
-                    }
-
-                    JSONObject spells = new JSONObject(getHTML("https://na.api.pvp.net/api/lol/static-data/na/v1.2/summoner-spell?api_key=" + getString(R.string.api_riot)));
-                    JSONObject spellData = spells.getJSONObject("data");
-                    JSONArray array2 = spellData.names();
-                    for (int i = 0; i < array2.length(); i++) {
-                        String name = array2.get(i).toString();
-                        summonerSpellArray.put(spellData.getJSONObject(name).getInt("id"), name.replace("Summoner", "").toLowerCase());
-                    }
+                    championArray = parseRiotStaticData("champion");
+                    summonerSpellArray = parseRiotStaticData("summoner-spell");
                 } catch (Exception exception) {
                     exception.printStackTrace();
                 }
