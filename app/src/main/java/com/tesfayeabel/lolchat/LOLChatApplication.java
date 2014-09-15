@@ -14,6 +14,7 @@ import java.net.URLConnection;
 public class LOLChatApplication extends Application {
     private static String clientVersion;
     private static SparseArray<String> championArray;
+
     public static String getRiotResourceURL() {
         return "http://ddragon.leagueoflegends.com/cdn/" + clientVersion;
     }
@@ -40,24 +41,23 @@ public class LOLChatApplication extends Application {
         return "Normal";
     }
 
-    public static String getGameMode(String name)  {
-        if(name.equals("CLASSIC"))
+    public static String getGameMode(String name) {
+        if (name.equals("CLASSIC"))
             return "Classic";
-        if(name.equals("ODIN"))
+        if (name.equals("ODIN"))
             return "Dominion";
-        if(name.equals("ARAM"))
+        if (name.equals("ARAM"))
             return "ARAM";
-        if(name.equals("TUTORIAL"))
+        if (name.equals("TUTORIAL"))
             return "Tutorial";
-        if(name.equals("ONEFORALL"))
+        if (name.equals("ONEFORALL"))
             return "One for All";
-        if(name.equals("ASCENSION"))
+        if (name.equals("ASCENSION"))
             return "Ascension";
         return "?";
     }
 
-    public static String getChampionName(int id)
-    {
+    public static String getChampionName(int id) {
         return championArray.get(id);
     }
 
@@ -94,8 +94,7 @@ public class LOLChatApplication extends Application {
                     JSONObject champs = new JSONObject(getHTML("https://na.api.pvp.net/api/lol/static-data/na/v1.2/champion?api_key=" + getString(R.string.api_riot)));
                     JSONObject data = champs.getJSONObject("data");
                     JSONArray array = data.names();
-                    for(int i = 0; i< array.length(); i++)
-                    {
+                    for (int i = 0; i < array.length(); i++) {
                         String name = array.get(i).toString();
                         championArray.put(data.getJSONObject(name).getInt("id"), name.toLowerCase());
                     }

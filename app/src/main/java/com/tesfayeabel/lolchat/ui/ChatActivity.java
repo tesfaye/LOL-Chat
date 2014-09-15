@@ -126,11 +126,10 @@ public class ChatActivity extends Activity implements ServiceConnection, SharedP
     }
 
     @Override
-    public void onSharedPreferenceChanged(SharedPreferences preferences, String key)
-    {
+    public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
         String[] messages = preferences.getString(key, "").split("\n");
         MessageAdapter adapter = (MessageAdapter) conversation.getAdapter();
-        adapter.addMessage(new Message(messages[messages.length-1]));//get last message
+        adapter.addMessage(new Message(messages[messages.length - 1]));//get last message
         conversation.setSelection(adapter.getCount() - 1);
     }
 

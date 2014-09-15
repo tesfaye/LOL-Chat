@@ -15,9 +15,9 @@ import android.widget.TextView;
 import com.github.theholywaffle.lolchatapi.LolStatus;
 import com.github.theholywaffle.lolchatapi.wrapper.Friend;
 import com.squareup.picasso.Picasso;
-import com.tesfayeabel.lolchat.ui.ChatActivity;
 import com.tesfayeabel.lolchat.LOLChatApplication;
 import com.tesfayeabel.lolchat.R;
+import com.tesfayeabel.lolchat.ui.ChatActivity;
 
 import java.util.Date;
 import java.util.List;

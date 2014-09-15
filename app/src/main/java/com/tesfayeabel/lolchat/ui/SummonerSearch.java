@@ -18,14 +18,13 @@ import jriot.objects.Summoner;
 /**
  * Created by Abel Tesfaye on 9/14/2014.
  */
-public class SummonerSearch extends LOLChatFragment{
+public class SummonerSearch extends LOLChatFragment {
 
     private Button button;
     private EditText editText;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_lolchat_search, container, false);
         button = (Button) view.findViewById(R.id.button);
         editText = (EditText) view.findViewById(R.id.editText);
@@ -38,28 +37,25 @@ public class SummonerSearch extends LOLChatFragment{
             @Override
             public void onClick(View view) {
                 final String player = editText.getText().toString();
-                if(!player.isEmpty()) {
+                if (!player.isEmpty()) {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            try{
+                            try {
                                 final Summoner summoner = chat.getRiotApi().getSummoner(player.replace(" ", ""));
                                 getActivity().runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        if(summoner != null)
-                                        {
+                                        if (summoner != null) {
                                             Intent intent = new Intent(getActivity(), ProfileActivity.class);
                                             intent.putExtra("player", player);
                                             startActivity(intent);
-                                        }else
-                                        {
+                                        } else {
                                             Toast.makeText(getActivity().getApplicationContext(), "Summoner not found", Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                 });
-                            } catch (JRiotException e)
-                            {
+                            } catch (JRiotException e) {
                                 getActivity().runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {

@@ -140,7 +140,7 @@ public class LOLChatMain extends Activity implements ServiceConnection {
     public LOLChatFragment getFragmentByName(String name) {
         if (name.equals("Main"))
             return new MainFragment();
-        if(name.equals("Search"))
+        if (name.equals("Search"))
             return new SummonerSearch();
         return null;
     }
