@@ -8,6 +8,7 @@ import org.jivesoftware.smack.util.StringUtils;
 
 import java.util.ArrayList;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import jriot.objects.*;
@@ -16,6 +17,8 @@ public class JRiot {
 
     private String apiKey;
     private String region = "na";
+    private Map<String, Summoner> summonerMap;
+    private Map<Long, RecentGames> gameMap;
 
     public static final String RANKED_SOLO_5x5 = "RANKED_SOLO_5x5";
     public static final String RANKED_TEAM_5x5 = "RANKED_TEAM_5x5";
@@ -26,6 +29,8 @@ public class JRiot {
     public JRiot(String key, String region) {
         this.apiKey = key;
         this.region = region;
+        summonerMap = new HashMap<String, Summoner>();
+        gameMap = new HashMap<Long, RecentGames>();
     }
 
     public JRiot() {
@@ -97,9 +102,14 @@ public class JRiot {
      * @throws JRiotException
      */
     public RecentGames getRecentGames(long summonerId) throws JRiotException {
+        if(gameMap.containsKey(summonerId))
+        {
+            return gameMap.get(summonerId);
+        }
         ApiCaller caller = new ApiCaller();
         String response = caller.request(generateBaseUrl() + "/v1.3/game/by-summoner/" + summonerId + "/recent" + "?api_key=" + apiKey);
         RecentGames recentGames = gson.fromJson(response, RecentGames.class);
+        gameMap.put(summonerId, recentGames);
         return recentGames;
     }
 
@@ -401,9 +411,14 @@ public class JRiot {
      * @throws JRiotException
      */
     public Summoner getSummoner(String summonerName) throws JRiotException {
+        if(summonerMap.containsKey(summonerName))
+        {
+            return summonerMap.get(summonerName);
+        }
         ArrayList<String> name = new ArrayList<String>();
         name.add(summonerName);
         Map<String, Summoner> summoner = getSummonersByName(name);
+        summonerMap.put(summonerName, summoner.get(summonerName.toLowerCase()));
         return summoner.get(summonerName.toLowerCase());
     }
 

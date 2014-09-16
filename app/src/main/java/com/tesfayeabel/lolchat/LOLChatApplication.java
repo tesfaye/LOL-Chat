@@ -62,8 +62,7 @@ public class LOLChatApplication extends Application {
         return championArray.get(id);
     }
 
-    public static String getSpellName(int id)
-    {
+    public static String getSpellName(int id) {
         return summonerSpellArray.get(id).replace("summoner", "summoner_");
     }
 
@@ -88,8 +87,7 @@ public class LOLChatApplication extends Application {
         }
     }
 
-    private SparseArray<String> parseRiotStaticData(String type) throws Exception
-    {
+    private SparseArray<String> parseRiotStaticData(String type) throws Exception {
         JSONObject champs = new JSONObject(getHTML("https://na.api.pvp.net/api/lol/static-data/na/v1.2/" + type + "?api_key=" + getString(R.string.api_riot)));
         JSONObject data = champs.getJSONObject("data");
         JSONArray array = data.names();
