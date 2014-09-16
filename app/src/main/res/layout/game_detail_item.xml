@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent"
-        android:layout_height="80dp"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:background="#ff134466">
 
@@ -17,14 +18,14 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:src="@drawable/summoner_flash"
+            android:src="@drawable/item_0"
             android:layout_margin="2dp" />
 
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:id="@+id/summonerSpell2"
-            android:src="@drawable/summoner_flash"
+            android:src="@drawable/item_0"
             android:baselineAlignBottom="false"
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/summonerSpell1"
@@ -36,14 +37,14 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:id="@+id/trinket"
-            android:src="@drawable/summoner_flash"
+            android:src="@drawable/item_0"
             android:layout_margin="2dp"/>
 
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:id="@+id/summonerItem6"
-            android:src="@drawable/summoner_flash"
+            android:src="@drawable/item_0"
             android:layout_toLeftOf="@id/trinket"
             android:layout_margin="2dp"/>
 
@@ -51,28 +52,28 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:id="@+id/summonerItem5"
-            android:src="@drawable/summoner_flash"
+            android:src="@drawable/item_0"
             android:layout_toLeftOf="@+id/summonerItem6"
             android:layout_margin="2dp"/>
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:id="@+id/summonerItem4"
-            android:src="@drawable/summoner_flash"
+            android:src="@drawable/item_0"
             android:layout_toLeftOf="@+id/summonerItem5"
             android:layout_margin="2dp"/>
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:id="@+id/summonerItem3"
-            android:src="@drawable/summoner_flash"
+            android:src="@drawable/item_0"
             android:layout_toLeftOf="@+id/summonerItem4"
             android:layout_margin="2dp"/>
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:id="@+id/summonerItem2"
-            android:src="@drawable/summoner_flash"
+            android:src="@drawable/item_0"
             android:layout_toLeftOf="@+id/summonerItem3"
             android:baselineAlignBottom="true"
             android:layout_margin="2dp"/>
@@ -80,7 +81,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:id="@+id/summonerItem1"
-            android:src="@drawable/summoner_flash"
+            android:src="@drawable/item_0"
             android:layout_toLeftOf="@+id/summonerItem2"
             android:layout_margin="2dp"/>
     </RelativeLayout>
