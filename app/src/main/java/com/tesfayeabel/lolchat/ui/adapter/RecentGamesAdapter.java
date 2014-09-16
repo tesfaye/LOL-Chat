@@ -79,7 +79,7 @@ public class RecentGamesAdapter extends BaseExpandableListAdapter {
         holder.type.setText(LOLChatApplication.getGameMode(game.getGameMode()));
         holder.avatar.setImageResource(context.getResources().getIdentifier("champion_" + LOLChatApplication.getChampionName(game.getChampionId()), "drawable", context.getPackageName()));
         holder.map.setText(LOLChatApplication.getMapName(game.getMapId()));
-        holder.ip.setText(String.valueOf(game.getIpEarned()) + " IP");
+        holder.ip.setText("+" + String.valueOf(game.getIpEarned()) + " IP");
         holder.date.setText(DateFormat.getDateInstance().format(new Date(game.getCreateDate())));
         holder.kills.setText(String.valueOf(stats.getChampionsKilled()));
         holder.deaths.setText(String.valueOf(stats.getNumDeaths()));
