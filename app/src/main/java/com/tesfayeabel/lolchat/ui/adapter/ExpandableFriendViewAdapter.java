@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.theholywaffle.lolchatapi.LolStatus;
-import com.github.theholywaffle.lolchatapi.wrapper.Friend;
 import com.squareup.picasso.Picasso;
 import com.tesfayeabel.lolchat.LOLChatApplication;
 import com.tesfayeabel.lolchat.R;
@@ -88,12 +87,12 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        final ViewHolder holder;
+        final ChildHolder holder;
         final StaticFriend friend = getChild(groupPosition, childPosition);
         if (convertView == null) {
             LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = mInflater.inflate(R.layout.friend_item, parent, false);
-            holder = new ViewHolder();
+            holder = new ChildHolder();
             holder.title = (TextView) convertView.findViewById(R.id.title);
             holder.artist = (TextView) convertView.findViewById(R.id.artist);
             holder.thumb_image = (ImageView) convertView.findViewById(R.id.list_image);
@@ -101,7 +100,7 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
             holder.button = (Button) convertView.findViewById(R.id.button);
             convertView.setTag(holder);
         } else {
-            holder = (ViewHolder) convertView.getTag();
+            holder = (ChildHolder) convertView.getTag();
         }
         GradientDrawable shapeDrawable = (GradientDrawable) holder.view.getBackground();
         holder.title.setText(friend.getName());
@@ -174,9 +173,16 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-        LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        convertView = mInflater.inflate(android.R.layout.simple_expandable_list_item_1, null);
-        TextView textView = (TextView) convertView.findViewById(android.R.id.text1);
+        GroupHolder holder;
+        if (convertView == null) {
+            LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = mInflater.inflate(android.R.layout.simple_expandable_list_item_1, null);
+            holder = new GroupHolder();
+            holder.textView = (TextView) convertView.findViewById(android.R.id.text1);
+            convertView.setTag(holder);
+        } else {
+            holder = (GroupHolder) convertView.getTag();
+        }
         String text = "";
         if (groupPosition == 0) {
             text = "Online (" + onlineFriends.size() + ")";
@@ -184,7 +190,7 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
         if (groupPosition == 1) {
             text = "Offline (" + offlineFriends.size() + ")";
         }
-        textView.setText(text);
+        holder.textView.setText(text);
         return convertView;
     }
 
@@ -198,12 +204,16 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
         return true;
     }
 
-    private class ViewHolder {
+    private class ChildHolder {
         TextView title;
         TextView artist;
         ImageView thumb_image;
         View view;
         Button button;
+    }
+
+    private class GroupHolder {
+        TextView textView;
     }
 
 }
