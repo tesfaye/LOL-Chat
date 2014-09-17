@@ -17,6 +17,7 @@ import com.github.theholywaffle.lolchatapi.wrapper.Friend;
 import com.squareup.picasso.Picasso;
 import com.tesfayeabel.lolchat.LOLChatApplication;
 import com.tesfayeabel.lolchat.R;
+import com.tesfayeabel.lolchat.StaticFriend;
 import com.tesfayeabel.lolchat.ui.ChatActivity;
 
 import java.util.Date;
@@ -28,24 +29,24 @@ import java.util.concurrent.TimeUnit;
  */
 public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
 
-    private List<Friend> onlineFriends;
-    private List<Friend> offlineFriends;
+    private List<StaticFriend> onlineFriends;
+    private List<StaticFriend> offlineFriends;
     private Context context;
 
-    public ExpandableFriendViewAdapter(Context context, List<Friend> onlineFriends, List<Friend> offlineFriends) {
+    public ExpandableFriendViewAdapter(Context context, List<StaticFriend> onlineFriends, List<StaticFriend> offlineFriends) {
         this.context = context;
         this.onlineFriends = onlineFriends;
         this.offlineFriends = offlineFriends;
     }
 
     @Override
-    public Friend getChild(int groupPosition, int childPosition) {
+    public StaticFriend getChild(int groupPosition, int childPosition) {
         return getGroup(groupPosition).get(childPosition);
     }
 
-    public void updateFriendStatus(Friend friend) {
-        List<Friend> friends = getGroup(friend.isOnline() ? 0 : 1);
-        for (Friend f : friends) {
+    public void updateFriendStatus(StaticFriend friend) {
+        List<StaticFriend> friends = getGroup(friend.isOnline() ? 0 : 1);
+        for (StaticFriend f : friends) {
             if (f.getUserId().equals(friend.getUserId())) {
                 f.setStatus(friend.getStatus());
                 notifyDataSetChanged();
@@ -54,16 +55,16 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
         }
     }
 
-    public void setFriendOnline(Friend friend, boolean online) {
-        List<Friend> old = getGroup(online ? 1 : 0);
+    public void setFriendOnline(StaticFriend friend, boolean online) {
+        List<StaticFriend> old = getGroup(online ? 1 : 0);
         for (int i = 0; i < old.size(); i++) {
-            Friend f = old.get(i);
+            StaticFriend f = old.get(i);
             if (f.getUserId().equals(friend.getUserId())) {
                 old.remove(f);
                 break;
             }
         }
-        List<Friend> newList = getGroup(online ? 0 : 1);
+        List<StaticFriend> newList = getGroup(online ? 0 : 1);
         for (int i = 0; i < newList.size(); i++) {
             if (friend.getName().toLowerCase().compareTo(newList.get(i).getName().toLowerCase()) < 0) {
                 newList.add(i, friend);
@@ -88,7 +89,7 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         final ViewHolder holder;
-        final Friend friend = getChild(groupPosition, childPosition);
+        final StaticFriend friend = getChild(groupPosition, childPosition);
         if (convertView == null) {
             LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = mInflater.inflate(R.layout.friend_item, parent, false);
@@ -155,7 +156,7 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public List<Friend> getGroup(int groupPosition) {
+    public List<StaticFriend> getGroup(int groupPosition) {
         if (groupPosition == 0)
             return onlineFriends;
         return offlineFriends;

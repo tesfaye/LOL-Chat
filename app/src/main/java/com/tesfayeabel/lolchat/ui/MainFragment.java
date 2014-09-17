@@ -11,8 +11,10 @@ import com.github.theholywaffle.lolchatapi.LolChat;
 import com.github.theholywaffle.lolchatapi.listeners.FriendListener;
 import com.github.theholywaffle.lolchatapi.wrapper.Friend;
 import com.tesfayeabel.lolchat.R;
+import com.tesfayeabel.lolchat.StaticFriend;
 import com.tesfayeabel.lolchat.ui.adapter.ExpandableFriendViewAdapter;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -20,12 +22,12 @@ import java.util.List;
 
 public class MainFragment extends LOLChatFragment {
     private ExpandableListView listView;
-    private List<Friend> updateList;
+    //private List<Friend> updateList;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_lolchat_main, container, false);
         listView = (ExpandableListView) view.findViewById(R.id.listView);
-        updateList = new ArrayList<Friend>();
+        //updateList = new ArrayList<Friend>();
         if (savedInstanceState != null) {
             listView.onRestoreInstanceState(savedInstanceState.getParcelable("listView"));
         }
@@ -46,17 +48,25 @@ public class MainFragment extends LOLChatFragment {
     public void onResume() {
         super.onResume();
         final ExpandableFriendViewAdapter adapter = (ExpandableFriendViewAdapter) listView.getExpandableListAdapter();
-        for (Friend f : updateList) {
-            adapter.setFriendOnline(f, f.isOnline());
-        }
+//        for (Friend f : updateList) {
+//            adapter.setFriendOnline(new StaticFriend(f), f.isOnline());
+//        }
     }
 
     public void onChatConnected(final LolChat chat) {
-        List<Friend> online = chat.getOnlineFriends();
-        List<Friend> offline = chat.getOfflineFriends();
-        Comparator<Friend> comparator = new Comparator<Friend>() {
+        ArrayList<StaticFriend> online = new ArrayList<StaticFriend>();
+        ArrayList<StaticFriend> offline = new ArrayList<StaticFriend>();
+        for(Friend friend: chat.getOnlineFriends())
+        {
+            online.add(new StaticFriend(friend));
+        }
+        for(Friend friend: chat.getOfflineFriends())
+        {
+            offline.add(new StaticFriend(friend));
+        }
+        Comparator<StaticFriend> comparator = new Comparator<StaticFriend>() {
             @Override
-            public int compare(Friend friend, Friend friend2) {
+            public int compare(StaticFriend friend, StaticFriend friend2) {
                 return friend.getName().toLowerCase().compareTo(friend2.getName().toLowerCase());
             }
         };
@@ -87,11 +97,11 @@ public class MainFragment extends LOLChatFragment {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            adapter.setFriendOnline(friend, true);
+                            adapter.setFriendOnline(new StaticFriend(friend), true);
                         }
                     });
                 } else {
-                    updateList.add(friend);
+                    //updateList.add(friend);
                 }
             }
 
@@ -102,11 +112,11 @@ public class MainFragment extends LOLChatFragment {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            adapter.setFriendOnline(friend, false);
+                            adapter.setFriendOnline(new StaticFriend(friend), false);
                         }
                     });
                 } else {
-                    updateList.add(friend);
+                    //updateList.add(friend);
                 }
             }
 
@@ -117,11 +127,11 @@ public class MainFragment extends LOLChatFragment {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            adapter.updateFriendStatus(friend);
+                            adapter.updateFriendStatus(new StaticFriend(friend));
                         }
                     });
                 } else {
-                    updateList.add(friend);
+                    //updateList.add(friend);
                 }
             }
 
