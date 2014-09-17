@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.theholywaffle.lolchatapi.LolStatus;
+import com.github.theholywaffle.lolchatapi.wrapper.Friend;
 import com.squareup.picasso.Picasso;
 import com.tesfayeabel.lolchat.LOLChatApplication;
 import com.tesfayeabel.lolchat.R;
@@ -45,9 +46,10 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
 
     public void updateFriendStatus(StaticFriend friend) {
         List<StaticFriend> friends = getGroup(friend.isOnline() ? 0 : 1);
-        for (StaticFriend f : friends) {
+        for (int i = 0; i < friends.size(); i++) {
+            StaticFriend f = friends.get(i);
             if (f.getUserId().equals(friend.getUserId())) {
-                f.setStatus(friend.getStatus());
+                friends.set(i, friend);
                 notifyDataSetChanged();
                 return;
             }

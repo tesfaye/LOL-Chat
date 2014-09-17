@@ -14,11 +14,9 @@ import com.tesfayeabel.lolchat.R;
 import com.tesfayeabel.lolchat.StaticFriend;
 import com.tesfayeabel.lolchat.ui.adapter.ExpandableFriendViewAdapter;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 
 public class MainFragment extends LOLChatFragment {
     private ExpandableListView listView;
@@ -56,12 +54,10 @@ public class MainFragment extends LOLChatFragment {
     public void onChatConnected(final LolChat chat) {
         ArrayList<StaticFriend> online = new ArrayList<StaticFriend>();
         ArrayList<StaticFriend> offline = new ArrayList<StaticFriend>();
-        for(Friend friend: chat.getOnlineFriends())
-        {
+        for (Friend friend : chat.getOnlineFriends()) {
             online.add(new StaticFriend(friend));
         }
-        for(Friend friend: chat.getOfflineFriends())
-        {
+        for (Friend friend : chat.getOfflineFriends()) {
             offline.add(new StaticFriend(friend));
         }
         Comparator<StaticFriend> comparator = new Comparator<StaticFriend>() {
@@ -75,19 +71,32 @@ public class MainFragment extends LOLChatFragment {
         listView.setAdapter(new ExpandableFriendViewAdapter(getActivity(), online, offline));
         listView.expandGroup(0);
         chat.addFriendListener(new FriendListener() {
-            @Override
-            public void onFriendAvailable(Friend friend) {
 
+            private void update(final Friend friend) {
+                final ExpandableFriendViewAdapter adapter = (ExpandableFriendViewAdapter) listView.getExpandableListAdapter();
+                if (getActivity() != null) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            adapter.updateFriendStatus(new StaticFriend(friend));
+                        }
+                    });
+                }
             }
 
             @Override
-            public void onFriendAway(Friend friend) {
-
+            public void onFriendAvailable(final Friend friend) {
+                update(friend);
             }
 
             @Override
-            public void onFriendBusy(Friend friend) {
+            public void onFriendAway(final Friend friend) {
+                update(friend);
+            }
 
+            @Override
+            public void onFriendBusy(final Friend friend) {
+                update(friend);
             }
 
             @Override
@@ -122,17 +131,7 @@ public class MainFragment extends LOLChatFragment {
 
             @Override
             public void onFriendStatusChange(final Friend friend) {
-                final ExpandableFriendViewAdapter adapter = (ExpandableFriendViewAdapter) listView.getExpandableListAdapter();
-                if (getActivity() != null) {
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            adapter.updateFriendStatus(new StaticFriend(friend));
-                        }
-                    });
-                } else {
-                    //updateList.add(friend);
-                }
+                update(friend);
             }
 
             @Override
