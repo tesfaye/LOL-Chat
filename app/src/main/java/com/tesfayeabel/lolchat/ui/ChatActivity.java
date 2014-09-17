@@ -32,6 +32,7 @@ public class ChatActivity extends Activity implements ServiceConnection, SharedP
     private String friendName;
     private Friend friend;
     private ListView conversation;
+    private ChatService chatService;
     private SharedPreferences sharedPreferences;
 
     public void onCreate(Bundle savedInstanceState) {
@@ -48,9 +49,7 @@ public class ChatActivity extends Activity implements ServiceConnection, SharedP
                     String message = messageBox.getText().toString();
                     if (friend != null && !message.isEmpty()) {
                         friend.sendMessage(message);
-                        MessageAdapter adapter = (MessageAdapter) conversation.getAdapter();
-                        adapter.addMessage(new Message("Me", message, MessageAdapter.DIRECTION_OUTGOING));
-                        conversation.setSelection(adapter.getCount() - 1);
+                        chatService.saveMessage(friend.getName(), message, MessageAdapter.DIRECTION_OUTGOING);
                         messageBox.setText("");
                         return true;
                     }
@@ -67,9 +66,7 @@ public class ChatActivity extends Activity implements ServiceConnection, SharedP
                 String message = messageBox.getText().toString();
                 if (friend != null && !message.isEmpty()) {
                     friend.sendMessage(message);
-                    MessageAdapter adapter = (MessageAdapter) conversation.getAdapter();
-                    adapter.addMessage(new Message("Me", message, MessageAdapter.DIRECTION_OUTGOING));
-                    conversation.setSelection(adapter.getCount() - 1);
+                    chatService.saveMessage(friend.getName(), message, MessageAdapter.DIRECTION_OUTGOING);
                     messageBox.setText("");
                 }
             }
@@ -106,7 +103,7 @@ public class ChatActivity extends Activity implements ServiceConnection, SharedP
 
     @Override
     public void onServiceConnected(final ComponentName name, final IBinder service) {
-        ChatService chatService = ((ChatService.LocalBinder) service).getService();
+        chatService = ((ChatService.LocalBinder) service).getService();
         LolChat lolChat = chatService.getLolChat();
         friend = lolChat.getFriendByName(friendName);
         MessageAdapter adapter = (MessageAdapter) conversation.getAdapter();

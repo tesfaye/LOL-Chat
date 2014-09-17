@@ -91,20 +91,7 @@ public class ChatService extends Service {
                             notification.flags |= Notification.FLAG_AUTO_CANCEL;
                             notificationManager.notify(notification_ID, notification);
 
-                            SharedPreferences sharedPreferences = getSharedPreferences("messageHistory", Context.MODE_PRIVATE);
-                            String messageHistory = sharedPreferences.getString(friend.getName() + "History", "");
-                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                            if (!messageHistory.equals("")) {
-                                messageHistory += "\n";
-                            }
-                            for (String m : message.split("\n")) {
-                                if (!m.isEmpty())
-                                    messageHistory += new Message(friend.getName(), m, MessageAdapter.DIRECTION_INCOMING) + "\n";
-                            }
-                            if (messageHistory.charAt(messageHistory.length() - 1) == '\n')//remove extra \n at end of string
-                                messageHistory = messageHistory.substring(0, messageHistory.length() - 1);
-                            editor.putString(friend.getName() + "History", messageHistory);
-                            editor.apply();
+                            saveMessage(friend.getName(), message, MessageAdapter.DIRECTION_INCOMING);
                             handler.post(new Runnable() {
                                 @Override
                                 public void run() {
@@ -128,6 +115,23 @@ public class ChatService extends Service {
             }
         }).start();
         return START_NOT_STICKY;
+    }
+
+    public void saveMessage(String friendName, String message, int direction) {
+        SharedPreferences sharedPreferences = getSharedPreferences("messageHistory", Context.MODE_PRIVATE);
+        String messageHistory = sharedPreferences.getString(friendName + "History", "");
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        if (!messageHistory.equals("")) {
+            messageHistory += "\n";
+        }
+        for (String m : message.split("\n")) {
+            if (!m.isEmpty())
+                messageHistory += new Message((direction == MessageAdapter.DIRECTION_INCOMING) ? friendName : "Me", m, direction) + "\n";
+        }
+        if (messageHistory.charAt(messageHistory.length() - 1) == '\n')//remove extra \n at end of string
+            messageHistory = messageHistory.substring(0, messageHistory.length() - 1);
+        editor.putString(friendName + "History", messageHistory);
+        editor.apply();
     }
 
     private Notification.InboxStyle getStyle() {
