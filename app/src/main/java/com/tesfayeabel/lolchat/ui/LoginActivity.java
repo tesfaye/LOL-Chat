@@ -54,7 +54,7 @@ public class LoginActivity extends Activity implements LoginCallBack {
         for (ChatServer server : ChatServer.getChatServersWithAPI()) {
             serverArrayList.add(server.name);
         }
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, R.layout.spinner_item, serverArrayList);
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, serverArrayList);
         serverList.setAdapter(spinnerArrayAdapter);
         serverList.setSelection(spinnerArrayAdapter.getPosition(sharedPreferences.getString("server", "North America")));
         connect.setOnClickListener(new View.OnClickListener() {

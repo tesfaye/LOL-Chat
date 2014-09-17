@@ -140,7 +140,7 @@ public class ChatService extends Service {
         return style;
     }
 
-    public void showFriendToast(String friend, String message, int iconId) {
+    private void showFriendToast(String friend, String message, int iconId) {
         toast.setDuration(Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER, 0, 0);
         LayoutInflater layoutInflater = (LayoutInflater) getApplicationContext().getSystemService(Service.LAYOUT_INFLATER_SERVICE);

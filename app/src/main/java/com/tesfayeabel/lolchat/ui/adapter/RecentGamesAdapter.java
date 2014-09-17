@@ -92,7 +92,7 @@ public class RecentGamesAdapter extends BaseExpandableListAdapter {
         final ChildHolder holder;
         if (convertView == null) {
             LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = mInflater.inflate(R.layout.game_detail_item, parent, false);
+            convertView = mInflater.inflate(R.layout.recent_game_detail_item, parent, false);
             holder = new ChildHolder();
             holder.summonerSpell1 = (ImageView) convertView.findViewById(R.id.summonerSpell1);
             holder.summonerSpell2 = (ImageView) convertView.findViewById(R.id.summonerSpell2);
