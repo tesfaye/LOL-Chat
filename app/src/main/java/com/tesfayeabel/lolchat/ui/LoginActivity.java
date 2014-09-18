@@ -55,6 +55,7 @@ public class LoginActivity extends Activity implements LoginCallBack {
             serverArrayList.add(server.name);
         }
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, serverArrayList);
+        serverList.setPromptId(R.string.server_select);
         serverList.setAdapter(spinnerArrayAdapter);
         serverList.setSelection(spinnerArrayAdapter.getPosition(sharedPreferences.getString("server", "North America")));
         connect.setOnClickListener(new View.OnClickListener() {

@@ -64,6 +64,7 @@
             <Spinner
                 android:layout_width="276dp"
                 android:layout_height="65dp"
+                android:spinnerMode="dialog"
                 android:id="@+id/serverlist"
                 android:layout_gravity="center_horizontal" />
 

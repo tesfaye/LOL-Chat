@@ -8,6 +8,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_leave">Logout</string>
+    <string name="server_select">Select server to connect to</string>
     <string name="login">Login</string>
     <string name="friendslist">Friends List</string>
     <string name="gamestatus">Game Status</string>
