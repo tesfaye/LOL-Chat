@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.lang.reflect.Field;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -84,6 +85,16 @@ public class LOLChatApplication extends Application {
                 return "Howling Abyss";
             default:
                 return "";
+        }
+    }
+
+    public static int getResourceIdByName(String name) {
+        try {
+            Class res = R.drawable.class;
+            Field field = res.getField(name);
+            return field.getInt(null);
+        } catch (Exception e) {
+            return 0;
         }
     }
 

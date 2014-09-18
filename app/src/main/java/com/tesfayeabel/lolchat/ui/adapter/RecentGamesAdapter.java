@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.tesfayeabel.lolchat.LOLChatApplication;
 import com.tesfayeabel.lolchat.R;
+import com.tesfayeabel.lolchat.ui.LOLChatFragment;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -77,7 +78,7 @@ public class RecentGamesAdapter extends BaseExpandableListAdapter {
         RawStats stats = game.getStats();
         holder.outcome.setText((stats.getWin() ? "Victory" : "Defeat") + " (" + LOLChatApplication.getGameSubType(game.getSubType()) + ")");
         holder.type.setText(LOLChatApplication.getGameMode(game.getGameMode()));
-        holder.avatar.setImageResource(context.getResources().getIdentifier("champion_" + LOLChatApplication.getChampionName(game.getChampionId()), "drawable", context.getPackageName()));
+        holder.avatar.setImageResource(LOLChatApplication.getResourceIdByName("champion_" + LOLChatApplication.getChampionName(game.getChampionId())));
         holder.map.setText(LOLChatApplication.getMapName(game.getMapId()));
         holder.ip.setText("+" + String.valueOf(game.getIpEarned()) + " IP");
         holder.date.setText(DateFormat.getDateInstance().format(new Date(game.getCreateDate())));
@@ -110,16 +111,16 @@ public class RecentGamesAdapter extends BaseExpandableListAdapter {
         Game game = getChild(groupPosition, childPosition);
         RawStats stats = game.getStats();
 
-        holder.summonerSpell1.setImageResource(context.getResources().getIdentifier(LOLChatApplication.getSpellName(game.getSpell1()), "drawable", context.getPackageName()));
-        holder.summonerSpell2.setImageResource(context.getResources().getIdentifier(LOLChatApplication.getSpellName(game.getSpell2()), "drawable", context.getPackageName()));
+        holder.summonerSpell1.setImageResource(LOLChatApplication.getResourceIdByName(LOLChatApplication.getSpellName(game.getSpell1())));
+        holder.summonerSpell2.setImageResource(LOLChatApplication.getResourceIdByName(LOLChatApplication.getSpellName(game.getSpell2())));
 
-        holder.item1.setImageResource(context.getResources().getIdentifier("item_" + stats.getItem0(), "drawable", context.getPackageName()));
-        holder.item2.setImageResource(context.getResources().getIdentifier("item_" + stats.getItem1(), "drawable", context.getPackageName()));
-        holder.item3.setImageResource(context.getResources().getIdentifier("item_" + stats.getItem2(), "drawable", context.getPackageName()));
-        holder.item4.setImageResource(context.getResources().getIdentifier("item_" + stats.getItem3(), "drawable", context.getPackageName()));
-        holder.item5.setImageResource(context.getResources().getIdentifier("item_" + stats.getItem4(), "drawable", context.getPackageName()));
-        holder.item6.setImageResource(context.getResources().getIdentifier("item_" + stats.getItem5(), "drawable", context.getPackageName()));
-        holder.item7.setImageResource(context.getResources().getIdentifier("item_" + stats.getItem6(), "drawable", context.getPackageName()));
+        holder.item1.setImageResource(LOLChatApplication.getResourceIdByName("item_" + stats.getItem0()));
+        holder.item2.setImageResource(LOLChatApplication.getResourceIdByName("item_" + stats.getItem1()));
+        holder.item3.setImageResource(LOLChatApplication.getResourceIdByName("item_" + stats.getItem2()));
+        holder.item4.setImageResource(LOLChatApplication.getResourceIdByName("item_" + stats.getItem3()));
+        holder.item5.setImageResource(LOLChatApplication.getResourceIdByName("item_" + stats.getItem4()));
+        holder.item6.setImageResource(LOLChatApplication.getResourceIdByName("item_" + stats.getItem5()));
+        holder.item7.setImageResource(LOLChatApplication.getResourceIdByName("item_" + stats.getItem6()));
         return convertView;
     }
 
