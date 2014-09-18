@@ -2,6 +2,7 @@ package com.tesfayeabel.lolchat.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,24 +53,34 @@ public class MainFragment extends LOLChatFragment {
     }
 
     public void onChatConnected(final LolChat chat) {
-        ArrayList<StaticFriend> online = new ArrayList<StaticFriend>();
-        ArrayList<StaticFriend> offline = new ArrayList<StaticFriend>();
-        for (Friend friend : chat.getOnlineFriends()) {
-            online.add(new StaticFriend(friend));
-        }
-        for (Friend friend : chat.getOfflineFriends()) {
-            offline.add(new StaticFriend(friend));
-        }
-        Comparator<StaticFriend> comparator = new Comparator<StaticFriend>() {
+        new Thread(new Runnable() {
             @Override
-            public int compare(StaticFriend friend, StaticFriend friend2) {
-                return friend.getName().toLowerCase().compareTo(friend2.getName().toLowerCase());
+            public void run() {
+                final ArrayList<StaticFriend> online = new ArrayList<StaticFriend>();
+                final ArrayList<StaticFriend> offline = new ArrayList<StaticFriend>();
+                for (Friend friend : chat.getOnlineFriends()) {
+                    online.add(new StaticFriend(friend));
+                }
+                for (Friend friend : chat.getOfflineFriends()) {
+                    offline.add(new StaticFriend(friend));
+                }
+                Comparator<StaticFriend> comparator = new Comparator<StaticFriend>() {
+                    @Override
+                    public int compare(StaticFriend friend, StaticFriend friend2) {
+                        return friend.getName().toLowerCase().compareTo(friend2.getName().toLowerCase());
+                    }
+                };
+                Collections.sort(online, comparator);
+                Collections.sort(offline, comparator);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        listView.setAdapter(new ExpandableFriendViewAdapter(getActivity(), online, offline));
+                        listView.expandGroup(0);
+                    }
+                });
             }
-        };
-        Collections.sort(online, comparator);
-        Collections.sort(offline, comparator);
-        listView.setAdapter(new ExpandableFriendViewAdapter(getActivity(), online, offline));
-        listView.expandGroup(0);
+        }).start();
         chat.addFriendListener(new FriendListener() {
 
             private void update(final Friend friend) {
