@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.tesfayeabel.lolchat.LOLChatApplication;
 import com.tesfayeabel.lolchat.R;
-import com.tesfayeabel.lolchat.ui.LOLChatFragment;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -21,22 +20,22 @@ import jriot.objects.RawStats;
 
 public class RecentGamesAdapter extends BaseExpandableListAdapter {
 
-    private List<Game> games;
+    private List<Game> recentGames;
     private Context context;
 
-    public RecentGamesAdapter(Context context, List<Game> list) {
+    public RecentGamesAdapter(Context context, List<Game> recentGames) {
         this.context = context;
-        games = list;
+        this.recentGames = recentGames;
     }
 
     @Override
     public int getGroupCount() {
-        return games.size();
+        return recentGames.size();
     }
 
     @Override
     public Game getChild(int group, int child) {
-        return games.get(group);
+        return recentGames.get(group);
     }
 
     @Override
@@ -126,7 +125,7 @@ public class RecentGamesAdapter extends BaseExpandableListAdapter {
 
     @Override
     public Game getGroup(int groupPosition) {
-        return games.get(groupPosition);
+        return recentGames.get(groupPosition);
     }
 
     @Override

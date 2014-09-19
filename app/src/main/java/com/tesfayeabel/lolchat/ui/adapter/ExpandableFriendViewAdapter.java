@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.theholywaffle.lolchatapi.LolStatus;
-import com.github.theholywaffle.lolchatapi.wrapper.Friend;
 import com.squareup.picasso.Picasso;
 import com.tesfayeabel.lolchat.LOLChatApplication;
 import com.tesfayeabel.lolchat.R;
@@ -47,8 +46,7 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
     public void updateFriendStatus(StaticFriend friend) {
         List<StaticFriend> friends = getGroup(friend.isOnline() ? 0 : 1);
         for (int i = 0; i < friends.size(); i++) {
-            StaticFriend f = friends.get(i);
-            if (f.getUserId().equals(friend.getUserId())) {
+            if (friends.get(i).getUserId().equals(friend.getUserId())) {
                 friends.set(i, friend);
                 notifyDataSetChanged();
                 return;
@@ -56,20 +54,22 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
         }
     }
 
-    public void setFriendOnline(StaticFriend friend, boolean online) {
-        List<StaticFriend> old = getGroup(online ? 1 : 0);
-        for (int i = 0; i < old.size(); i++) {
-            StaticFriend f = old.get(i);
-            if (f.getUserId().equals(friend.getUserId())) {
-                old.remove(f);
-                break;
+    public void setFriendOnline(StaticFriend friend) {
+        if (friend.isOnline()) {
+            offlineFriends.remove(friend);
+            for (int i = 0; i < onlineFriends.size(); i++) {
+                if (friend.getName().toLowerCase().compareTo(onlineFriends.get(i).getName().toLowerCase()) < 0) {
+                    onlineFriends.set(i, friend);
+                    break;
+                }
             }
-        }
-        List<StaticFriend> newList = getGroup(online ? 0 : 1);
-        for (int i = 0; i < newList.size(); i++) {
-            if (friend.getName().toLowerCase().compareTo(newList.get(i).getName().toLowerCase()) < 0) {
-                newList.add(i, friend);
-                break;
+        } else {
+            onlineFriends.remove(friend);
+            for (int i = 0; i < offlineFriends.size(); i++) {
+                if (friend.getName().toLowerCase().compareTo(offlineFriends.get(i).getName().toLowerCase()) < 0) {
+                    offlineFriends.add(i, friend);
+                    break;
+                }
             }
         }
         notifyDataSetChanged();
@@ -119,20 +119,21 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
                     context.startActivity(intent);
                 }
             });
-            LolStatus.GameStatus gameStatus = friend.getStatus().getGameStatus();
+            LolStatus friendStatus = friend.getStatus();
+            LolStatus.GameStatus gameStatus = friendStatus.getGameStatus();
             StringBuilder status = new StringBuilder();
-            status.append(friend.getStatus().getStatusMessage() + "\n");
+            status.append(friendStatus.getStatusMessage() + "\n");
             if (gameStatus == null)
                 status.append("Online");
             else
                 status.append(gameStatus.internal());
-            if (friend.getStatus().getTimestamp() != null && friend.getStatus().getSkin() != null && gameStatus == LolStatus.GameStatus.IN_GAME) {
-                Date d = new Date();
-                status.append(" as " + friend.getStatus().getSkin());
-                status.append(" for " + TimeUnit.MILLISECONDS.toMinutes(new Date(d.getTime() - friend.getStatus().getTimestamp().getTime()).getTime()) + " minutes");
+            if (gameStatus == LolStatus.GameStatus.IN_GAME) {
+                Date current = new Date();
+                status.append(" as " + friendStatus.getSkin());
+                status.append(" for " + TimeUnit.MILLISECONDS.toMinutes(new Date(current.getTime() - friendStatus.getTimestamp().getTime()).getTime()) + " minutes");
             }
             holder.artist.setText(status.toString());
-            int iconId = friend.getStatus().getProfileIconId();
+            int iconId = friendStatus.getProfileIconId();
             if (iconId == -1)
                 iconId = 1;
             switch (friend.getChatMode()) {

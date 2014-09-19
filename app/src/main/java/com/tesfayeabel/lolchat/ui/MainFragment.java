@@ -116,7 +116,7 @@ public class MainFragment extends LOLChatFragment {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            adapter.setFriendOnline(new StaticFriend(friend), true);
+                            adapter.setFriendOnline(new StaticFriend(friend));
                         }
                     });
                 } else {
@@ -131,7 +131,7 @@ public class MainFragment extends LOLChatFragment {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            adapter.setFriendOnline(new StaticFriend(friend), false);
+                            adapter.setFriendOnline(new StaticFriend(friend));
                         }
                     });
                 } else {

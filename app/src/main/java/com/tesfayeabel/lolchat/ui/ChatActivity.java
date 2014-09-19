@@ -39,9 +39,10 @@ public class ChatActivity extends Activity implements ServiceConnection, SharedP
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lolchat_chat);
         final EditText messageBox = (EditText) findViewById(R.id.messageBox);
+        Button send = (Button) findViewById(R.id.messageSend);
+        conversation = (ListView) findViewById(R.id.listView);
         sharedPreferences = getSharedPreferences("messageHistory", Context.MODE_PRIVATE);
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
-        Button send = (Button) findViewById(R.id.messageSend);
         messageBox.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
@@ -57,7 +58,6 @@ public class ChatActivity extends Activity implements ServiceConnection, SharedP
                 return false;
             }
         });
-        conversation = (ListView) findViewById(R.id.listView);
         friendName = getIntent().getStringExtra("friend");
         setTitle(friendName);
         send.setOnClickListener(new View.OnClickListener() {

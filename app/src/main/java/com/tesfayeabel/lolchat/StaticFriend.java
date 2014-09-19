@@ -65,4 +65,12 @@ public class StaticFriend {
     public void setOnline(boolean online) {
         this.online = online;
     }
+
+    @Override
+    public boolean equals(Object object) {
+        if (!(object instanceof StaticFriend))
+            return false;
+        StaticFriend other = (StaticFriend) object;
+        return getUserId().equals(other.getUserId());
+    }
 }
