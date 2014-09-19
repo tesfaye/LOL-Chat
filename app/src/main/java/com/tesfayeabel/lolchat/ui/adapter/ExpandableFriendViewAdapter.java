@@ -119,21 +119,8 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
                     context.startActivity(intent);
                 }
             });
-            LolStatus friendStatus = friend.getStatus();
-            LolStatus.GameStatus gameStatus = friendStatus.getGameStatus();
-            StringBuilder status = new StringBuilder();
-            status.append(friendStatus.getStatusMessage() + "\n");
-            if (gameStatus == null)
-                status.append("Online");
-            else
-                status.append(gameStatus.internal());
-            if (gameStatus == LolStatus.GameStatus.IN_GAME) {
-                Date current = new Date();
-                status.append(" as " + friendStatus.getSkin());
-                status.append(" for " + TimeUnit.MILLISECONDS.toMinutes(new Date(current.getTime() - friendStatus.getTimestamp().getTime()).getTime()) + " minutes");
-            }
-            holder.artist.setText(status.toString());
-            int iconId = friendStatus.getProfileIconId();
+            holder.artist.setText(friend.getFullStatus());
+            int iconId = friend.getStatus().getProfileIconId();
             if (iconId == -1)
                 iconId = 1;
             switch (friend.getChatMode()) {

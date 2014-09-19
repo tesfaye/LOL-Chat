@@ -4,6 +4,9 @@ import com.github.theholywaffle.lolchatapi.ChatMode;
 import com.github.theholywaffle.lolchatapi.LolStatus;
 import com.github.theholywaffle.lolchatapi.wrapper.Friend;
 
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
 /**
  * Created by Abel Tesfaye on 9/16/2014.
  */
@@ -64,6 +67,22 @@ public class StaticFriend {
 
     public void setOnline(boolean online) {
         this.online = online;
+    }
+
+    public String getFullStatus() {
+        StringBuilder fullStatus = new StringBuilder();
+        LolStatus.GameStatus gameStatus = getStatus().getGameStatus();
+        fullStatus.append(getStatus().getStatusMessage() + "\n");
+        if (gameStatus == null)
+            fullStatus.append("Online");
+        else
+            fullStatus.append(gameStatus.internal());
+        if (gameStatus == LolStatus.GameStatus.IN_GAME) {
+            Date current = new Date();
+            fullStatus.append(" as " + getStatus().getSkin());
+            fullStatus.append(" for " + TimeUnit.MILLISECONDS.toMinutes(new Date(current.getTime() - getStatus().getTimestamp().getTime()).getTime()) + " minutes");
+        }
+        return fullStatus.toString();
     }
 
     @Override
