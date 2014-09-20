@@ -80,9 +80,9 @@ public class LOLChatMain extends Activity implements ServiceConnection {
             public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
             }
         };
-        actionBar.addTab(actionBar.newTab().setText("Friends").setTabListener(tl));
-        actionBar.addTab(actionBar.newTab().setText("Recent").setTabListener(tl));
-        actionBar.addTab(actionBar.newTab().setText("Search").setTabListener(tl));
+        actionBar.addTab(actionBar.newTab().setIcon(R.drawable.lolchat_friend).setTabListener(tl));
+        actionBar.addTab(actionBar.newTab().setIcon(R.drawable.lolchat_conversation).setTabListener(tl));
+        actionBar.addTab(actionBar.newTab().setIcon(R.drawable.lolchat_search).setTabListener(tl));
         Intent intent = new Intent(this, ChatService.class);
         bindService(intent, this, Context.BIND_AUTO_CREATE);
     }
