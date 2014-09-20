@@ -88,7 +88,7 @@ public class LOLChatApplication extends Application {
         }
     }
 
-    public static int getResourceIdByName(String name) {
+    public static int getDrawableIdByName(String name) {
         try {
             Class res = R.drawable.class;
             Field field = res.getField(name);
