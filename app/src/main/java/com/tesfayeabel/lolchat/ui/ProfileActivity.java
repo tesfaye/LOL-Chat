@@ -40,9 +40,8 @@ public class ProfileActivity extends Activity implements ServiceConnection {
         playerName = getIntent().getStringExtra("player");
         recentGames = (ExpandableListView) findViewById(R.id.listView);
         imageView = (ImageView) findViewById(R.id.gameavatar);
-        TextView textView = (TextView) findViewById(R.id.name);
-        textView.setText(playerName);
         level = (TextView) findViewById(R.id.level);
+        ((TextView) findViewById(R.id.name)).setText(playerName);
         bindService(new Intent(this, ChatService.class), this, Context.BIND_AUTO_CREATE);
     }
 

@@ -32,13 +32,14 @@ public class ChatActivity extends Activity implements ServiceConnection, SharedP
     private String friendName;
     private Friend friend;
     private ListView conversation;
+    private EditText messageBox;
     private ChatService chatService;
     private SharedPreferences sharedPreferences;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lolchat_chat);
-        final EditText messageBox = (EditText) findViewById(R.id.messageBox);
+        messageBox = (EditText) findViewById(R.id.messageBox);
         Button send = (Button) findViewById(R.id.messageSend);
         conversation = (ListView) findViewById(R.id.listView);
         sharedPreferences = getSharedPreferences("messageHistory", Context.MODE_PRIVATE);
@@ -47,13 +48,7 @@ public class ChatActivity extends Activity implements ServiceConnection, SharedP
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
                 if (i == EditorInfo.IME_ACTION_SEND) {
-                    String message = messageBox.getText().toString();
-                    if (friend != null && !message.isEmpty()) {
-                        friend.sendMessage(message);
-                        chatService.saveMessage(friend.getName(), message, MessageAdapter.DIRECTION_OUTGOING);
-                        messageBox.setText("");
-                        return true;
-                    }
+                    sendMessage();
                 }
                 return false;
             }
@@ -63,12 +58,7 @@ public class ChatActivity extends Activity implements ServiceConnection, SharedP
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String message = messageBox.getText().toString();
-                if (friend != null && !message.isEmpty()) {
-                    friend.sendMessage(message);
-                    chatService.saveMessage(friend.getName(), message, MessageAdapter.DIRECTION_OUTGOING);
-                    messageBox.setText("");
-                }
+                sendMessage();
             }
         });
         if (savedInstanceState != null) {
@@ -78,6 +68,15 @@ public class ChatActivity extends Activity implements ServiceConnection, SharedP
             conversation.setAdapter(new MessageAdapter(this));
         }
         bindService(new Intent(this, ChatService.class), this, Context.BIND_AUTO_CREATE);
+    }
+
+    private void sendMessage() {
+        String message = messageBox.getText().toString();
+        if (friend != null && !message.isEmpty()) {
+            friend.sendMessage(message);
+            chatService.saveMessage(friend.getName(), message, MessageAdapter.DIRECTION_OUTGOING);
+            messageBox.setText("");
+        }
     }
 
     @Override
@@ -125,7 +124,7 @@ public class ChatActivity extends Activity implements ServiceConnection, SharedP
     @Override
     public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
         String message = preferences.getString(key, null);
-        if(message != null) {
+        if (message != null) {
             String[] messages = message.split("\n");
             MessageAdapter adapter = (MessageAdapter) conversation.getAdapter();
             adapter.addMessage(new Message(messages[messages.length - 1]));//get last message
