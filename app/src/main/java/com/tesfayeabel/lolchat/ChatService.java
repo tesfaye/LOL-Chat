@@ -23,6 +23,7 @@ import com.github.theholywaffle.lolchatapi.LolChat;
 import com.github.theholywaffle.lolchatapi.listeners.ChatListener;
 import com.github.theholywaffle.lolchatapi.wrapper.Friend;
 import com.squareup.picasso.Picasso;
+import com.tesfayeabel.lolchat.ui.ChatActivity;
 import com.tesfayeabel.lolchat.ui.adapter.MessageAdapter;
 
 import java.util.ArrayList;
@@ -79,8 +80,10 @@ public class ChatService extends Service {
                         public void onMessage(final Friend friend, final String message) {
 
                             missedMessages.add(new Message(friend.getName(), message, MessageAdapter.DIRECTION_INCOMING));
+                            Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
+                            intent.putExtra("friend", friend.getName());
                             PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(),
-                                    0, new Intent(getApplicationContext(), LOLChatMain.class), 0);
+                                    0, intent, 0);
                             Notification notification = new Notification.Builder(ChatService.this)
                                     .setContentTitle("New message")
                                     .setContentText("Message from " + friend.getName())
