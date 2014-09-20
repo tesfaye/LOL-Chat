@@ -92,21 +92,21 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
             LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = mInflater.inflate(R.layout.friend_item, parent, false);
             holder = new ChildHolder();
-            holder.title = (TextView) convertView.findViewById(R.id.title);
-            holder.artist = (TextView) convertView.findViewById(R.id.artist);
-            holder.thumb_image = (ImageView) convertView.findViewById(R.id.list_image);
-            holder.view = convertView.findViewById(R.id.statusCircle);
+            holder.friend = (TextView) convertView.findViewById(R.id.friend);
+            holder.status = (TextView) convertView.findViewById(R.id.status);
+            holder.icon = (ImageView) convertView.findViewById(R.id.icon);
+            holder.statusCircle = convertView.findViewById(R.id.statusCircle);
             holder.button = (Button) convertView.findViewById(R.id.button);
             convertView.setTag(holder);
         } else {
             holder = (ChildHolder) convertView.getTag();
         }
-        GradientDrawable shapeDrawable = (GradientDrawable) holder.view.getBackground();
-        holder.title.setText(friend.getName());
+        GradientDrawable shapeDrawable = (GradientDrawable) holder.statusCircle.getBackground();
+        holder.friend.setText(friend.getName());
         if (groupPosition == 0) {
-            holder.artist.setVisibility(View.VISIBLE);
-            holder.thumb_image.setVisibility(View.VISIBLE);
-            holder.view.setVisibility(View.VISIBLE);
+            holder.status.setVisibility(View.VISIBLE);
+            holder.icon.setVisibility(View.VISIBLE);
+            holder.statusCircle.setVisibility(View.VISIBLE);
             holder.button.setVisibility(View.VISIBLE);
             holder.button.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -116,29 +116,29 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
                     context.startActivity(intent);
                 }
             });
-            holder.artist.setText(friend.getFullStatus());
+            holder.status.setText(friend.getFullStatus());
             int iconId = friend.getStatus().getProfileIconId();
             if (iconId == -1)
                 iconId = 1;
             switch (friend.getChatMode()) {
                 case AVAILABLE:
                     shapeDrawable.setColor(Color.GREEN);
-                    holder.artist.setTextColor(Color.GREEN);
+                    holder.status.setTextColor(Color.GREEN);
                     break;
                 case BUSY:
                     shapeDrawable.setColor(Color.rgb(252, 209, 33));
-                    holder.artist.setTextColor(Color.rgb(252, 209, 33));
+                    holder.status.setTextColor(Color.rgb(252, 209, 33));
                     break;
                 case AWAY:
                     shapeDrawable.setColor(Color.RED);
-                    holder.artist.setTextColor(Color.RED);
+                    holder.status.setTextColor(Color.RED);
                     break;
             }
-            Picasso.with(context.getApplicationContext()).load(LOLChatApplication.getRiotResourceURL() + "/img/profileicon/" + iconId + ".png").into(holder.thumb_image);
+            Picasso.with(context.getApplicationContext()).load(LOLChatApplication.getRiotResourceURL() + "/img/profileicon/" + iconId + ".png").into(holder.icon);
         } else {
-            holder.artist.setVisibility(View.GONE);
-            holder.thumb_image.setVisibility(View.GONE);
-            holder.view.setVisibility(View.GONE);
+            holder.status.setVisibility(View.GONE);
+            holder.icon.setVisibility(View.GONE);
+            holder.statusCircle.setVisibility(View.GONE);
             holder.button.setVisibility(View.GONE);
         }
         return convertView;
@@ -195,10 +195,10 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
     }
 
     private class ChildHolder {
-        TextView title;
-        TextView artist;
-        ImageView thumb_image;
-        View view;
+        TextView friend;
+        TextView status;
+        ImageView icon;
+        View statusCircle;
         Button button;
     }
 

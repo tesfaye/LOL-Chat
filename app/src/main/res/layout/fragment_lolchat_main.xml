@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/lolchat_friendsgradient"
-    android:measureWithLargestChild="true">
+    android:measureWithLargestChild="true"
+    android:orientation="vertical">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="@string/friendslist"
-                    android:id="@+id/labelstatus"
-                    android:textColor="#FFFFFF"
-                    android:paddingTop="15dp"
-                    android:paddingLeft="20dp"
-                    android:textSize="30sp"
-                    android:fontFamily="sans-serif-light"
-                    android:typeface="sans"
-                    android:paddingRight="20dp" />
-
-        <ExpandableListView
+        <TextView
+            android:id="@+id/labelstatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="15dp"
+            android:text="@string/friendslist"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp"
+            android:typeface="sans" />
+
+        <ExpandableListView
             android:id="@+id/listView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp" />
