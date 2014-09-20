@@ -12,8 +12,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:background="#ff134466"
-        android:layout_weight="0.08"
-        android:id="@+id/">
+        android:layout_weight="0.08"    >
 
         <ImageView
             android:layout_width="30dp"

@@ -12,16 +12,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.github.theholywaffle.lolchatapi.LolStatus;
 import com.squareup.picasso.Picasso;
 import com.tesfayeabel.lolchat.LOLChatApplication;
 import com.tesfayeabel.lolchat.R;
 import com.tesfayeabel.lolchat.StaticFriend;
 import com.tesfayeabel.lolchat.ui.ChatActivity;
 
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Abel Tesfaye on 8/27/2014.
@@ -126,12 +123,15 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
             switch (friend.getChatMode()) {
                 case AVAILABLE:
                     shapeDrawable.setColor(Color.GREEN);
+                    holder.artist.setTextColor(Color.GREEN);
                     break;
                 case BUSY:
                     shapeDrawable.setColor(Color.rgb(252, 209, 33));
+                    holder.artist.setTextColor(Color.rgb(252, 209, 33));
                     break;
                 case AWAY:
                     shapeDrawable.setColor(Color.RED);
+                    holder.artist.setTextColor(Color.RED);
                     break;
             }
             Picasso.with(context.getApplicationContext()).load(LOLChatApplication.getRiotResourceURL() + "/img/profileicon/" + iconId + ".png").into(holder.thumb_image);
