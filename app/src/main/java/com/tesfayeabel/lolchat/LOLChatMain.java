@@ -21,6 +21,7 @@ import com.tesfayeabel.lolchat.ui.LOLChatFragment;
 import com.tesfayeabel.lolchat.ui.LoginActivity;
 import com.tesfayeabel.lolchat.ui.MainFragment;
 import com.tesfayeabel.lolchat.ui.SummonerSearch;
+import com.tesfayeabel.lolchat.ui.adapter.RecentConversations;
 
 import java.util.ArrayList;
 
@@ -36,8 +37,9 @@ public class LOLChatMain extends Activity implements ServiceConnection {
         final ActionBar actionBar = getActionBar();
         fragments = new ArrayList<LOLChatFragment>();
         fragments.add(new MainFragment());
+        fragments.add(new RecentConversations());
         fragments.add(new SummonerSearch());
-        viewPager.setOffscreenPageLimit(1);
+        viewPager.setOffscreenPageLimit(fragments.size() - 1);
         viewPager.setAdapter(new FragmentPagerAdapter(getFragmentManager()) {
             @Override
             public Fragment getItem(int i) {
@@ -55,22 +57,31 @@ public class LOLChatMain extends Activity implements ServiceConnection {
             public void onPageSelected(int position) {
                 actionBar.setSelectedNavigationItem(position);
             }
+
             @Override
-            public void onPageScrolled(int i, float f, int f1) {}
+            public void onPageScrolled(int i, float f, int f1) {
+            }
+
             @Override
-            public void onPageScrollStateChanged(int i) {}
+            public void onPageScrollStateChanged(int i) {
+            }
         });
-        ActionBar.TabListener tl = new ActionBar.TabListener(){
+        ActionBar.TabListener tl = new ActionBar.TabListener() {
             @Override
             public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
                 viewPager.setCurrentItem(tab.getPosition());
             }
+
             @Override
-            public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {}
+            public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
+            }
+
             @Override
-            public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {}
+            public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
+            }
         };
         actionBar.addTab(actionBar.newTab().setText("Friends").setTabListener(tl));
+        actionBar.addTab(actionBar.newTab().setText("Recent").setTabListener(tl));
         actionBar.addTab(actionBar.newTab().setText("Search").setTabListener(tl));
         Intent intent = new Intent(this, ChatService.class);
         bindService(intent, this, Context.BIND_AUTO_CREATE);
