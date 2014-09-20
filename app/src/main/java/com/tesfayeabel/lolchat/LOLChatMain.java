@@ -27,6 +27,7 @@ import java.util.ArrayList;
 
 public class LOLChatMain extends Activity implements ServiceConnection {
     private ViewPager viewPager;
+    private LolChat lolChat;
     private ArrayList<LOLChatFragment> fragments;
 
     @Override
@@ -56,6 +57,7 @@ public class LOLChatMain extends Activity implements ServiceConnection {
             @Override
             public void onPageSelected(int position) {
                 actionBar.setSelectedNavigationItem(position);
+                fragments.get(position).onChatConnected(lolChat);
             }
 
             @Override
@@ -113,7 +115,7 @@ public class LOLChatMain extends Activity implements ServiceConnection {
     @Override
     public void onServiceConnected(final ComponentName name, final IBinder service) {
         ChatService chatService = ((ChatService.LocalBinder) service).getService();
-        LolChat lolChat = chatService.getLolChat();
+        lolChat = chatService.getLolChat();
         fragments.get(viewPager.getCurrentItem()).onChatConnected(lolChat);
     }
 
