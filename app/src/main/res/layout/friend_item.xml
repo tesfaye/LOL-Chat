@@ -5,13 +5,22 @@
     android:orientation="horizontal"
     android:padding="5dip">
 
-    <ImageView
+    <LinearLayout
         android:id="@+id/icon"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
-        android:layout_alignParentLeft="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:padding="3dip"
-        android:src="@drawable/lolchat_lclogo" />
+        android:layout_alignParentLeft="true"
+        android:layout_marginRight="5dip">
+
+        <ImageView
+            android:id="@+id/list_image"
+            android:layout_width="50dip"
+            android:layout_height="50dip"
+            android:src="@drawable/lolchat_lclogo"
+            />
+
+    </LinearLayout>
 
     <!-- Title Of Song-->
     <TextView

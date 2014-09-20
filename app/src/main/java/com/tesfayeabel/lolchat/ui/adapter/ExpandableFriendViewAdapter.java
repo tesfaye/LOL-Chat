@@ -94,7 +94,7 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
             holder = new ChildHolder();
             holder.friend = (TextView) convertView.findViewById(R.id.friend);
             holder.status = (TextView) convertView.findViewById(R.id.status);
-            holder.icon = (ImageView) convertView.findViewById(R.id.icon);
+            holder.icon = (ImageView) convertView.findViewById(R.id.list_image);
             holder.statusCircle = convertView.findViewById(R.id.statusCircle);
             holder.button = (Button) convertView.findViewById(R.id.button);
             convertView.setTag(holder);
