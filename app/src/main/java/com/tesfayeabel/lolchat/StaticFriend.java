@@ -76,7 +76,7 @@ public class StaticFriend {
         if (gameStatus == null)
             fullStatus.append("Online");
         else
-            fullStatus.append(gameStatus.internal());
+            fullStatus.append(LOLUtils.getStatus(gameStatus));
         if (gameStatus == LolStatus.GameStatus.IN_GAME) {
             Date current = new Date();
             fullStatus.append(" as " + getStatus().getSkin());

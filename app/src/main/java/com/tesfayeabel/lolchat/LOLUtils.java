@@ -1,5 +1,7 @@
 package com.tesfayeabel.lolchat;
 
+import com.github.theholywaffle.lolchatapi.LolStatus;
+
 /**
  * Created by Abel Tesfaye on 9/20/2014.
  */
@@ -31,6 +33,36 @@ public class LOLUtils {
         return "?";
     }
 
+    public static String getStatus(LolStatus.GameStatus status) {
+        switch(status) {
+            case TEAM_SELECT:
+                return "In Team Select";
+            case HOSTING_NORMAL_GAME:
+                return "Creating Normal Game";
+            case HOSTING_PRACTICE_GAME:
+                return "Creating Practice Game";
+            case HOSTING_RANKED_GAME:
+                return "Creating Ranked Game";
+            case HOSTING_COOP_VS_AI_GAME:
+                return "Creating Co-op vs AI Game";
+            case IN_QUEUE:
+                return "In Queue";
+            case SPECTATING:
+                return "Spectating";
+            case OUT_OF_GAME:
+                return "Out Of Game";
+            case CHAMPION_SELECT:
+                return "In Champion Select";
+            case IN_GAME:
+                return "In Game";
+            case IN_TEAMBUILDER:
+                return "In Team Builder";
+            case TUTORIAL:
+                return "In Tutorial Game";
+            default:
+                return "?";
+        }
+    }
 
     public static String getMapName(int id) {
         switch (id) {
