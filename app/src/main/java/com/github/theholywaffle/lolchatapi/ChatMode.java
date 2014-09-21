@@ -36,8 +36,8 @@ import org.jivesoftware.smack.packet.Presence.Mode;
 public enum ChatMode {
 
 	AVAILABLE(Presence.Mode.chat),
-	AWAY(Presence.Mode.away),
-	BUSY(Presence.Mode.dnd);
+	BUSY(Presence.Mode.dnd),
+    AWAY(Presence.Mode.away);
 
 	public Mode mode;
 

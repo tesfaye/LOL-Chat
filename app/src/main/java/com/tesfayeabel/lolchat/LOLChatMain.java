@@ -99,7 +99,6 @@ public class LOLChatMain extends Activity implements ServiceConnection {
         ChatService chatService = ((ChatService.LocalBinder) service).getService();
         lolChat = chatService.getLolChat();
         FragmentPagerAdapter adapter = (FragmentPagerAdapter) viewPager.getAdapter();
-        System.out.println(adapter.getRegisteredFragment(viewPager.getCurrentItem()) == null);
         adapter.getRegisteredFragment(viewPager.getCurrentItem()).onChatConnected(lolChat);
     }
 

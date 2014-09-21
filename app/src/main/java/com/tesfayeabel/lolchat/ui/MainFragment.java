@@ -52,14 +52,8 @@ public class MainFragment extends LOLChatFragment {
                 for (Friend friend : chat.getOfflineFriends()) {
                     offline.add(new StaticFriend(friend));
                 }
-                Comparator<StaticFriend> comparator = new Comparator<StaticFriend>() {
-                    @Override
-                    public int compare(StaticFriend friend, StaticFriend friend2) {
-                        return friend.getName().toLowerCase().compareTo(friend2.getName().toLowerCase());
-                    }
-                };
-                Collections.sort(online, comparator);
-                Collections.sort(offline, comparator);
+                Collections.sort(online);
+                Collections.sort(offline);
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

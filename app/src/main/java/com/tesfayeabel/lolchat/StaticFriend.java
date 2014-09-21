@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by Abel Tesfaye on 9/16/2014.
  */
-public class StaticFriend {
+public class StaticFriend implements Comparable<StaticFriend>{
     private LolStatus lolStatus;
     private ChatMode chatMode;
     private String name;
@@ -91,5 +91,13 @@ public class StaticFriend {
             return false;
         StaticFriend other = (StaticFriend) object;
         return getUserId().equals(other.getUserId());
+    }
+
+    @Override
+    public int compareTo(StaticFriend staticFriend) {
+       if(isOnline() && getChatMode() != staticFriend.getChatMode()) {//if online and different chatmodes, compare chatmode, else compare name
+           return getChatMode().compareTo(staticFriend.getChatMode());
+       }
+       return getName().toLowerCase().compareTo(staticFriend.getName().toLowerCase());
     }
 }
