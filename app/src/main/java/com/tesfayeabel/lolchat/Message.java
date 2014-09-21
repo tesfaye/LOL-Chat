@@ -25,7 +25,7 @@ public class Message implements Parcelable {
     }
 
     public Message(String read) {
-        String[] split = read.split(":");
+        String[] split = read.split(":", 3);
         this.direction = Integer.parseInt(split[0]);
         this.sender = split[1];
         this.message = split[2];
