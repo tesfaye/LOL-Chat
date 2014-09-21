@@ -18,7 +18,7 @@ import jriot.objects.Summoner;
 /**
  * Created by Abel Tesfaye on 9/14/2014.
  */
-public class SummonerSearch extends LOLChatFragment {
+public class SummonerSearchFragment extends LOLChatFragment {
 
     private Button button;
     private EditText editText;

@@ -20,12 +20,10 @@ import java.util.Comparator;
 
 public class MainFragment extends LOLChatFragment {
     private ExpandableListView listView;
-    //private List<Friend> updateList;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_lolchat_main, container, false);
         listView = (ExpandableListView) view.findViewById(R.id.listView);
-        //updateList = new ArrayList<Friend>();
         if (savedInstanceState != null) {
             listView.onRestoreInstanceState(savedInstanceState.getParcelable("listView"));
         }
@@ -40,15 +38,6 @@ public class MainFragment extends LOLChatFragment {
             }
         });
         return view;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        final ExpandableFriendViewAdapter adapter = (ExpandableFriendViewAdapter) listView.getExpandableListAdapter();
-//        for (Friend f : updateList) {
-//            adapter.setFriendOnline(new StaticFriend(f), f.isOnline());
-//        }
     }
 
     public void onChatConnected(final LolChat chat) {
@@ -119,8 +108,6 @@ public class MainFragment extends LOLChatFragment {
                             adapter.setFriendOnline(new StaticFriend(friend));
                         }
                     });
-                } else {
-                    //updateList.add(friend);
                 }
             }
 
@@ -134,8 +121,6 @@ public class MainFragment extends LOLChatFragment {
                             adapter.setFriendOnline(new StaticFriend(friend));
                         }
                     });
-                } else {
-                    //updateList.add(friend);
                 }
             }
 
