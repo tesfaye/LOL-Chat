@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tesfayeabel.lolchat.LOLChatApplication;
+import com.tesfayeabel.lolchat.LOLUtils;
 import com.tesfayeabel.lolchat.R;
 
 import java.text.DateFormat;
@@ -75,10 +76,10 @@ public class RecentGamesAdapter extends BaseExpandableListAdapter {
         }
         final Game game = getGroup(groupPosition);
         RawStats stats = game.getStats();
-        holder.outcome.setText((stats.getWin() ? "Victory" : "Defeat") + " (" + LOLChatApplication.getGameSubType(game.getSubType()) + ")");
-        holder.type.setText(LOLChatApplication.getGameMode(game.getGameMode()));
+        holder.outcome.setText((stats.getWin() ? "Victory" : "Defeat") + " (" + LOLUtils.getGameSubType(game.getSubType()) + ")");
+        holder.type.setText(LOLUtils.getGameMode(game.getGameMode()));
         holder.avatar.setImageResource(LOLChatApplication.getDrawableIdByName("champion_" + LOLChatApplication.getChampionName(game.getChampionId())));
-        holder.map.setText(LOLChatApplication.getMapName(game.getMapId()));
+        holder.map.setText(LOLUtils.getMapName(game.getMapId()));
         holder.ip.setText("+" + String.valueOf(game.getIpEarned()) + " IP");
         holder.date.setText(DateFormat.getDateInstance().format(new Date(game.getCreateDate())));
         holder.kills.setText(String.valueOf(stats.getChampionsKilled()));
