@@ -55,7 +55,7 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
         if (friend.isOnline()) {
             offlineFriends.remove(friend);
             for (int i = 0; i < onlineFriends.size(); i++) {
-                if (friend.getName().toLowerCase().compareTo(onlineFriends.get(i).getName().toLowerCase()) < 0) {
+                if (friend.compareTo(onlineFriends.get(i)) < 0) {
                     onlineFriends.add(i, friend);
                     break;
                 }
@@ -63,7 +63,7 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
         } else {
             onlineFriends.remove(friend);
             for (int i = 0; i < offlineFriends.size(); i++) {
-                if (friend.getName().toLowerCase().compareTo(offlineFriends.get(i).getName().toLowerCase()) < 0) {
+                if (friend.compareTo(offlineFriends.get(i)) < 0) {
                     offlineFriends.add(i, friend);
                     break;
                 }
