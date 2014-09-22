@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,15 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
         this.context = context;
         this.onlineFriends = onlineFriends;
         this.offlineFriends = offlineFriends;
+        final Handler handler = new Handler();//update adapter every minute for in game time
+        handler.postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                notifyDataSetChanged();
+                handler.postDelayed(this, 60 * 1000);
+            }
+        }, 60 * 1000);
     }
 
     @Override
