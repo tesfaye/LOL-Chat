@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -39,9 +40,9 @@ public class ChatActivity extends Activity implements ServiceConnection, SharedP
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lolchat_chat);
-        messageBox = (EditText) findViewById(R.id.messageBox);
-        Button send = (Button) findViewById(R.id.messageSend);
-        conversation = (ListView) findViewById(R.id.listView);
+        messageBox = (EditText) findViewById(R.id.textinput);
+        ImageView send = (ImageView) findViewById(R.id.textSendButton);
+        conversation = (ListView) findViewById(R.id.messages_view);
         sharedPreferences = getSharedPreferences("messageHistory", Context.MODE_PRIVATE);
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
         messageBox.setOnEditorActionListener(new TextView.OnEditorActionListener() {

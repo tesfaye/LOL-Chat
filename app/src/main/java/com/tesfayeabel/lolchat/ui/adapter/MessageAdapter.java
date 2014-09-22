@@ -88,8 +88,8 @@ public class MessageAdapter extends BaseAdapter {
             } else if (direction == DIRECTION_OUTGOING) {
                 convertView = mInflater.inflate(R.layout.message_right, viewGroup, false);
             }
-            holder.view = (TextView) convertView.findViewById(R.id.text1);
-            holder.imageView = (ImageView) convertView.findViewById(R.id.gameavatar);
+            holder.view = (TextView) convertView.findViewById(R.id.message_body);
+            holder.imageView = (ImageView) convertView.findViewById(R.id.message_photo);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
