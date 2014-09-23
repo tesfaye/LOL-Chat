@@ -192,7 +192,7 @@ public class Friend extends Wrapper<RosterEntry> {
 	public String getName(boolean forcedUpdate) {
 		String name = get().getName();
 		if ((name == null || forcedUpdate) && api.getRiotApi() != null) {
-		    name = api.getRiotApi().getName(getUserId());
+		    name = api.getRiotApi().getSummonerByUserId(getUserId()).getName();
 			setName(name);
 		}
 		return name;

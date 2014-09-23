@@ -374,15 +374,22 @@ public class JRiot {
         Map<String, Summoner> summoner = getSummonersById(id);
         return summoner.get(Long.toString(summonerId));
     }
-    public String getName(String userId)//Abel Tesfaye
-    {
+
+    /**
+     * Get information about a given summoner.
+     *
+     * @param userId Id of a summoner (123@pvp.net).
+     * @return Summoner object, containing information.
+     */
+    public Summoner getSummonerByUserId(String userId) {
         try{
-            return getSummoner(Long.parseLong(StringUtils.parseName(userId).replace("sum",""))).getName();
+            return getSummoner(Long.parseLong(StringUtils.parseName(userId).replace("sum","")));
         }catch(JRiotException e){
             e.printStackTrace();
             return null;
         }
     }
+
     /**
      * Get information about a given List of summoners.
      *

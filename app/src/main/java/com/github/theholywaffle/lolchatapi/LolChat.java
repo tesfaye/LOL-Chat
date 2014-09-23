@@ -215,7 +215,7 @@ public class LolChat {
     public void addFriendById(String userId, String name,
                               FriendGroup friendGroup) {
         if (name == null && getRiotApi() != null) {
-            name = getRiotApi().getName(userId);
+            name = getRiotApi().getSummonerByUserId(userId).getName();
         }
         try {
             connection
@@ -672,12 +672,7 @@ public class LolChat {
         }
 
         if (connection.isAuthenticated()) {
-            try {
-                JRiot riotApi = getRiotApi();
-                connectedSummoner = riotApi.getSummoner(riotApi.getName(connection.getUser()));
-            } catch (JRiotException e) {
-                e.printStackTrace();
-            }
+            connectedSummoner = riotApi.getSummonerByUserId(connection.getUser());
             final long startTime = System.currentTimeMillis();
             while (!leagueRosterListener.isLoaded()
                     && (System.currentTimeMillis() - startTime) < 1000) {
