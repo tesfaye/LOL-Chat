@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:background="@color/secondarybackground">
 
-
     <ListView
         android:id="@+id/messages_view"
         android:layout_width="fill_parent"
@@ -37,18 +36,15 @@
             android:layout_toLeftOf="@+id/textSendButton"
             android:background="@color/primarybackground"
             android:ems="10"
-            android:imeOptions="flagNoExtractUi"
-            android:inputType="textShortMessage|textMultiLine|textCapSentences"
+            android:imeOptions="actionSend"
+            android:inputType="textCapSentences"
             android:minHeight="48dp"
             android:minLines="1"
             android:paddingBottom="12dp"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:paddingTop="12dp"
-            android:textColor="@color/primarytext">
-
-            <requestFocus />
-        </EditText>
+            android:textColor="@color/primarytext" />
 
         <ImageButton
             android:id="@+id/textSendButton"

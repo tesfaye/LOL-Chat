@@ -51,6 +51,7 @@ public class ChatActivity extends Activity implements ServiceConnection, SharedP
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
                 if (i == EditorInfo.IME_ACTION_SEND) {
                     sendMessage();
+                    return true;
                 }
                 return false;
             }
@@ -130,7 +131,10 @@ public class ChatActivity extends Activity implements ServiceConnection, SharedP
         if (message != null) {
             String[] messages = message.split("\n");
             MessageAdapter adapter = (MessageAdapter) conversation.getAdapter();
-            adapter.addMessage(new Message(messages[messages.length - 1]));//get last message
+            for(int i = conversation.getCount(); i < messages.length; i++)//add new messages
+            {
+                adapter.addMessage(new Message(messages[i]));
+            }
             conversation.setSelection(adapter.getCount() - 1);
         }
     }
