@@ -67,12 +67,12 @@ public class ChatService extends Service {
                     startForeground(foreground_ID, new Notification.Builder(getApplicationContext())
                             .setSmallIcon(R.drawable.ic_launcher)
                             .setContentText(getString(R.string.app_name) + " is running")
-                            .setContentTitle(lolChat.getConnectedUsername())
+                            .setContentTitle(lolChat.getConnectedSummoner().getName())
                             .setTicker(getString(R.string.app_name) + " is now running")
                             .setContentIntent(PendingIntent.getActivity(getApplicationContext(), 0, mainIntent, PendingIntent.FLAG_UPDATE_CURRENT))
                             .setDefaults(Notification.DEFAULT_VIBRATE)
                             .build());
-                    Player connected = new Player(lolChat.getConnectedUsername().replace(" ", ""), lolChat.getRiotApi());
+                    Player connected = new Player(lolChat.getConnectedSummoner().getName().replace(" ", ""), lolChat.getRiotApi());
                     lolChat.setStatus(connected.getStatus()
                             .setStatusMessage("USING BETA ABEL CHAT APP"));
                     lolChat.addChatListener(new ChatListener() {

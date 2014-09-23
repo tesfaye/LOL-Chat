@@ -22,6 +22,7 @@ public class MessageAdapter extends BaseAdapter {
     private List<Message> messages;
     private Context context;
     private int friendProfileIcon;
+    private int myProfileIcon;
 
     public MessageAdapter(Context con) {
         this(con, new ArrayList<Message>());
@@ -34,6 +35,10 @@ public class MessageAdapter extends BaseAdapter {
 
     public void setFriendProfileIcon(int friendProfileIcon) {
         this.friendProfileIcon = friendProfileIcon;
+    }
+
+    public void setMyProfileIcon(int myProfileIcon) {
+        this.myProfileIcon = myProfileIcon;
     }
 
     //Gets called every time you update the view with an
@@ -78,14 +83,14 @@ public class MessageAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View convertView, ViewGroup viewGroup) {
-        int direction = getItemViewType(i);
+        Message message = getItem(i);
         ViewHolder holder;
         LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (convertView == null) {
             holder = new ViewHolder();
-            if (direction == DIRECTION_INCOMING) {
+            if (message.getDirection() == DIRECTION_INCOMING) {
                 convertView = mInflater.inflate(R.layout.message_left, viewGroup, false);
-            } else if (direction == DIRECTION_OUTGOING) {
+            } else if (message.getDirection() == DIRECTION_OUTGOING) {
                 convertView = mInflater.inflate(R.layout.message_right, viewGroup, false);
             }
             holder.view = (TextView) convertView.findViewById(R.id.message_body);
@@ -94,9 +99,10 @@ public class MessageAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        Message message = getItem(i);
-        if (holder.imageView != null)
+        if (message.getDirection() == DIRECTION_INCOMING)
             Picasso.with(context.getApplicationContext()).load(LOLChatApplication.getRiotResourceURL() + "/img/profileicon/" + friendProfileIcon + ".png").into(holder.imageView);
+        if (message.getDirection() == DIRECTION_OUTGOING)
+            Picasso.with(context.getApplicationContext()).load(LOLChatApplication.getRiotResourceURL() + "/img/profileicon/" + myProfileIcon + ".png").into(holder.imageView);
         holder.view.setText(message.getSender() + ": " + message.getMessage());
         return convertView;
     }

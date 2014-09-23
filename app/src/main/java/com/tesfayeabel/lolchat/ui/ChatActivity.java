@@ -14,7 +14,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -28,6 +27,8 @@ import com.tesfayeabel.lolchat.R;
 import com.tesfayeabel.lolchat.ui.adapter.MessageAdapter;
 
 import java.util.ArrayList;
+
+import jriot.main.JRiotException;
 
 public class ChatActivity extends Activity implements ServiceConnection, SharedPreferences.OnSharedPreferenceChangeListener {
     private String friendName;
@@ -108,6 +109,7 @@ public class ChatActivity extends Activity implements ServiceConnection, SharedP
         friend = lolChat.getFriendByName(friendName);
         MessageAdapter adapter = (MessageAdapter) conversation.getAdapter();
         adapter.setFriendProfileIcon(friend.getStatus().getProfileIconId());
+        adapter.setMyProfileIcon(lolChat.getConnectedSummoner().getProfileIconId());
         adapter.notifyDataSetChanged();//force update of view
     }
 
