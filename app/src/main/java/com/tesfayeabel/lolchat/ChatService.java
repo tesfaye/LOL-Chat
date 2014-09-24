@@ -94,7 +94,7 @@ public class ChatService extends Service {
                             notification.flags |= Notification.FLAG_AUTO_CANCEL;
                             notificationManager.notify(notification_ID, notification);
 
-                            saveMessage(new Message(friend.getName(), message, MessageAdapter.DIRECTION_INCOMING, System.currentTimeMillis()));
+                            saveMessage(new Message(friend.getName(), message.replace("\n", " "), MessageAdapter.DIRECTION_INCOMING, System.currentTimeMillis()));
                             handler.post(new Runnable() {
                                 @Override
                                 public void run() {
@@ -130,7 +130,7 @@ public class ChatService extends Service {
         if(message.getDirection() == MessageAdapter.DIRECTION_INCOMING)
             messageHistory += message.toString();
         if(message.getDirection() == MessageAdapter.DIRECTION_OUTGOING)
-            messageHistory += message.getDirection() + ":" + message.getTime() + ":" + "Me" + ":" + message.getMessage();
+            messageHistory += message.toString().replace(message.getSender(), "Me");
         editor.putString(message.getSender() + "History", messageHistory);
         editor.apply();
     }

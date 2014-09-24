@@ -75,7 +75,7 @@ public class ChatActivity extends Activity implements ServiceConnection, SharedP
         String message = messageBox.getText().toString();
         if (friend != null && !message.isEmpty()) {
             friend.sendMessage(message);
-            chatService.saveMessage(new Message(friend.getName(), message, MessageAdapter.DIRECTION_OUTGOING, System.currentTimeMillis()));
+            chatService.saveMessage(new Message(friend.getName(), message.replace("\n", " "), MessageAdapter.DIRECTION_OUTGOING, System.currentTimeMillis()));
             messageBox.setText("");
         }
     }
