@@ -79,7 +79,7 @@ public class ChatService extends Service {
                         @Override
                         public void onMessage(final Friend friend, final String message) {
 
-                            //missedMessages.add(new Message(friend.getName(), message, MessageAdapter.DIRECTION_INCOMING));
+                            missedMessages.add(new Message(friend.getName(), message, MessageAdapter.DIRECTION_INCOMING, -1));//only used for notification
                             Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
                             intent.putExtra("friend", friend.getName());
                             PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(),
