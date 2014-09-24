@@ -79,7 +79,7 @@ public class ChatService extends Service {
                         @Override
                         public void onMessage(final Friend friend, final String message) {
 
-                            missedMessages.add(new Message(friend.getName(), message, MessageAdapter.DIRECTION_INCOMING));
+                            //missedMessages.add(new Message(friend.getName(), message, MessageAdapter.DIRECTION_INCOMING));
                             Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
                             intent.putExtra("friend", friend.getName());
                             PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(),
@@ -94,7 +94,7 @@ public class ChatService extends Service {
                             notification.flags |= Notification.FLAG_AUTO_CANCEL;
                             notificationManager.notify(notification_ID, notification);
 
-                            saveMessage(friend.getName(), message, MessageAdapter.DIRECTION_INCOMING);
+                            saveMessage(new Message(friend.getName(), message, MessageAdapter.DIRECTION_INCOMING, System.currentTimeMillis()));
                             handler.post(new Runnable() {
                                 @Override
                                 public void run() {
@@ -120,20 +120,18 @@ public class ChatService extends Service {
         return START_NOT_STICKY;
     }
 
-    public void saveMessage(String friendName, String message, int direction) {
+    public void saveMessage(Message message) {
         SharedPreferences sharedPreferences = getSharedPreferences("messageHistory", Context.MODE_PRIVATE);
-        String messageHistory = sharedPreferences.getString(friendName + "History", "");
+        String messageHistory = sharedPreferences.getString(message.getSender() + "History", "");
         SharedPreferences.Editor editor = sharedPreferences.edit();
         if (!messageHistory.equals("")) {
             messageHistory += "\n";
         }
-        for (String m : message.split("\n")) {
-            if (!m.isEmpty())
-                messageHistory += new Message((direction == MessageAdapter.DIRECTION_INCOMING) ? friendName : "Me", m, direction) + "\n";
-        }
-        if (messageHistory.charAt(messageHistory.length() - 1) == '\n')//remove extra \n at end of string
-            messageHistory = messageHistory.substring(0, messageHistory.length() - 1);
-        editor.putString(friendName + "History", messageHistory);
+        if(message.getDirection() == MessageAdapter.DIRECTION_INCOMING)
+            messageHistory += message.toString();
+        if(message.getDirection() == MessageAdapter.DIRECTION_OUTGOING)
+            messageHistory += message.getDirection() + ":" + message.getTime() + ":" + "Me" + ":" + message.getMessage();
+        editor.putString(message.getSender() + "History", messageHistory);
         editor.apply();
     }
 

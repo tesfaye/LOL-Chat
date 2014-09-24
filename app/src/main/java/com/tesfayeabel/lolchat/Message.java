@@ -17,28 +17,32 @@ public class Message implements Parcelable {
     private String sender;
     private String message;
     private int direction;
+    private long time;
 
-    public Message(String sender, String message, int direction) {
+    public Message(String sender, String message, int direction, long time) {
         this.sender = sender;
         this.message = message;
         this.direction = direction;
+        this.time = time;
     }
 
     public Message(String read) {
-        String[] split = read.split(":", 3);
+        String[] split = read.split(":", 4);
         this.direction = Integer.parseInt(split[0]);
-        this.sender = split[1];
-        this.message = split[2];
+        this.time = Long.parseLong(split[1]);
+        this.sender = split[2];
+        this.message = split[3];
     }
 
     private Message(Parcel in) {
         sender = in.readString();
         message = in.readString();
         direction = in.readInt();
+        time = in.readLong();
     }
 
     public String toString() {
-        return direction + ":" + sender + ":" + message;
+        return direction + ":" + time + ":" + sender + ":" + message;
     }
 
     public int getDirection() {
@@ -53,10 +57,16 @@ public class Message implements Parcelable {
         return sender;
     }
 
+    public long getTime()
+    {
+        return time;
+    }
+
     public void writeToParcel(Parcel out, int flags) {
         out.writeString(sender);
         out.writeString(message);
         out.writeInt(direction);
+        out.writeLong(time);
     }
 
     public int describeContents() {

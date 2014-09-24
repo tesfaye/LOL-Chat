@@ -4,7 +4,6 @@ import com.github.theholywaffle.lolchatapi.ChatMode;
 import com.github.theholywaffle.lolchatapi.LolStatus;
 import com.github.theholywaffle.lolchatapi.wrapper.Friend;
 
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -78,9 +77,8 @@ public class StaticFriend implements Comparable<StaticFriend>{
         else
             fullStatus.append(LOLUtils.getStatus(gameStatus));
         if (gameStatus == LolStatus.GameStatus.IN_GAME) {
-            Date current = new Date();
             fullStatus.append(" as " + getStatus().getSkin());
-            fullStatus.append(" for " + TimeUnit.MILLISECONDS.toMinutes(new Date(current.getTime() - getStatus().getTimestamp().getTime()).getTime()) + " minutes");
+            fullStatus.append(" for " + TimeUnit.MILLISECONDS.toMinutes(System.currentTimeMillis() - getStatus().getTimestamp().getTime()) + " minutes");
         }
         return fullStatus.toString();
     }

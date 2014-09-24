@@ -28,8 +28,6 @@ import com.tesfayeabel.lolchat.ui.adapter.MessageAdapter;
 
 import java.util.ArrayList;
 
-import jriot.main.JRiotException;
-
 public class ChatActivity extends Activity implements ServiceConnection, SharedPreferences.OnSharedPreferenceChangeListener {
     private String friendName;
     private Friend friend;
@@ -77,7 +75,7 @@ public class ChatActivity extends Activity implements ServiceConnection, SharedP
         String message = messageBox.getText().toString();
         if (friend != null && !message.isEmpty()) {
             friend.sendMessage(message);
-            chatService.saveMessage(friend.getName(), message, MessageAdapter.DIRECTION_OUTGOING);
+            chatService.saveMessage(new Message(friend.getName(), message, MessageAdapter.DIRECTION_OUTGOING, System.currentTimeMillis()));
             messageBox.setText("");
         }
     }

@@ -1,6 +1,7 @@
 package com.tesfayeabel.lolchat.ui.adapter;
 
 import android.content.Context;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import com.tesfayeabel.lolchat.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class MessageAdapter extends BaseAdapter {
     public static final int DIRECTION_INCOMING = 0;
@@ -28,9 +30,18 @@ public class MessageAdapter extends BaseAdapter {
         this(con, new ArrayList<Message>());
     }
 
-    public MessageAdapter(Context con, List<Message> list) {
-        context = con;
-        messages = list;
+    public MessageAdapter(Context context, List<Message> messages) {
+        this.context = context;
+        this.messages = messages;
+        final Handler handler = new Handler();//update adapter every minute for in game time
+        handler.postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                notifyDataSetChanged();
+                handler.postDelayed(this, 60 * 1000);
+            }
+        }, 60 * 1000);
     }
 
     public void setFriendProfileIcon(int friendProfileIcon) {
@@ -93,7 +104,8 @@ public class MessageAdapter extends BaseAdapter {
             } else if (message.getDirection() == DIRECTION_OUTGOING) {
                 convertView = mInflater.inflate(R.layout.message_right, viewGroup, false);
             }
-            holder.view = (TextView) convertView.findViewById(R.id.message_body);
+            holder.messageBody = (TextView) convertView.findViewById(R.id.message_body);
+            holder.messageTime = (TextView) convertView.findViewById(R.id.message_time);
             holder.imageView = (ImageView) convertView.findViewById(R.id.message_photo);
             convertView.setTag(holder);
         } else {
@@ -103,7 +115,8 @@ public class MessageAdapter extends BaseAdapter {
             Picasso.with(context.getApplicationContext()).load(LOLChatApplication.getRiotResourceURL() + "/img/profileicon/" + friendProfileIcon + ".png").into(holder.imageView);
         if (message.getDirection() == DIRECTION_OUTGOING)
             Picasso.with(context.getApplicationContext()).load(LOLChatApplication.getRiotResourceURL() + "/img/profileicon/" + myProfileIcon + ".png").into(holder.imageView);
-        holder.view.setText(message.getSender() + ": " + message.getMessage());
+        holder.messageBody.setText(message.getSender() + ": " + message.getMessage());
+        holder.messageTime.setText(TimeUnit.MILLISECONDS.toMinutes(System.currentTimeMillis() - message.getTime()) + " minutes ago");
         return convertView;
     }
 
@@ -113,7 +126,8 @@ public class MessageAdapter extends BaseAdapter {
     }
 
     private class ViewHolder {
-        TextView view;
+        TextView messageBody;
+        TextView messageTime;
         ImageView imageView;
     }
 }
