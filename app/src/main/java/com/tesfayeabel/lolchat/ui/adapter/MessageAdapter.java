@@ -14,7 +14,10 @@ import com.tesfayeabel.lolchat.LOLChatApplication;
 import com.tesfayeabel.lolchat.Message;
 import com.tesfayeabel.lolchat.R;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -116,7 +119,8 @@ public class MessageAdapter extends BaseAdapter {
         if (message.getDirection() == DIRECTION_OUTGOING)
             Picasso.with(context.getApplicationContext()).load(LOLChatApplication.getRiotResourceURL() + "/img/profileicon/" + myProfileIcon + ".png").into(holder.imageView);
         holder.messageBody.setText(message.getSender() + ": " + message.getMessage());
-        holder.messageTime.setText(TimeUnit.MILLISECONDS.toMinutes(System.currentTimeMillis() - message.getTime()) + " minutes ago");
+        DateFormat dateFormat = new SimpleDateFormat("EEE hh:mmaa");
+        holder.messageTime.setText(dateFormat.format(new Date(message.getTime())));
         return convertView;
     }
 
