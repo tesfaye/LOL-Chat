@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.github.theholywaffle.lolchatapi.ChatServer;
 import com.github.theholywaffle.lolchatapi.FriendRequestPolicy;
 import com.github.theholywaffle.lolchatapi.LolChat;
+import com.github.theholywaffle.lolchatapi.LolStatus;
 import com.github.theholywaffle.lolchatapi.listeners.ChatListener;
 import com.github.theholywaffle.lolchatapi.wrapper.Friend;
 import com.squareup.picasso.Picasso;
@@ -74,6 +75,7 @@ public class ChatService extends Service {
                             .build());
                     Player connected = new Player(lolChat.getConnectedSummoner().getName().replace(" ", ""), lolChat.getRiotApi());
                     lolChat.setStatus(connected.getStatus()
+                            .setGameQueueType(LolStatus.Queue.NONE)
                             .setStatusMessage("USING BETA ABEL CHAT APP"));
                     lolChat.addChatListener(new ChatListener() {
                         @Override
