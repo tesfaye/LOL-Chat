@@ -1,43 +1,76 @@
 package com.tesfayeabel.lolchat.ui;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.github.theholywaffle.lolchatapi.LolChat;
 import com.tesfayeabel.lolchat.Message;
 import com.tesfayeabel.lolchat.R;
-import com.tesfayeabel.lolchat.ui.adapter.MessageAdapter;
 import com.tesfayeabel.lolchat.ui.adapter.RecentConversationsAdapter;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Abel Tesfaye on 9/21/2014.
  */
-public class ConversationsFragment extends LOLChatFragment {
+public class ConversationsFragment extends LOLChatFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private ListView listView;
+    private SharedPreferences sharedPreferences;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_lolchat_conversations, container, false);
         listView = (ListView) view.findViewById(R.id.list);
+        sharedPreferences = getActivity().getSharedPreferences("messageHistory", Context.MODE_PRIVATE);
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
         if (savedInstanceState != null) {
             listView.setAdapter(new RecentConversationsAdapter(getActivity(), R.layout.message_conversation_item, (ArrayList) savedInstanceState.getParcelableArrayList("conversations")));
             listView.onRestoreInstanceState(savedInstanceState.getParcelable("listView"));
         } else {
-            ArrayList<RecentConversation> test = new ArrayList<RecentConversation>();
-            test.add(new RecentConversation(1, "Test", 100900000, "Test message"));
-            test.add(new RecentConversation(2, "Test1", 10090000, "Test message 1"));
-            test.add(new RecentConversation(3, "Test2", 100900000, "Test message 2"));
-            listView.setAdapter(new RecentConversationsAdapter(getActivity(), R.layout.message_conversation_item, test));
+            Map<String, ?> keys = sharedPreferences.getAll();
+            ArrayList<RecentConversation> conversations = new ArrayList<RecentConversation>();
+            for (Map.Entry<String, ?> entry : keys.entrySet()) {
+                String[] messages = entry.getValue().toString().split("\n");
+                Message last = new Message(messages[messages.length - 1]);
+                String name = entry.getKey().replace("History", "");
+                conversations.add(new RecentConversation(1, name, last.getTime(), last.getMessage()));
+            }
+            Collections.sort(conversations, new Comparator<RecentConversation>() {
+                @Override
+                public int compare(RecentConversation recentConversation, RecentConversation recentConversation2) {
+                    return (int) (recentConversation2.getLastUpdate() - recentConversation.getLastUpdate());
+                }
+            });
+            listView.setAdapter(new RecentConversationsAdapter(getActivity(), R.layout.message_conversation_item, conversations));
         }
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                RecentConversation conversation = (RecentConversation) adapterView.getItemAtPosition(i);
+                Intent intent = new Intent(getActivity(), ChatActivity.class);
+                intent.putExtra("friend", conversation.getName());
+                startActivity(intent);
+            }
+        });
         return view;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        sharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
     }
 
     @Override
@@ -50,5 +83,14 @@ public class ConversationsFragment extends LOLChatFragment {
         super.onSaveInstanceState(savedInstanceState);
         savedInstanceState.putParcelable("listView", listView.onSaveInstanceState());
         savedInstanceState.putParcelableArrayList("conversations", (ArrayList<RecentConversation>) ((RecentConversationsAdapter) listView.getAdapter()).getRecentConversations());
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
+        RecentConversationsAdapter adapter = (RecentConversationsAdapter) listView.getAdapter();
+        String message = preferences.getString(key, null);
+        String[] messages = message.split("\n");
+        Message last = new Message(messages[messages.length - 1]);
+        adapter.updateConversation(last.getSender(), last.getMessage(), last.getTime());
     }
 }

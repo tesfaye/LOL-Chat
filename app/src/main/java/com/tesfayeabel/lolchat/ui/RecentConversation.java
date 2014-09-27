@@ -60,7 +60,15 @@ public class RecentConversation implements Parcelable {
         return lastUpdate;
     }
 
+    public void setLastUpdate(long lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
+
     public String getLastMessage() {
         return lastMessage;
+    }
+
+    public void setLastMessage(String lastMessage) {
+        this.lastMessage = lastMessage;
     }
 }

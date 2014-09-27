@@ -16,7 +16,6 @@ import com.tesfayeabel.lolchat.ui.adapter.ExpandableFriendViewAdapter;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 
 public class MainFragment extends LOLChatFragment {
     private ExpandableListView listView;

@@ -85,7 +85,7 @@ public class ChatActivity extends Activity implements ServiceConnection, SharedP
         // Handle action buttons
         switch (item.getItemId()) {
             case R.id.action_clear:
-                SharedPreferences.Editor editor = getSharedPreferences("messageHistory", Context.MODE_PRIVATE).edit();
+                SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.remove(friendName + "History").apply();
                 conversation.setAdapter(new MessageAdapter(this));
                 return true;
@@ -129,10 +129,7 @@ public class ChatActivity extends Activity implements ServiceConnection, SharedP
         if (message != null) {
             String[] messages = message.split("\n");
             MessageAdapter adapter = (MessageAdapter) conversation.getAdapter();
-            for(int i = conversation.getCount(); i < messages.length; i++)//add new messages
-            {
-                adapter.addMessage(new Message(messages[i]));
-            }
+            adapter.addMessage(new Message(messages[messages.length - 1]));
             conversation.setSelection(adapter.getCount() - 1);
         }
     }

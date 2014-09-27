@@ -57,6 +57,19 @@ public class RecentConversationsAdapter extends ArrayAdapter<RecentConversation>
         return recentConversations;
     }
 
+    public void updateConversation(String name, String lastMessage, long lastUpdate) {
+        RecentConversation recentConversation = null;
+        for(RecentConversation conversation : recentConversations) {
+            if(name.equals(conversation.getName()))
+                recentConversation = conversation;
+        }
+        recentConversations.remove(recentConversation);
+        recentConversation.setLastMessage(lastMessage);
+        recentConversation.setLastUpdate(lastUpdate);
+        recentConversations.add(0, recentConversation);
+        notifyDataSetChanged();
+    }
+
     private class ViewHolder {
         ImageView conversationImage;
         TextView conversationName;
