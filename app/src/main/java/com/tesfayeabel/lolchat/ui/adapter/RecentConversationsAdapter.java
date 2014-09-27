@@ -21,14 +21,16 @@ import java.util.List;
 public class RecentConversationsAdapter extends ArrayAdapter<RecentConversation> {
 
     private int resource;
+    private List<RecentConversation> recentConversations;
 
     public RecentConversationsAdapter(Context context, int resource, List<RecentConversation> recentConversations) {
         super(context, resource, recentConversations);
         this.resource = resource;
+        this.recentConversations = recentConversations;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent)  {
+    public View getView(int position, View convertView, ViewGroup parent) {
         final ViewHolder holder;
         if (convertView == null) {
             LayoutInflater mInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -43,12 +45,16 @@ public class RecentConversationsAdapter extends ArrayAdapter<RecentConversation>
             holder = (ViewHolder) convertView.getTag();
         }
         RecentConversation conversation = getItem(position);
-        Picasso.with(getContext().getApplicationContext()).load(LOLChatApplication.getRiotResourceURL() + "/img/profileicon/" + conversation.getProfileIconId()+ ".png").into(holder.conversationImage);
+        Picasso.with(getContext().getApplicationContext()).load(LOLChatApplication.getRiotResourceURL() + "/img/profileicon/" + conversation.getProfileIconId() + ".png").into(holder.conversationImage);
         holder.conversationName.setText(conversation.getName());
         DateFormat dateFormat = new SimpleDateFormat("EEE hh:mmaa");
         holder.lastUpdate.setText(dateFormat.format(new Date(conversation.getLastUpdate())));
         holder.lastMessage.setText(conversation.getLastMessage());
         return convertView;
+    }
+
+    public List<RecentConversation> getRecentConversations() {
+        return recentConversations;
     }
 
     private class ViewHolder {
