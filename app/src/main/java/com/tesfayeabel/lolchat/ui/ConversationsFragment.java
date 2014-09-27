@@ -89,8 +89,10 @@ public class ConversationsFragment extends LOLChatFragment implements SharedPref
     public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
         RecentConversationsAdapter adapter = (RecentConversationsAdapter) listView.getAdapter();
         String message = preferences.getString(key, null);
-        String[] messages = message.split("\n");
-        Message last = new Message(messages[messages.length - 1]);
-        adapter.updateConversation(last.getSender(), last.getMessage(), last.getTime());
+        if(message != null) {
+            String[] messages = message.split("\n");
+            Message last = new Message(messages[messages.length - 1]);
+            adapter.updateConversation(key.replace("History", ""), last.getSender() + ": "+ last.getMessage(), last.getTime());
+        }
     }
 }
