@@ -135,7 +135,7 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
                 }
             });
             holder.status.setText(friend.getFullStatus());
-            int iconId = friend.getProfileIconId();
+            int iconId = friend.getStatus().getProfileIconId();
             if (iconId == -1)
                 iconId = 1;
             switch (friend.getChatMode()) {
