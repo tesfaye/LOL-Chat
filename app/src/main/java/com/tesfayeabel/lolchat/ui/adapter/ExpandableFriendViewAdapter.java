@@ -56,10 +56,13 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
         for (int i = 0; i < friends.size(); i++) {
             if (friend.compareTo(friends.get(i)) < 0) {
                 friends.add(i, friend);
-                notifyDataSetChanged();
-                return;
+                break;
             }
         }
+        if(!friends.contains(friend)) {
+            friends.add(friend);//add to end of list
+        }
+        notifyDataSetChanged();
     }
 
     public void setFriendOnline(StaticFriend friend) {
@@ -71,6 +74,8 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
                     break;
                 }
             }
+            if(!onlineFriends.contains(friend))
+                onlineFriends.add(friend);//add to end of list
         } else {
             onlineFriends.remove(friend);
             for (int i = 0; i < offlineFriends.size(); i++) {
@@ -79,6 +84,8 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
                     break;
                 }
             }
+            if(!offlineFriends.contains(friend))
+                offlineFriends.add(friend);//add to end of list
         }
         notifyDataSetChanged();
     }
@@ -128,7 +135,7 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
                 }
             });
             holder.status.setText(friend.getFullStatus());
-            int iconId = friend.getStatus().getProfileIconId();
+            int iconId = friend.getProfileIconId();
             if (iconId == -1)
                 iconId = 1;
             switch (friend.getChatMode()) {
