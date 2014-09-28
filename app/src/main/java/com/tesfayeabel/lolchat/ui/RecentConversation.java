@@ -23,29 +23,29 @@ public class RecentConversation implements Parcelable {
     private long lastUpdate;
     private String lastMessage;
 
-    public RecentConversation(int profileIconId, String name, long lastUpdate, String lastMessage) {
+    public RecentConversation(int profileIconId, String name, String lastMessage, long lastUpdate) {
         this.profileIconId = profileIconId;
         this.name = name;
-        this.lastUpdate = lastUpdate;
         this.lastMessage = lastMessage;
+        this.lastUpdate = lastUpdate;
     }
 
     public RecentConversation(int profileIconId, String name) {
-        this(profileIconId, name, -1, null);
+        this(profileIconId, name, null, -1);
     }
 
     private RecentConversation(Parcel in) {
         profileIconId = in.readInt();
         name = in.readString();
-        lastUpdate = in.readInt();
         lastMessage = in.readString();
+        lastUpdate = in.readInt();
     }
 
     public void writeToParcel(Parcel out, int flags) {
         out.writeInt(profileIconId);
         out.writeString(name);
-        out.writeLong(lastUpdate);
         out.writeString(lastMessage);
+        out.writeLong(lastUpdate);
     }
 
     public int describeContents() {

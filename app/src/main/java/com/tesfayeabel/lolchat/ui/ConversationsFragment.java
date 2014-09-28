@@ -44,7 +44,7 @@ public class ConversationsFragment extends LOLChatFragment implements SharedPref
             for (Map.Entry<String, ?> entry : keys.entrySet()) {
                 String[] messages = entry.getValue().toString().split("\n");
                 Message last = new Message(messages[messages.length - 1]);
-                conversations.add(new RecentConversation(1, entry.getKey(), last.getTime(), last.getMessage()));
+                conversations.add(new RecentConversation(1, entry.getKey(), last.getSender() + ": "+ last.getMessage(), last.getTime()));
             }
             Collections.sort(conversations, new Comparator<RecentConversation>() {
                 @Override
