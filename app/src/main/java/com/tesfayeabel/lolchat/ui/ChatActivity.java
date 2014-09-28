@@ -86,7 +86,7 @@ public class ChatActivity extends Activity implements ServiceConnection, SharedP
         switch (item.getItemId()) {
             case R.id.action_clear:
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.remove(friendName + "History").apply();
+                editor.remove(friendName).apply();
                 conversation.setAdapter(new MessageAdapter(this));
                 return true;
             default:
@@ -144,7 +144,7 @@ public class ChatActivity extends Activity implements ServiceConnection, SharedP
     public void onResume() {
         super.onResume();
         SharedPreferences preferences = getSharedPreferences("messageHistory", Context.MODE_PRIVATE);
-        String messages = preferences.getString(friendName + "History", null);
+        String messages = preferences.getString(friendName, null);
         if (messages != null) {
             String[] text = messages.split("\n");
             MessageAdapter adapter = (MessageAdapter) conversation.getAdapter();

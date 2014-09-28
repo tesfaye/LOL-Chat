@@ -30,6 +30,10 @@ public class RecentConversation implements Parcelable {
         this.lastMessage = lastMessage;
     }
 
+    public RecentConversation(int profileIconId, String name) {
+        this(profileIconId, name, -1, null);
+    }
+
     private RecentConversation(Parcel in) {
         profileIconId = in.readInt();
         name = in.readString();

@@ -63,6 +63,8 @@ public class RecentConversationsAdapter extends ArrayAdapter<RecentConversation>
             if(name.equals(conversation.getName()))
                 recentConversation = conversation;
         }
+        if(recentConversation == null)
+            recentConversation = new RecentConversation(1, name);
         recentConversations.remove(recentConversation);
         recentConversation.setLastMessage(lastMessage);
         recentConversation.setLastUpdate(lastUpdate);

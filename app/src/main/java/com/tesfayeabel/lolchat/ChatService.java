@@ -124,7 +124,7 @@ public class ChatService extends Service {
 
     public void saveMessage(Message message) {
         SharedPreferences sharedPreferences = getSharedPreferences("messageHistory", Context.MODE_PRIVATE);
-        String messageHistory = sharedPreferences.getString(message.getSender() + "History", "");
+        String messageHistory = sharedPreferences.getString(message.getSender(), "");
         SharedPreferences.Editor editor = sharedPreferences.edit();
         if (!messageHistory.equals("")) {
             messageHistory += "\n";
@@ -133,7 +133,7 @@ public class ChatService extends Service {
             messageHistory += message.toString();
         if(message.getDirection() == MessageAdapter.DIRECTION_OUTGOING)
             messageHistory += message.toString().replace(message.getSender(), "Me");
-        editor.putString(message.getSender() + "History", messageHistory);
+        editor.putString(message.getSender(), messageHistory);
         editor.apply();
     }
 
