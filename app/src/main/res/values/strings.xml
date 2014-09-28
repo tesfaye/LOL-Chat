@@ -19,12 +19,12 @@
     <string name="disclaimer">This product is not endorsed, certified or otherwise approved in any way by Riot Games, Inc. or any of its affiliates.</string>
     <string-array name="licenses">
         <item>Picasso (Apache License 2.0)</item>
-        <item>TheHolyWaffle for League of Legends XMPP Chat Library (MIT License)</item>
-        <item>Google for gson (Apache License 2.0)</item>
-        <item>Flowdalic for asmack (Apache License 2.0 / OpenLDAP Public License 2.8)</item>
-        <item>Lear for jdom (Modified Apache License)</item>
+        <item>League of Legends XMPP Chat Library (MIT License)</item>
+        <item>Gson (Apache License 2.0)</item>
+        <item>aSmack (Apache License 2.0 / OpenLDAP Public License 2.8)</item>
+        <item>jdom (Modified Apache License)</item>
         <item>XmlUnit (BSD License)</item>
-        <item>t-sauer for jriot (MIT License)</item>
+        <item>jriot (MIT License)</item>
     </string-array>
 
 </resources>
