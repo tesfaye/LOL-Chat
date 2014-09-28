@@ -1,10 +1,12 @@
-package com.tesfayeabel.lolchat.ui;
+package com.tesfayeabel.lolchat.ui.adapter;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.support.v13.app.FragmentStatePagerAdapter;
 import android.util.SparseArray;
 import android.view.ViewGroup;
+
+import com.tesfayeabel.lolchat.ui.LOLChatFragment;
 
 import java.util.ArrayList;
 

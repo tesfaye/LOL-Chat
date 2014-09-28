@@ -13,12 +13,12 @@ import android.widget.ListView;
 import com.github.theholywaffle.lolchatapi.LolChat;
 import com.tesfayeabel.lolchat.Message;
 import com.tesfayeabel.lolchat.R;
+import com.tesfayeabel.lolchat.RecentConversation;
 import com.tesfayeabel.lolchat.ui.adapter.RecentConversationsAdapter;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 import java.util.Map;
 
 /**

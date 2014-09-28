@@ -1,4 +1,4 @@
-package com.tesfayeabel.lolchat.ui;
+package com.tesfayeabel.lolchat;
 
 import android.os.Parcel;
 import android.os.Parcelable;

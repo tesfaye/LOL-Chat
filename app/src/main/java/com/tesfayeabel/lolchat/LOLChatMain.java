@@ -17,7 +17,7 @@ import android.view.MenuItem;
 import com.github.theholywaffle.lolchatapi.LolChat;
 import com.tesfayeabel.lolchat.ui.AboutActivity;
 import com.tesfayeabel.lolchat.ui.ConversationsFragment;
-import com.tesfayeabel.lolchat.ui.FragmentPagerAdapter;
+import com.tesfayeabel.lolchat.ui.adapter.FragmentPagerAdapter;
 import com.tesfayeabel.lolchat.ui.LOLChatFragment;
 import com.tesfayeabel.lolchat.ui.LoginActivity;
 import com.tesfayeabel.lolchat.ui.MainFragment;
