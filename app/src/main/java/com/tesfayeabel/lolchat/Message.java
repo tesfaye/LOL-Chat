@@ -19,6 +19,13 @@ public class Message implements Parcelable {
     private int direction;
     private long time;
 
+    /**
+     * Creates a message object
+     * @param sender the sender
+     * @param message the message
+     * @param direction either MessageAdapter.DIRECTION_INCOMING or MessageAdapter.DIRECTION_OUTGOING
+     * @param time time in milliseconds when the message sent or received
+     */
     public Message(String sender, String message, int direction, long time) {
         this.sender = sender;
         this.message = message;
@@ -26,6 +33,10 @@ public class Message implements Parcelable {
         this.time = time;
     }
 
+    /**
+     * See other constructor
+     * @param read
+     */
     public Message(String read) {
         String[] split = read.split(":", 4);
         this.direction = Integer.parseInt(split[0]);

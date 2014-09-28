@@ -50,6 +50,10 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
         return getGroup(groupPosition).get(childPosition);
     }
 
+    /**
+     * Removes and adds a StaticFriend and updates ui
+     * @param friend
+     */
     public void updateFriendStatus(StaticFriend friend) {
         List<StaticFriend> friends = getGroup(friend.isOnline() ? 0 : 1);
         friends.remove(friend);
@@ -65,6 +69,10 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
         notifyDataSetChanged();
     }
 
+    /**
+     * Makes a StaticFriend either online or offline and updates ui
+     * @param friend
+     */
     public void setFriendOnline(StaticFriend friend) {
         if (friend.isOnline()) {
             offlineFriends.remove(friend);

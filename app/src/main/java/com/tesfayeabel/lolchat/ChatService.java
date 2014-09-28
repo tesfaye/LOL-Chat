@@ -30,6 +30,8 @@ import com.tesfayeabel.lolchat.ui.adapter.MessageAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import jriot.objects.Player;
+
 public class ChatService extends Service {
     public static final int foreground_ID = 69;
     public static final int notification_ID = 79;
@@ -73,8 +75,8 @@ public class ChatService extends Service {
                             .setContentIntent(PendingIntent.getActivity(getApplicationContext(), 0, mainIntent, PendingIntent.FLAG_UPDATE_CURRENT))
                             .setDefaults(Notification.DEFAULT_VIBRATE)
                             .build());
-                    Player connected = new Player(lolChat.getConnectedSummoner().getName().replace(" ", ""), lolChat.getRiotApi());
-                    lolChat.setStatus(connected.getStatus()
+                    LolStatus lolStatus = LOLUtils.getStatus(lolChat.getConnectedSummoner(), lolChat.getRiotApi());
+                    lolChat.setStatus(lolStatus
                             .setGameQueueType(LolStatus.Queue.NONE)
                             .setStatusMessage("USING BETA ABEL CHAT APP"));
                     lolChat.addChatListener(new ChatListener() {
@@ -122,6 +124,11 @@ public class ChatService extends Service {
         return START_NOT_STICKY;
     }
 
+    /**
+     * Saves a message to the messageHistory sharedPreferences file
+     * If the message was sent by us, replace the sender with "me"
+     * @param message
+     */
     public void saveMessage(Message message) {
         SharedPreferences sharedPreferences = getSharedPreferences("messageHistory", Context.MODE_PRIVATE);
         String messageHistory = sharedPreferences.getString(message.getSender(), "");
@@ -137,6 +144,10 @@ public class ChatService extends Service {
         editor.apply();
     }
 
+    /**
+     * Gets the last 3 messages
+     * @return the style that is used for the new message notification
+     */
     private Notification.InboxStyle getStyle() {
         Notification.InboxStyle style = new Notification.InboxStyle();
         List<Message> list = missedMessages.subList(Math.max(missedMessages.size() - 3, 0), missedMessages.size());//get list of last three messages
@@ -147,6 +158,12 @@ public class ChatService extends Service {
         return style;
     }
 
+    /**
+     * Shows a custom toast with the friend name, message and iconId
+     * @param friend name of the friend who sent the message
+     * @param message the message that was sent
+     * @param iconId the friend's profileIconId
+     */
     private void showFriendToast(String friend, String message, int iconId) {
         toast.setDuration(Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER, 0, 0);

@@ -32,40 +32,20 @@ public class StaticFriend implements Comparable<StaticFriend>{
         return lolStatus;
     }
 
-    public void setStatus(LolStatus lolStatus) {
-        this.lolStatus = lolStatus;
-    }
-
     public ChatMode getChatMode() {
         return chatMode;
-    }
-
-    public void setChatMode(ChatMode chatMode) {
-        this.chatMode = chatMode;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
     public boolean isOnline() {
         return online;
-    }
-
-    public void setOnline(boolean online) {
-        this.online = online;
     }
 
     public String getFullStatus() {
