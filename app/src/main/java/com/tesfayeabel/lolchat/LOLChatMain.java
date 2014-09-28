@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.github.theholywaffle.lolchatapi.LolChat;
+import com.tesfayeabel.lolchat.ui.AboutActivity;
 import com.tesfayeabel.lolchat.ui.ConversationsFragment;
 import com.tesfayeabel.lolchat.ui.FragmentPagerAdapter;
 import com.tesfayeabel.lolchat.ui.LOLChatFragment;
@@ -88,6 +89,10 @@ public class LOLChatMain extends Activity implements ServiceConnection {
                 mainIntent.setAction(Intent.ACTION_MAIN);
                 mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
                 startActivity(mainIntent);
+                return true;
+            case R.id.action_about:
+                Intent aboutActivity = new Intent(this, AboutActivity.class);
+                startActivity(aboutActivity);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

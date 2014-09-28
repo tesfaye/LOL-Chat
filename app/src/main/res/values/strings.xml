@@ -4,10 +4,8 @@
     <string name="api_riot">99a0d299-2476-4539-901f-0fdd0598bcf8</string>
 
     <string name="app_name">LOL Chat</string>
-    <string name="title_section1">Main</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_leave">Logout</string>
+    <string name="action_about">About</string>
     <string name="server_select">Select server to connect to</string>
     <string name="login">Login</string>
     <string name="friendslist">Friends List</string>
@@ -17,5 +15,16 @@
     <string name="gamelocation">Game Location</string>
     <string name="gamedate">01/12/99</string>
     <string name="gameip">+250IP</string>
+
+    <string name="disclaimer">This product is not endorsed, certified or otherwise approved in any way by Riot Games, Inc. or any of its affiliates.</string>
+    <string-array name="licenses">
+        <item>Picasso (Apache License 2.0)</item>
+        <item>TheHolyWaffle for League of Legends XMPP Chat Library (MIT License)</item>
+        <item>Google for gson (Apache License 2.0)</item>
+        <item>Flowdalic for asmack (Apache License 2.0 / OpenLDAP Public License 2.8)</item>
+        <item>Lear for jdom (Modified Apache License)</item>
+        <item>XmlUnit (BSD License)</item>
+        <item>t-sauer for jriot (MIT License)</item>
+    </string-array>
 
 </resources>

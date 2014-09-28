@@ -1,6 +1,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/action_about"
+        android:title="@string/action_about"
+        android:orderInCategory="0"
+        android:showAsAction="never" />
     <item android:id="@+id/action_leave"
         android:title="@string/action_leave"
-        android:orderInCategory="100"
+        android:orderInCategory="1"
         android:showAsAction="never" />
 </menu>

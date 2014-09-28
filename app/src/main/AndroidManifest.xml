@@ -24,6 +24,15 @@
                 android:value=".ChatActivity" />
         </activity>
         <activity
+            android:name=".ui.AboutActivity"
+            android:label="About"
+            android:parentActivityName=".ui.AboutActivity" >
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".AboutActivity" />
+        </activity>
+        <activity
             android:name=".ui.ProfileActivity"
             android:label="Profile Viewer"
             android:parentActivityName=".ui.ProfileActivity" >
