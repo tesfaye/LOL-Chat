@@ -22,7 +22,7 @@ An open source Android League of Legends chat client that uses the GPL 3.0 licen
 Thanks to:
 
 * David
-* rod156
+* rodthefox
 * Square for [Picasso](https://github.com/square/picasso) (Apache License 2.0)
 * TheHolyWaffle for [League of Legends XMPP Chat Library](https://github.com/TheHolyWaffle/League-of-Legends-XMPP-Chat-Library) (MIT License)
 * Google for [gson](http://code.google.com/p/google-gson/) (Apache License 2.0)
