@@ -13,16 +13,18 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class ApiCaller {
 
-    private LruCache<String, String> apiCache;
+    private LruCache<String, Response> apiCache;
 
     public ApiCaller() {
-        apiCache = new LruCache<String, String>(10000);
+        apiCache = new LruCache<String, Response>(10000);
     }
 
     public String request(String requestURL) throws JRiotException {
-        String response = apiCache.get(requestURL);
+        Response response = apiCache.get(requestURL);
         if (response != null) {
-            return response;
+            if(!response.isExpired())
+                return response.getResponse();
+            apiCache.remove(requestURL);
         }
         try {
             URL url = new URL(requestURL);
@@ -45,9 +47,9 @@ public class ApiCaller {
             }
 
             connection.disconnect();
-            response = stringBuilder.toString();
+            response = new Response(stringBuilder.toString());
             apiCache.put(requestURL, response);
-            return response;
+            return response.getResponse();
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -58,4 +60,20 @@ public class ApiCaller {
 
     }
 
+    private class Response {
+        private String response;
+        private long date;
+        public Response(String response) {
+            this.response = response;
+            date = System.currentTimeMillis();
+        }
+
+        public String getResponse() {
+            return response;
+        }
+
+        public boolean isExpired() {
+            return System.currentTimeMillis() - date >= 600000; //10 minutes
+        }
+    }
 }

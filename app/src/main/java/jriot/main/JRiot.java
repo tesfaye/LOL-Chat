@@ -123,7 +123,6 @@ public class JRiot {
      * @throws JRiotException
      */
     public List<League> getLeagueEntries(long summonerId) throws JRiotException {
-        
         ArrayList<Long> id = new ArrayList<Long>();
         id.add(summonerId);
         Map<String, List<League>> leagueEntries = getLeagueEntries(id);
@@ -157,7 +156,6 @@ public class JRiot {
      * @throws JRiotException
      */
     public List<League> getLeagueEntriesByTeam(String teamId) throws JRiotException {
-        
         ArrayList<String> id = new ArrayList<String>();
         id.add(teamId);
         Map<String, List<League>> leagueEntries = getLeagueEntriesByTeam(id);
