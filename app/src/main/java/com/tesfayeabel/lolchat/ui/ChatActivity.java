@@ -125,12 +125,14 @@ public class ChatActivity extends Activity implements ServiceConnection, SharedP
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
-        String message = preferences.getString(key, null);
-        if (message != null) {
-            String[] messages = message.split("\n");
-            MessageAdapter adapter = (MessageAdapter) conversation.getAdapter();
-            adapter.addMessage(new Message(messages[messages.length - 1]));
-            conversation.setSelection(adapter.getCount() - 1);
+        if(key.equals(friendName)) {
+            String message = preferences.getString(key, null);
+            if (message != null) {
+                String[] messages = message.split("\n");
+                MessageAdapter adapter = (MessageAdapter) conversation.getAdapter();
+                adapter.addMessage(new Message(messages[messages.length - 1]));
+                conversation.setSelection(adapter.getCount() - 1);
+            }
         }
     }
 

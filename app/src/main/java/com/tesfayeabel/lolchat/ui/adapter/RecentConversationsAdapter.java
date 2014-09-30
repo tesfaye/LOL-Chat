@@ -72,6 +72,16 @@ public class RecentConversationsAdapter extends ArrayAdapter<RecentConversation>
         notifyDataSetChanged();
     }
 
+    public void deleteConversation(String name) {
+        RecentConversation recentConversation = null;
+        for(RecentConversation conversation : recentConversations) {
+            if(name.equals(conversation.getName()))
+                recentConversation = conversation;
+        }
+        recentConversations.remove(recentConversation);
+        notifyDataSetChanged();
+    }
+
     private class ViewHolder {
         ImageView conversationImage;
         TextView conversationName;

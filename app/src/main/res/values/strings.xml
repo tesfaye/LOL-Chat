@@ -6,6 +6,7 @@
     <string name="app_name">LOL Chat</string>
     <string name="action_leave">Logout</string>
     <string name="action_about">About</string>
+    <string name="clear_history">Clear history</string>
     <string name="server_select">Select server to connect to</string>
     <string name="login">Login</string>
     <string name="friendslist">Friends List</string>
