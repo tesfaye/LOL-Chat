@@ -56,6 +56,10 @@ public class RecentConversation implements Parcelable {
         return profileIconId;
     }
 
+    public void setProfileIconId(int profileIconId) {
+        this.profileIconId = profileIconId;
+    }
+
     public String getName() {
         return name;
     }
