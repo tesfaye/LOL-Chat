@@ -103,8 +103,22 @@ public class LOLChatMain extends Activity implements ServiceConnection {
     public void onServiceConnected(final ComponentName name, final IBinder service) {
         ChatService chatService = ((ChatService.LocalBinder) service).getService();
         lolChat = chatService.getLolChat();
-        FragmentPagerAdapter adapter = (FragmentPagerAdapter) viewPager.getAdapter();
-        adapter.getRegisteredFragment(viewPager.getCurrentItem()).onChatConnected(lolChat);//fragment is sometimes null?????
+        final FragmentPagerAdapter adapter = (FragmentPagerAdapter) viewPager.getAdapter();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                LOLChatFragment fragment = adapter.getRegisteredFragment(viewPager.getCurrentItem());
+                while(fragment == null) {
+                    try {
+                        Thread.sleep(200);
+                        fragment = adapter.getRegisteredFragment(viewPager.getCurrentItem());
+                    } catch(InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                fragment.onChatConnected(lolChat);
+            }
+        }).start();
     }
 
     @Override
