@@ -41,7 +41,7 @@ public class LOLChatMain extends LOLChatActivity {
             public void onPageSelected(int position) {
                 actionBar.setSelectedNavigationItem(position);
                 FragmentPagerAdapter adapter = (FragmentPagerAdapter) viewPager.getAdapter();
-                if(getLolChat() != null)//we won't need this as fragment will call onchatconnected in onstart
+                if(getLolChat() != null)
                     adapter.getRegisteredFragment(position).onChatConnected(getLolChat());
             }
             @Override
