@@ -1,22 +1,17 @@
 package com.tesfayeabel.lolchat;
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.app.FragmentTransaction;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import com.github.theholywaffle.lolchatapi.LolChat;
 import com.tesfayeabel.lolchat.ui.AboutActivity;
 import com.tesfayeabel.lolchat.ui.ConversationsFragment;
+import com.tesfayeabel.lolchat.ui.LOLChatActivity;
 import com.tesfayeabel.lolchat.ui.adapter.FragmentPagerAdapter;
 import com.tesfayeabel.lolchat.ui.LOLChatFragment;
 import com.tesfayeabel.lolchat.ui.LoginActivity;
@@ -25,8 +20,7 @@ import com.tesfayeabel.lolchat.ui.SummonerSearchFragment;
 
 import java.util.ArrayList;
 
-public class LOLChatMain extends Activity implements ServiceConnection {
-    private LolChat lolChat;
+public class LOLChatMain extends LOLChatActivity {
     private ViewPager viewPager;
 
     @Override
@@ -47,8 +41,8 @@ public class LOLChatMain extends Activity implements ServiceConnection {
             public void onPageSelected(int position) {
                 actionBar.setSelectedNavigationItem(position);
                 FragmentPagerAdapter adapter = (FragmentPagerAdapter) viewPager.getAdapter();
-                if(lolChat != null)
-                    adapter.getRegisteredFragment(position).onChatConnected(lolChat);
+                if(getLolChat() != null)//we won't need this as fragment will call onchatconnected in onstart
+                    adapter.getRegisteredFragment(position).onChatConnected(getLolChat());
             }
             @Override
             public void onPageScrolled(int i, float f, int f1) {}
@@ -68,8 +62,6 @@ public class LOLChatMain extends Activity implements ServiceConnection {
         actionBar.addTab(actionBar.newTab().setIcon(R.drawable.lolchat_friend).setTabListener(tl));
         actionBar.addTab(actionBar.newTab().setIcon(R.drawable.lolchat_recent).setTabListener(tl));
         actionBar.addTab(actionBar.newTab().setIcon(R.drawable.lolchat_search).setTabListener(tl));
-        Intent intent = new Intent(this, ChatService.class);
-        bindService(intent, this, Context.BIND_AUTO_CREATE);
     }
 
     @Override
@@ -100,34 +92,8 @@ public class LOLChatMain extends Activity implements ServiceConnection {
     }
 
     @Override
-    public void onServiceConnected(final ComponentName name, final IBinder service) {
-        ChatService chatService = ((ChatService.LocalBinder) service).getService();
-        lolChat = chatService.getLolChat();
+    public void onChatConnected() {
         final FragmentPagerAdapter adapter = (FragmentPagerAdapter) viewPager.getAdapter();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                LOLChatFragment fragment = adapter.getRegisteredFragment(viewPager.getCurrentItem());
-                while(fragment == null) {
-                    try {
-                        Thread.sleep(200);
-                        fragment = adapter.getRegisteredFragment(viewPager.getCurrentItem());
-                    } catch(InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-                fragment.onChatConnected(lolChat);
-            }
-        }).start();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unbindService(this);
-    }
-
-    @Override
-    public void onServiceDisconnected(final ComponentName name) {
+        adapter.getRegisteredFragment(viewPager.getCurrentItem()).onChatConnected(getLolChat());
     }
 }

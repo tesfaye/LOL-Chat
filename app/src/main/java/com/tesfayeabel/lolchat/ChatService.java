@@ -30,8 +30,6 @@ import com.tesfayeabel.lolchat.ui.adapter.MessageAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import jriot.objects.Player;
-
 public class ChatService extends Service {
     public static final int foreground_ID = 69;
     public static final int notification_ID = 79;

@@ -1,13 +1,8 @@
 package com.tesfayeabel.lolchat.ui;
 
-import android.app.Activity;
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.github.theholywaffle.lolchatapi.LolChat;
 import com.github.theholywaffle.lolchatapi.wrapper.Friend;
 import com.tesfayeabel.lolchat.ChatService;
 import com.tesfayeabel.lolchat.Message;
@@ -28,7 +22,7 @@ import com.tesfayeabel.lolchat.ui.adapter.MessageAdapter;
 
 import java.util.ArrayList;
 
-public class ChatActivity extends Activity implements ServiceConnection, SharedPreferences.OnSharedPreferenceChangeListener {
+public class ChatActivity extends LOLChatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
     private String friendName;
     private Friend friend;
     private ListView conversation;
@@ -68,7 +62,6 @@ public class ChatActivity extends Activity implements ServiceConnection, SharedP
         } else {
             conversation.setAdapter(new MessageAdapter(this));
         }
-        bindService(new Intent(this, ChatService.class), this, Context.BIND_AUTO_CREATE);
     }
 
     private void sendMessage() {
@@ -102,13 +95,11 @@ public class ChatActivity extends Activity implements ServiceConnection, SharedP
     }
 
     @Override
-    public void onServiceConnected(final ComponentName name, final IBinder service) {
-        chatService = ((ChatService.LocalBinder) service).getService();
-        LolChat lolChat = chatService.getLolChat();
-        friend = lolChat.getFriendByName(friendName);
+    public void onChatConnected() {
+        friend = getLolChat().getFriendByName(friendName);
         MessageAdapter adapter = (MessageAdapter) conversation.getAdapter();
         adapter.setFriendProfileIcon(friend.getStatus().getProfileIconId());
-        adapter.setMyProfileIcon(lolChat.getConnectedSummoner().getProfileIconId());
+        adapter.setMyProfileIcon(getLolChat().getConnectedSummoner().getProfileIconId());
         adapter.notifyDataSetChanged();//force update of view
     }
 
@@ -116,11 +107,6 @@ public class ChatActivity extends Activity implements ServiceConnection, SharedP
     protected void onDestroy() {
         super.onDestroy();
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
-        unbindService(this);
-    }
-
-    @Override
-    public void onServiceDisconnected(final ComponentName name) {
     }
 
     @Override

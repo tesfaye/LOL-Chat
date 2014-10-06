@@ -1,22 +1,14 @@
 package com.tesfayeabel.lolchat.ui;
 
-import android.app.Activity;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.github.theholywaffle.lolchatapi.LolChat;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
-import com.tesfayeabel.lolchat.ChatService;
 import com.tesfayeabel.lolchat.LOLChatApplication;
 import com.tesfayeabel.lolchat.R;
 import com.tesfayeabel.lolchat.ui.adapter.RecentGamesAdapter;
@@ -28,7 +20,7 @@ import jriot.main.JRiotException;
 import jriot.objects.Game;
 import jriot.objects.Summoner;
 
-public class ProfileActivity extends Activity implements ServiceConnection {
+public class ProfileActivity extends LOLChatActivity {
     private String playerName;
     private ExpandableListView recentGames;
     private ImageView imageView;
@@ -42,13 +34,11 @@ public class ProfileActivity extends Activity implements ServiceConnection {
         imageView = (ImageView) findViewById(R.id.gameavatar);
         level = (TextView) findViewById(R.id.level);
         ((TextView) findViewById(R.id.name)).setText(playerName);
-        bindService(new Intent(this, ChatService.class), this, Context.BIND_AUTO_CREATE);
     }
 
     @Override
-    public void onServiceConnected(final ComponentName name, final IBinder service) {
-        LolChat lolChat = ((ChatService.LocalBinder) service).getService().getLolChat();
-        final JRiot jRiot = lolChat.getRiotApi();
+    public void onChatConnected() {
+        final JRiot jRiot = getLolChat().getRiotApi();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -82,15 +72,5 @@ public class ProfileActivity extends Activity implements ServiceConnection {
                 }
             }
         }).start();
-    }
-
-    @Override
-    public void onServiceDisconnected(final ComponentName name) {
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unbindService(this);
     }
 }
