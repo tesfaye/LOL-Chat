@@ -2,6 +2,8 @@ package jriot.main;
 
 import android.util.LruCache;
 
+import com.github.theholywaffle.lolchatapi.RateLimiter;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,9 +16,12 @@ import javax.net.ssl.HttpsURLConnection;
 public class ApiCaller {
 
     private LruCache<String, Response> apiCache;
+    private RateLimiter shortLimiter, longLimiter;
 
     public ApiCaller() {
         apiCache = new LruCache<String, Response>(10000);
+        shortLimiter = new RateLimiter(10, 10000);//10 request(s) every 10 seconds
+        longLimiter = new RateLimiter(500, 600000);//500 requests every 10 minutes
     }
 
     public String request(String requestURL) throws JRiotException {
@@ -26,6 +31,10 @@ public class ApiCaller {
                 return response.getResponse();
             apiCache.remove(requestURL);
         }
+        shortLimiter.acquire();
+        longLimiter.acquire();
+        shortLimiter.enter();
+        longLimiter.enter();
         try {
             URL url = new URL(requestURL);
             HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
