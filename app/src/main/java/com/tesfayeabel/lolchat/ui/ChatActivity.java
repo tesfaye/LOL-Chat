@@ -27,7 +27,6 @@ public class ChatActivity extends LOLChatActivity implements SharedPreferences.O
     private Friend friend;
     private ListView conversation;
     private EditText messageBox;
-    private ChatService chatService;
     private SharedPreferences sharedPreferences;
 
     public void onCreate(Bundle savedInstanceState) {
@@ -68,7 +67,7 @@ public class ChatActivity extends LOLChatActivity implements SharedPreferences.O
         String message = messageBox.getText().toString();
         if (friend != null && !message.isEmpty()) {
             friend.sendMessage(message);
-            chatService.saveMessage(new Message(friend.getName(), message.replace("\n", " "), MessageAdapter.DIRECTION_OUTGOING, System.currentTimeMillis()));
+            ChatService.saveMessage(this, new Message(friend.getName(), message.replace("\n", " "), MessageAdapter.DIRECTION_OUTGOING, System.currentTimeMillis()));
             messageBox.setText("");
         }
     }

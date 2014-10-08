@@ -96,7 +96,7 @@ public class ChatService extends Service {
                             notification.flags |= Notification.FLAG_AUTO_CANCEL;
                             notificationManager.notify(notification_ID, notification);
 
-                            saveMessage(new Message(friend.getName(), message.replace("\n", " "), MessageAdapter.DIRECTION_INCOMING, System.currentTimeMillis()));
+                            saveMessage(getApplicationContext(), new Message(friend.getName(), message.replace("\n", " "), MessageAdapter.DIRECTION_INCOMING, System.currentTimeMillis()));
                             handler.post(new Runnable() {
                                 @Override
                                 public void run() {
@@ -127,8 +127,8 @@ public class ChatService extends Service {
      * If the message was sent by us, replace the sender with "me"
      * @param message
      */
-    public void saveMessage(Message message) {
-        SharedPreferences sharedPreferences = getSharedPreferences("messageHistory", Context.MODE_PRIVATE);
+    public static void saveMessage(Context context, Message message) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("messageHistory", Context.MODE_PRIVATE);
         String messageHistory = sharedPreferences.getString(message.getSender(), "");
         SharedPreferences.Editor editor = sharedPreferences.edit();
         if (!messageHistory.equals("")) {
