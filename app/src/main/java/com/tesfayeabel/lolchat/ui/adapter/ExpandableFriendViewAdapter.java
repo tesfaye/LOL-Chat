@@ -20,7 +20,6 @@ import com.tesfayeabel.lolchat.StaticFriend;
 import com.tesfayeabel.lolchat.ui.ChatActivity;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Abel Tesfaye on 8/27/2014.
@@ -57,7 +56,7 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
      * @param friend
      */
     public void updateFriendStatus(StaticFriend friend) {
-        List<StaticFriend> friends = getGroup(friend.isOnline() ? 0 : 1);
+        ArrayList<StaticFriend> friends = getGroup(friend.isOnline() ? 0 : 1);
         friends.remove(friend);
         for (int i = 0; i < friends.size(); i++) {
             if (friend.compareTo(friends.get(i)) < 0) {
@@ -175,6 +174,7 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
 
     /**
      * http://stackoverflow.com/questions/5713585/how-to-preserve-scroll-position-in-an-expandablelistview
+     *
      * @param groupId
      * @param childId
      * @return positive child id
@@ -188,7 +188,7 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public List<StaticFriend> getGroup(int groupPosition) {
+    public ArrayList<StaticFriend> getGroup(int groupPosition) {
         if (groupPosition == 0)
             return onlineFriends;
         return offlineFriends;
@@ -230,14 +230,6 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
     @Override
     public boolean hasStableIds() {
         return false;
-    }
-
-    public ArrayList<StaticFriend> getOnlineFriends() {
-        return onlineFriends;
-    }
-
-    public ArrayList<StaticFriend> getOfflineFriends() {
-        return offlineFriends;
     }
 
     @Override

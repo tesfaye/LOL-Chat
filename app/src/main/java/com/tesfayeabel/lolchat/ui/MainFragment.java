@@ -144,7 +144,7 @@ public class MainFragment extends LOLChatFragment {
         super.onSaveInstanceState(savedInstanceState);
         savedInstanceState.putParcelable("listView", listView.onSaveInstanceState());
         ExpandableFriendViewAdapter adapter = (ExpandableFriendViewAdapter) listView.getExpandableListAdapter();
-        savedInstanceState.putParcelableArrayList("onlineFriends", adapter.getOnlineFriends());
-        savedInstanceState.putParcelableArrayList("offlineFriends", adapter.getOfflineFriends());
+        savedInstanceState.putParcelableArrayList("onlineFriends", adapter.getGroup(0));
+        savedInstanceState.putParcelableArrayList("offlineFriends", adapter.getGroup(1));
     }
 }
