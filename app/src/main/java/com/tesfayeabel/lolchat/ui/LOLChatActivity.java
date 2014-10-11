@@ -16,7 +16,6 @@ import com.tesfayeabel.lolchat.ChatService;
  */
 public abstract class LOLChatActivity extends Activity {
 
-    private boolean serviceBound;
     private LolChat lolChat;
 
     private ServiceConnection mConnection = new ServiceConnection() {
@@ -25,13 +24,11 @@ public abstract class LOLChatActivity extends Activity {
         public void onServiceConnected(ComponentName className, IBinder service) {
             ChatService chatService = ((ChatService.LocalBinder) service).getService();
             lolChat = chatService.getLolChat();
-            serviceBound = true;
             onChatConnected();
         }
 
         @Override
         public void onServiceDisconnected(ComponentName arg0) {
-            serviceBound = false;
         }
     };
 
@@ -40,26 +37,17 @@ public abstract class LOLChatActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (!serviceBound) {
-            Intent intent = new Intent(this, ChatService.class);
-            bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-        }
+        Intent intent = new Intent(this, ChatService.class);
+        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (serviceBound) {
-            unbindService(mConnection);
-            serviceBound = false;
-        }
+        unbindService(mConnection);
     }
 
     public LolChat getLolChat() {
         return lolChat;
-    }
-
-    public boolean isServiceBound() {
-        return serviceBound;
     }
 }
