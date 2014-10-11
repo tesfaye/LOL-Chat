@@ -24,7 +24,7 @@ public class LOLChatMain extends LOLChatActivity {
     private ViewPager viewPager;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lolchat_main);
         viewPager = (ViewPager) findViewById(R.id.pager);

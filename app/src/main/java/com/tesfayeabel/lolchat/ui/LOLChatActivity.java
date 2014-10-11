@@ -5,6 +5,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.os.Bundle;
 import android.os.IBinder;
 
 import com.github.theholywaffle.lolchatapi.LolChat;
@@ -37,8 +38,8 @@ public abstract class LOLChatActivity extends Activity {
     public abstract void onChatConnected();
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         if (!serviceBound) {
             Intent intent = new Intent(this, ChatService.class);
             bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
@@ -46,8 +47,8 @@ public abstract class LOLChatActivity extends Activity {
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onDestroy() {
+        super.onDestroy();
         if (serviceBound) {
             unbindService(mConnection);
             serviceBound = false;

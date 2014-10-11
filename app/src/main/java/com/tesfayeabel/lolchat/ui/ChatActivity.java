@@ -103,7 +103,7 @@ public class ChatActivity extends LOLChatActivity implements SharedPreferences.O
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
     }
