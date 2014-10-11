@@ -19,6 +19,7 @@ import com.tesfayeabel.lolchat.R;
 import com.tesfayeabel.lolchat.StaticFriend;
 import com.tesfayeabel.lolchat.ui.ChatActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,11 +27,11 @@ import java.util.List;
  */
 public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
 
-    private List<StaticFriend> onlineFriends;
-    private List<StaticFriend> offlineFriends;
+    private ArrayList<StaticFriend> onlineFriends;
+    private ArrayList<StaticFriend> offlineFriends;
     private Context context;
 
-    public ExpandableFriendViewAdapter(Context context, List<StaticFriend> onlineFriends, List<StaticFriend> offlineFriends) {
+    public ExpandableFriendViewAdapter(Context context, ArrayList<StaticFriend> onlineFriends, ArrayList<StaticFriend> offlineFriends) {
         this.context = context;
         this.onlineFriends = onlineFriends;
         this.offlineFriends = offlineFriends;
@@ -52,6 +53,7 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
 
     /**
      * Removes and adds a StaticFriend and updates ui
+     *
      * @param friend
      */
     public void updateFriendStatus(StaticFriend friend) {
@@ -63,7 +65,7 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
                 break;
             }
         }
-        if(!friends.contains(friend)) {
+        if (!friends.contains(friend)) {
             friends.add(friend);//add to end of list
         }
         notifyDataSetChanged();
@@ -71,6 +73,7 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
 
     /**
      * Makes a StaticFriend either online or offline and updates ui
+     *
      * @param friend
      */
     public void setFriendOnline(StaticFriend friend) {
@@ -82,7 +85,7 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
                     break;
                 }
             }
-            if(!onlineFriends.contains(friend))
+            if (!onlineFriends.contains(friend))
                 onlineFriends.add(friend);//add to end of list
         } else {
             onlineFriends.remove(friend);
@@ -92,7 +95,7 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
                     break;
                 }
             }
-            if(!offlineFriends.contains(friend))
+            if (!offlineFriends.contains(friend))
                 offlineFriends.add(friend);//add to end of list
         }
         notifyDataSetChanged();
@@ -143,7 +146,7 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
                 }
             });
             holder.status.setText(friend.getFullStatus());
-            int iconId = friend.getStatus().getProfileIconId();
+            int iconId = friend.getProfileIconId();
             if (iconId == -1)
                 iconId = 1;
             switch (friend.getChatMode()) {
@@ -168,6 +171,20 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
             holder.button.setVisibility(View.GONE);
         }
         return convertView;
+    }
+
+    /**
+     * http://stackoverflow.com/questions/5713585/how-to-preserve-scroll-position-in-an-expandablelistview
+     * @param groupId
+     * @param childId
+     * @return positive child id
+     */
+    @Override
+    public long getCombinedChildId(long groupId, long childId) {
+        long or = 0x7000000000000000L;
+        long group = (groupId & 0x7FFFFFFF) << 32;
+        long child = childId & 0xFFFFFFFF;
+        return or | group | child;
     }
 
     @Override
@@ -213,6 +230,14 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
     @Override
     public boolean hasStableIds() {
         return false;
+    }
+
+    public ArrayList<StaticFriend> getOnlineFriends() {
+        return onlineFriends;
+    }
+
+    public ArrayList<StaticFriend> getOfflineFriends() {
+        return offlineFriends;
     }
 
     @Override

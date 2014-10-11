@@ -130,8 +130,7 @@ public class ChatActivity extends LOLChatActivity implements SharedPreferences.O
 
     public void onResume() {
         super.onResume();
-        SharedPreferences preferences = getSharedPreferences("messageHistory", Context.MODE_PRIVATE);
-        String messages = preferences.getString(friendName, null);
+        String messages = sharedPreferences.getString(friendName, null);
         if (messages != null) {
             String[] text = messages.split("\n");
             MessageAdapter adapter = (MessageAdapter) conversation.getAdapter();

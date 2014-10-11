@@ -24,6 +24,9 @@ public class MainFragment extends LOLChatFragment {
         View view = inflater.inflate(R.layout.fragment_lolchat_main, container, false);
         listView = (ExpandableListView) view.findViewById(R.id.listView);
         if (savedInstanceState != null) {
+            ArrayList<StaticFriend> online = savedInstanceState.getParcelableArrayList("onlineFriends");
+            ArrayList<StaticFriend> offline = savedInstanceState.getParcelableArrayList("offlineFriends");
+            listView.setAdapter(new ExpandableFriendViewAdapter(getActivity(), online, offline));
             listView.onRestoreInstanceState(savedInstanceState.getParcelable("listView"));
         }
         listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
@@ -40,28 +43,30 @@ public class MainFragment extends LOLChatFragment {
     }
 
     public void onChatConnected(final LolChat chat) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                final ArrayList<StaticFriend> online = new ArrayList<StaticFriend>();
-                final ArrayList<StaticFriend> offline = new ArrayList<StaticFriend>();
-                for (Friend friend : chat.getOnlineFriends()) {
-                    online.add(new StaticFriend(friend));
-                }
-                for (Friend friend : chat.getOfflineFriends()) {
-                    offline.add(new StaticFriend(friend));
-                }
-                Collections.sort(online);
-                Collections.sort(offline);
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        listView.setAdapter(new ExpandableFriendViewAdapter(getActivity(), online, offline));
-                        listView.expandGroup(0);
+        if(listView.getExpandableListAdapter() == null) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    final ArrayList<StaticFriend> online = new ArrayList<StaticFriend>();
+                    final ArrayList<StaticFriend> offline = new ArrayList<StaticFriend>();
+                    for (Friend friend : chat.getOnlineFriends()) {
+                        online.add(new StaticFriend(friend));
                     }
-                });
-            }
-        }).start();
+                    for (Friend friend : chat.getOfflineFriends()) {
+                        offline.add(new StaticFriend(friend));
+                    }
+                    Collections.sort(online);
+                    Collections.sort(offline);
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            listView.setAdapter(new ExpandableFriendViewAdapter(getActivity(), online, offline));
+                            listView.expandGroup(0);
+                        }
+                    });
+                }
+            }).start();
+        }
         chat.addFriendListener(new FriendListener() {
 
             private void update(final Friend friend) {
@@ -138,5 +143,8 @@ public class MainFragment extends LOLChatFragment {
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
         savedInstanceState.putParcelable("listView", listView.onSaveInstanceState());
+        ExpandableFriendViewAdapter adapter = (ExpandableFriendViewAdapter) listView.getExpandableListAdapter();
+        savedInstanceState.putParcelableArrayList("onlineFriends", adapter.getOnlineFriends());
+        savedInstanceState.putParcelableArrayList("offlineFriends", adapter.getOfflineFriends());
     }
 }
