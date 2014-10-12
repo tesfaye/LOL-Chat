@@ -93,7 +93,10 @@ public class LOLChatMain extends LOLChatActivity {
 
     @Override
     public void onChatConnected() {
-        final FragmentPagerAdapter adapter = (FragmentPagerAdapter) viewPager.getAdapter();
-        adapter.getRegisteredFragment(viewPager.getCurrentItem()).onChatConnected(getLolChat());
+        FragmentPagerAdapter adapter = (FragmentPagerAdapter) viewPager.getAdapter();
+        LOLChatFragment fragment = adapter.getRegisteredFragment(viewPager.getCurrentItem());
+        if(fragment != null) {
+            fragment.onChatConnected(getLolChat());
+        }
     }
 }
