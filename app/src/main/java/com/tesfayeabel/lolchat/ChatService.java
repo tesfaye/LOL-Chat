@@ -76,6 +76,7 @@ public class ChatService extends Service {
                     LolStatus lolStatus = LOLUtils.getStatus(lolChat.getConnectedSummoner(), lolChat.getRiotApi());
                     lolChat.setStatus(lolStatus
                             .setGameQueueType(LolStatus.Queue.NONE)
+                            .setGameStatus(LolStatus.GameStatus.OUT_OF_GAME)
                             .setStatusMessage("USING BETA ABEL CHAT APP"));
                     lolChat.addChatListener(new ChatListener() {
                         @Override

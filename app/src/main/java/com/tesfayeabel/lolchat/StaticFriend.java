@@ -37,11 +37,14 @@ public class StaticFriend implements Comparable<StaticFriend>, Parcelable {
         this.name = name;
         this.userId = userId;
         this.gameStatus = lolStatus.getGameStatus();
-        this.statusMessage = lolStatus.getStatusMessage();
+        if(gameStatus == null) {
+            this.gameStatus = LolStatus.GameStatus.OUT_OF_GAME;
+        }
         if(gameStatus == LolStatus.GameStatus.IN_GAME) {
             this.skin = lolStatus.getSkin();
             this.timeStamp = lolStatus.getTimestamp().getTime();
         }
+        this.statusMessage = lolStatus.getStatusMessage();
         this.profileIconId = lolStatus.getProfileIconId();
         this.chatMode = chatMode;
         this.online = online;
@@ -86,10 +89,7 @@ public class StaticFriend implements Comparable<StaticFriend>, Parcelable {
     public String getFullStatus() {
         StringBuilder fullStatus = new StringBuilder();
         fullStatus.append(statusMessage + "\n");
-        if (gameStatus == null)
-            fullStatus.append("Online");
-        else
-            fullStatus.append(LOLUtils.getStatus(gameStatus));
+        fullStatus.append(LOLUtils.getStatus(gameStatus));
         if (gameStatus == LolStatus.GameStatus.IN_GAME) {
             fullStatus.append(" as " + skin);
             fullStatus.append(" for " + TimeUnit.MILLISECONDS.toMinutes(System.currentTimeMillis() - timeStamp) + " minutes");
