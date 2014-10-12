@@ -137,6 +137,9 @@ public class MainFragment extends LOLChatFragment {
 
             }
         });
+        while(chat.getFriendListeners().size() > 1) {
+            chat.getFriendListeners().remove(0);
+        }
     }
 
     @Override
