@@ -3,14 +3,22 @@ package com.tesfayeabel.lolchat;
 import android.app.Application;
 import android.util.SparseArray;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
+import com.github.theholywaffle.lolchatapi.ChatServer;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.lang.reflect.Field;
-import java.net.URL;
-import java.net.URLConnection;
+import java.util.List;
+import java.util.Map;
+
+import jriot.main.JRiotException;
+import jriot.objects.Champion;
+import jriot.objects.ChampionList;
+import jriot.objects.SummonerSpell;
+import jriot.objects.SummonerSpellList;
+import retrofit.Callback;
+import retrofit.RequestInterceptor;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class LOLChatApplication extends Application {
     private static String clientVersion;
@@ -21,24 +29,12 @@ public class LOLChatApplication extends Application {
         return "http://ddragon.leagueoflegends.com/cdn/" + clientVersion;
     }
 
-    private static String getHTML(String url) throws Exception {
-        URL website = new URL(url);
-        URLConnection connection = website.openConnection();
-        BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        StringBuilder response = new StringBuilder();
-        String inputLine;
-        while ((inputLine = in.readLine()) != null)
-            response.append(inputLine);
-        in.close();
-        return response.toString();
-    }
-
     public static String getChampionName(int id) {
         return championArray.get(id);
     }
 
     public static String getSpellName(int id) {
-        return summonerSpellArray.get(id).replace("summoner", "summoner_");
+        return summonerSpellArray.get(id);
     }
 
     public static int getDrawableIdByName(String name) {
@@ -51,31 +47,69 @@ public class LOLChatApplication extends Application {
         }
     }
 
-    private SparseArray<String> parseRiotStaticData(String type) throws Exception {
-        JSONObject champs = new JSONObject(getHTML("https://na.api.pvp.net/api/lol/static-data/na/v1.2/" + type + "?api_key=" + getString(R.string.api_riot)));
-        JSONObject data = champs.getJSONObject("data");
-        JSONArray array = data.names();
+    private static RiotApi create(final ChatServer chatServer, final String apiKey) {
+        return new RestAdapter.Builder()
+                .setEndpoint("https://" + chatServer.api)
+                .setRequestInterceptor(new RequestInterceptor() {
+
+                    @Override
+                    public void intercept(RequestFacade f) {
+                        f.addEncodedQueryParam("api_key", apiKey);
+                        f.addEncodedPathParam("region", chatServer.name().toLowerCase());
+                    }
+                }).build().create(RiotApi.class);
+    }
+
+    private SparseArray<String> parseChampionMap(Map<String, Champion> map) {
         SparseArray<String> ret = new SparseArray<String>();
-        for (int i = 0; i < array.length(); i++) {
-            String name = array.get(i).toString();
-            ret.put(data.getJSONObject(name).getInt("id"), name.toLowerCase());
+        for (Map.Entry<String, Champion> championEntry : map.entrySet()) {
+            ret.put((int) championEntry.getValue().getId(), "champion_" + championEntry.getValue().getKey().toLowerCase());
+        }
+        return ret;
+    }
+
+    private SparseArray<String> parseSummonerSpellMap(Map<String, SummonerSpell> map) {
+        SparseArray<String> ret = new SparseArray<String>();
+        for (Map.Entry<String, SummonerSpell> summonerSpellEntry : map.entrySet()) {
+            ret.put(summonerSpellEntry.getValue().getId(), summonerSpellEntry.getValue().getKey().toLowerCase().replace("summoner", "summoner_"));
         }
         return ret;
     }
 
     public void onCreate() {
-        new Thread(new Runnable() {
+        RiotApi riotApi = create(ChatServer.NA, getString(R.string.api_riot));
+        riotApi.getChampions(new Callback<ChampionList>() {
             @Override
-            public void run() {
-                try {
-                    JSONObject version = new JSONObject(getHTML("http://ddragon.leagueoflegends.com/realms/na.json"));
-                    clientVersion = version.getString("v");
-                    championArray = parseRiotStaticData("champion");
-                    summonerSpellArray = parseRiotStaticData("summoner-spell");
-                } catch (Exception exception) {
-                    exception.printStackTrace();
-                }
+            public void success(ChampionList championList, Response response) {
+                championArray = parseChampionMap(championList.getData());
             }
-        }).start();
+
+            @Override
+            public void failure(RetrofitError error) {
+                System.out.println(new JRiotException(error.getResponse().getStatus()));
+            }
+        });
+        riotApi.getSummonerSpells(new Callback<SummonerSpellList>() {
+            @Override
+            public void success(SummonerSpellList summonerSpellList, Response response) {
+                summonerSpellArray = parseSummonerSpellMap(summonerSpellList.getData());
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        });
+        riotApi.getVersion(new Callback<List<String>>() {
+            @Override
+            public void success(List<String> versions, Response response) {
+                clientVersion = versions.get(0);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        });
     }
 }
