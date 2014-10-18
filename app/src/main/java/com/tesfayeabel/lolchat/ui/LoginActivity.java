@@ -19,7 +19,6 @@ import android.widget.TextView;
 
 import com.github.theholywaffle.lolchatapi.ChatServer;
 import com.tesfayeabel.lolchat.ChatService;
-import com.tesfayeabel.lolchat.LOLChatMain;
 import com.tesfayeabel.lolchat.LoginCallBack;
 import com.tesfayeabel.lolchat.R;
 
@@ -94,13 +93,7 @@ public class LoginActivity extends Activity implements LoginCallBack {
         startService(service);
     }
 
-    public void onLogin(boolean successful) {
-        if (successful) {
-            Intent intent = new Intent(getApplicationContext(), LOLChatMain.class);
-            startActivity(intent);
-        } else {
-            stopService(new Intent(getApplicationContext(), ChatService.class));
-        }
+    public void onLogin() {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {

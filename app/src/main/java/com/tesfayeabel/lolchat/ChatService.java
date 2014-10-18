@@ -116,8 +116,13 @@ public class ChatService extends Service {
                     }
                     editor.putString("server", server);
                     editor.apply();
+                    Intent intent = new Intent(getApplicationContext(), LOLChatMain.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                } else {
+                    stopSelf();
                 }
-                callBack.onLogin(lolChat.isAuthenticated());
+                callBack.onLogin();
             }
         }).start();
         return START_NOT_STICKY;
