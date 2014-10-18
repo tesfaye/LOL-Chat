@@ -26,8 +26,6 @@ package com.github.theholywaffle.lolchatapi;
  * #L%
  */
 
-import java.util.ArrayList;
-
 /**
  * Represents a regions chatserver.
  *
@@ -104,19 +102,9 @@ public enum ChatServer {
         this.host = host;
 		this.api = api;
 	}
-    public static ArrayList<ChatServer> getChatServersWithAPI()
-    {
-        ArrayList<ChatServer> servers = new ArrayList<ChatServer>();
-        for(ChatServer server: ChatServer.NA.getClass().getEnumConstants())
-        {
-            if(server.api != null)
-                servers.add(server);
-        }
-        return servers;
-    }
     public static ChatServer getChatServerByName(String name)
     {
-        for(ChatServer server: getChatServersWithAPI())
+        for(ChatServer server: ChatServer.values())
         {
             if(server.name.equals(name))
                 return server;

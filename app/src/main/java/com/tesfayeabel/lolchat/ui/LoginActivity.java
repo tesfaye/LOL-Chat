@@ -50,8 +50,9 @@ public class LoginActivity extends Activity implements LoginCallBack {
             }
         });
         ArrayList<String> serverArrayList = new ArrayList<String>();
-        for (ChatServer server : ChatServer.getChatServersWithAPI()) {
-            serverArrayList.add(server.name);
+        for (ChatServer server : ChatServer.values()) {
+            if(server.api != null)
+                serverArrayList.add(server.name);
         }
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, serverArrayList);
         serverList.setAdapter(spinnerArrayAdapter);
