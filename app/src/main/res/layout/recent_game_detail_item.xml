@@ -95,7 +95,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="New Text"
-            android:id="@+id/textView3"
+            android:id="@+id/sum6"
             android:layout_toStartOf="@+id/summonerItem4"
             android:layout_below="@+id/trinket"
             android:layout_toRightOf="@+id/summonerItem5"
@@ -107,8 +107,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="New Text"
-            android:id="@+id/textView"
-            android:layout_alignBottom="@+id/imageView4"
+            android:id="@+id/sum7"
+            android:layout_alignBottom="@+id/champ2"
             android:layout_toRightOf="@+id/summonerItem5"
             android:layout_toEndOf="@+id/summonerItem5" />
 
@@ -116,172 +116,172 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="New Text"
-            android:id="@+id/textView4"
+            android:id="@+id/sum8"
             android:layout_toEndOf="@+id/summonerItem5"
-            android:layout_alignTop="@+id/textView8"
+            android:layout_alignTop="@+id/sum3"
             android:layout_toRightOf="@+id/summonerItem5" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="New Text"
-            android:id="@+id/textView5"
+            android:id="@+id/sum9"
             android:layout_toEndOf="@+id/summonerItem5"
-            android:layout_below="@+id/imageView5"
+            android:layout_below="@+id/champ3"
             android:layout_toRightOf="@+id/summonerItem5" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="New Text"
-            android:id="@+id/textView6"
+            android:id="@+id/sum1"
             android:layout_toStartOf="@+id/summonerItem5"
-            android:layout_alignTop="@+id/textView3"
+            android:layout_alignTop="@+id/sum6"
             android:layout_toLeftOf="@+id/summonerItem5" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="New Text"
-            android:id="@+id/textView7"
+            android:id="@+id/sum2"
             android:layout_toStartOf="@+id/summonerItem5"
-            android:layout_below="@+id/textView6"
-            android:layout_alignLeft="@+id/textView6"
-            android:layout_alignStart="@+id/textView6"
+            android:layout_below="@+id/sum1"
+            android:layout_alignLeft="@+id/sum1"
+            android:layout_alignStart="@+id/sum1"
             android:layout_toLeftOf="@+id/summonerItem5" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="New Text"
-            android:id="@+id/textView8"
+            android:id="@+id/sum3"
             android:layout_toStartOf="@+id/summonerItem5"
-            android:layout_alignTop="@+id/imageView5"
+            android:layout_alignTop="@+id/champ3"
             android:layout_toLeftOf="@+id/summonerItem5" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="New Text"
-            android:id="@+id/textView9"
+            android:id="@+id/sum4"
             android:layout_toStartOf="@+id/summonerItem5"
-            android:layout_alignTop="@+id/textView5"
-            android:layout_alignLeft="@+id/textView8"
-            android:layout_alignStart="@+id/textView8"
+            android:layout_alignTop="@+id/sum9"
+            android:layout_alignLeft="@+id/sum3"
+            android:layout_alignStart="@+id/sum3"
             android:layout_toLeftOf="@+id/summonerItem5" />
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/champ1"
             android:layout_width="18dp"
             android:layout_height="18dp"
             android:src="@drawable/item_0"
-            android:layout_toStartOf="@+id/textView6"
-            android:layout_alignTop="@+id/textView6"
-            android:layout_toLeftOf="@+id/textView6" />
+            android:layout_toStartOf="@+id/sum1"
+            android:layout_alignTop="@+id/sum1"
+            android:layout_toLeftOf="@+id/sum1" />
 
         <ImageView
-            android:id="@+id/imageView4"
+            android:id="@+id/champ2"
             android:layout_width="18dp"
             android:layout_height="18dp"
             android:src="@drawable/item_0"
-            android:layout_toStartOf="@+id/textView6"
-            android:layout_below="@+id/imageView2"
+            android:layout_toStartOf="@+id/sum1"
+            android:layout_below="@+id/champ1"
             android:layout_centerHorizontal="true" />
 
         <ImageView
-            android:id="@+id/imageView5"
+            android:id="@+id/champ3"
             android:layout_width="18dp"
             android:layout_height="18dp"
             android:src="@drawable/item_0"
-            android:layout_toStartOf="@+id/textView6"
-            android:layout_below="@+id/imageView4"
+            android:layout_toStartOf="@+id/sum1"
+            android:layout_below="@+id/champ2"
             android:layout_centerHorizontal="true" />
 
         <ImageView
-            android:id="@+id/imageView6"
+            android:id="@+id/champ4"
             android:layout_width="18dp"
             android:layout_height="18dp"
             android:src="@drawable/item_0"
-            android:layout_toStartOf="@+id/textView9"
-            android:layout_below="@+id/imageView5"
-            android:layout_toLeftOf="@+id/textView9" />
+            android:layout_toStartOf="@+id/sum4"
+            android:layout_below="@+id/champ3"
+            android:layout_toLeftOf="@+id/sum4" />
 
         <ImageView
-            android:id="@+id/imageView7"
+            android:id="@+id/champ5"
             android:layout_width="18dp"
             android:layout_height="18dp"
             android:src="@drawable/item_0"
-            android:layout_toStartOf="@+id/textView9"
-            android:layout_below="@+id/imageView6"
-            android:layout_toLeftOf="@+id/textView9" />
+            android:layout_toStartOf="@+id/sum4"
+            android:layout_below="@+id/champ4"
+            android:layout_toLeftOf="@+id/sum4" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="New Text"
-            android:id="@+id/textView10"
+            android:id="@+id/sum5"
             android:layout_toStartOf="@+id/summonerItem5"
-            android:layout_alignTop="@+id/imageView7"
-            android:layout_toRightOf="@+id/imageView7"
-            android:layout_toEndOf="@+id/imageView7"
+            android:layout_alignTop="@+id/champ5"
+            android:layout_toRightOf="@+id/champ5"
+            android:layout_toEndOf="@+id/champ5"
             android:layout_toLeftOf="@+id/summonerItem5" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="New Text"
-            android:id="@+id/textView11"
+            android:id="@+id/sum10"
             android:layout_toEndOf="@+id/summonerItem5"
             android:layout_toStartOf="@+id/trinket"
-            android:layout_alignTop="@+id/textView10"
-            android:layout_alignRight="@+id/textView5"
-            android:layout_alignEnd="@+id/textView5"
+            android:layout_alignTop="@+id/sum5"
+            android:layout_alignRight="@+id/sum9"
+            android:layout_alignEnd="@+id/sum9"
             android:layout_toRightOf="@+id/summonerItem5" />
 
         <ImageView
-            android:id="@+id/imageView14"
+            android:id="@+id/champ10"
             android:layout_width="18dp"
             android:layout_height="18dp"
             android:src="@drawable/item_0"
             android:layout_toStartOf="@+id/summonerItem6"
-            android:layout_alignBottom="@+id/textView11"
-            android:layout_alignLeft="@+id/imageView15"
-            android:layout_alignStart="@+id/imageView15" />
+            android:layout_alignBottom="@+id/sum10"
+            android:layout_alignLeft="@+id/champ9"
+            android:layout_alignStart="@+id/champ9" />
 
         <ImageView
-            android:id="@+id/imageView15"
+            android:id="@+id/champ9"
             android:layout_width="18dp"
             android:layout_height="18dp"
             android:src="@drawable/item_0"
-            android:layout_toStartOf="@+id/textView5"
-            android:layout_above="@+id/textView11"
-            android:layout_toLeftOf="@+id/textView5" />
+            android:layout_toStartOf="@+id/sum9"
+            android:layout_above="@+id/sum10"
+            android:layout_toLeftOf="@+id/sum9" />
 
         <ImageView
-            android:id="@+id/imageView16"
+            android:id="@+id/champ8"
             android:layout_width="18dp"
             android:layout_height="18dp"
             android:src="@drawable/item_0"
             android:layout_toStartOf="@+id/summonerItem6"
-            android:layout_below="@+id/textView"
+            android:layout_below="@+id/sum7"
             android:layout_toLeftOf="@+id/summonerItem6" />
 
         <ImageView
-            android:id="@+id/imageView17"
+            android:id="@+id/champ7"
             android:layout_width="18dp"
             android:layout_height="18dp"
             android:src="@drawable/item_0"
             android:layout_toStartOf="@+id/summonerItem6"
-            android:layout_below="@+id/imageView2"
+            android:layout_below="@+id/champ1"
             android:layout_toLeftOf="@+id/summonerItem6" />
 
         <ImageView
-            android:id="@+id/imageView18"
+            android:id="@+id/champ6"
             android:layout_width="18dp"
             android:layout_height="18dp"
             android:src="@drawable/item_0"
             android:layout_toStartOf="@+id/summonerItem6"
-            android:layout_alignTop="@+id/textView3"
+            android:layout_alignTop="@+id/sum6"
             android:layout_toLeftOf="@+id/summonerItem6" />
     </RelativeLayout>
 

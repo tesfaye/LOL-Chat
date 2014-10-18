@@ -17,6 +17,7 @@ import java.util.Date;
 import java.util.List;
 
 import jriot.objects.Game;
+import jriot.objects.Player;
 import jriot.objects.RawStats;
 
 public class RecentGamesAdapter extends BaseExpandableListAdapter {
@@ -104,6 +105,28 @@ public class RecentGamesAdapter extends BaseExpandableListAdapter {
             holder.item5 = (ImageView) convertView.findViewById(R.id.summonerItem5);
             holder.item6 = (ImageView) convertView.findViewById(R.id.summonerItem6);
             holder.item7 = (ImageView) convertView.findViewById(R.id.trinket);
+            holder.champ = new ImageView[10];
+            holder.champ[0] = (ImageView) convertView.findViewById(R.id.champ1);
+            holder.champ[1] = (ImageView) convertView.findViewById(R.id.champ2);
+            holder.champ[2] = (ImageView) convertView.findViewById(R.id.champ3);
+            holder.champ[3] = (ImageView) convertView.findViewById(R.id.champ4);
+            holder.champ[4] = (ImageView) convertView.findViewById(R.id.champ5);
+            holder.champ[5] = (ImageView) convertView.findViewById(R.id.champ6);
+            holder.champ[6] = (ImageView) convertView.findViewById(R.id.champ7);
+            holder.champ[7] = (ImageView) convertView.findViewById(R.id.champ8);
+            holder.champ[8] = (ImageView) convertView.findViewById(R.id.champ9);
+            holder.champ[9] = (ImageView) convertView.findViewById(R.id.champ10);
+            holder.sum = new TextView[10];
+            holder.sum[0] = (TextView) convertView.findViewById(R.id.sum1);
+            holder.sum[1] = (TextView) convertView.findViewById(R.id.sum2);
+            holder.sum[2] = (TextView) convertView.findViewById(R.id.sum3);
+            holder.sum[3] = (TextView) convertView.findViewById(R.id.sum4);
+            holder.sum[4] = (TextView) convertView.findViewById(R.id.sum5);
+            holder.sum[5] = (TextView) convertView.findViewById(R.id.sum6);
+            holder.sum[6] = (TextView) convertView.findViewById(R.id.sum7);
+            holder.sum[7] = (TextView) convertView.findViewById(R.id.sum8);
+            holder.sum[8] = (TextView) convertView.findViewById(R.id.sum9);
+            holder.sum[9] = (TextView) convertView.findViewById(R.id.sum10);
             convertView.setTag(holder);
         } else {
             holder = (ChildHolder) convertView.getTag();
@@ -121,6 +144,19 @@ public class RecentGamesAdapter extends BaseExpandableListAdapter {
         holder.item5.setImageResource(LOLChatApplication.getDrawableIdByName("item_" + stats.getItem4()));
         holder.item6.setImageResource(LOLChatApplication.getDrawableIdByName("item_" + stats.getItem5()));
         holder.item7.setImageResource(LOLChatApplication.getDrawableIdByName("item_" + stats.getItem6()));
+
+        holder.champ[0].setImageResource(LOLChatApplication.getDrawableIdByName(LOLChatApplication.getChampionName(game.getChampionId())));
+        int team1 = 0, team2 = 0;
+        for (int i = 0; i < game.getFellowPlayers().size(); i++) {
+            Player player = game.getFellowPlayers().get(i);
+            if (player.getTeamId() == game.getTeamId()) {
+                holder.champ[team1 + 1].setImageResource(LOLChatApplication.getDrawableIdByName(LOLChatApplication.getChampionName(player.getChampionId())));
+                team1++;
+            } else {
+                holder.champ[team2 + 5].setImageResource(LOLChatApplication.getDrawableIdByName(LOLChatApplication.getChampionName(player.getChampionId())));
+                team2++;
+            }
+        }
         return convertView;
     }
 
@@ -161,5 +197,7 @@ public class RecentGamesAdapter extends BaseExpandableListAdapter {
         ImageView item5;
         ImageView item6;
         ImageView item7;
+        ImageView[] champ;
+        TextView[] sum;
     }
 }
