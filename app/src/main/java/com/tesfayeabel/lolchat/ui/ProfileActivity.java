@@ -48,7 +48,7 @@ public class ProfileActivity extends LOLChatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            recentGames.setAdapter(new RecentGamesAdapter(getApplicationContext(), games));
+                            recentGames.setAdapter(new RecentGamesAdapter(ProfileActivity.this, games));
                             level.setText("Level " + (int) summoner.getSummonerLevel());
                             Picasso.with(getApplicationContext()).load(LOLChatApplication.getRiotResourceURL() + "/img/profileicon/" + summoner.getProfileIconId() + ".png").into(imageView, new Callback() {
                                 @Override

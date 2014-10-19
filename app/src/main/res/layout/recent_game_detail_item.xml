@@ -156,6 +156,8 @@
             android:text="New Text"
             android:id="@+id/sum3"
             android:layout_toStartOf="@+id/summonerItem5"
+            android:layout_alignLeft="@+id/sum1"
+            android:layout_alignStart="@+id/sum1"
             android:layout_alignTop="@+id/champ3"
             android:layout_toLeftOf="@+id/summonerItem5" />
 
@@ -165,9 +167,9 @@
             android:text="New Text"
             android:id="@+id/sum4"
             android:layout_toStartOf="@+id/summonerItem5"
-            android:layout_alignTop="@+id/sum9"
-            android:layout_alignLeft="@+id/sum3"
-            android:layout_alignStart="@+id/sum3"
+            android:layout_alignTop="@+id/champ4"
+            android:layout_alignLeft="@+id/sum1"
+            android:layout_alignStart="@+id/sum1"
             android:layout_toLeftOf="@+id/summonerItem5" />
 
         <ImageView
@@ -221,10 +223,10 @@
             android:text="New Text"
             android:id="@+id/sum5"
             android:layout_toStartOf="@+id/summonerItem5"
+            android:layout_alignLeft="@+id/sum1"
+            android:layout_alignStart="@+id/sum1"
             android:layout_alignTop="@+id/champ5"
-            android:layout_toRightOf="@+id/champ5"
-            android:layout_toEndOf="@+id/champ5"
-            android:layout_toLeftOf="@+id/summonerItem5" />
+            android:layout_toLeftOf="@+id/summonerItem5"/>
 
         <TextView
             android:layout_width="wrap_content"
