@@ -162,7 +162,7 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
                     holder.status.setTextColor(Color.RED);
                     break;
             }
-            Picasso.with(context.getApplicationContext()).load(LOLChatApplication.getRiotResourceURL() + "/img/profileicon/" + iconId + ".png").into(holder.icon);
+            Picasso.with(context.getApplicationContext()).load(LOLChatApplication.getProfileIconURL(iconId)).into(holder.icon);
         } else {
             holder.status.setVisibility(View.GONE);
             holder.icon.setVisibility(View.GONE);

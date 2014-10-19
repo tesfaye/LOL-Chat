@@ -53,7 +53,7 @@ public class SummonerSearchFragment extends LOLChatFragment {
 
     private void lookUpSummoner(final String name) {
         final LOLChatActivity activity = (LOLChatActivity) getActivity();
-        if(activity.getLolChat() != null && !name.isEmpty()) {
+        if (activity.getLolChat() != null && !name.isEmpty()) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {

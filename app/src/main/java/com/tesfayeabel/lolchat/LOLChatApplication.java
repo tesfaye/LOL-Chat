@@ -25,19 +25,27 @@ public class LOLChatApplication extends Application {
     private static SparseArray<String> championArray;
     private static SparseArray<String> summonerSpellArray;
 
-    public static String getRiotResourceURL() {
+    private static String getRiotResourceURL() {
         return "http://ddragon.leagueoflegends.com/cdn/" + clientVersion;
     }
 
-    public static String getChampionName(int id) {
-        return championArray.get(id);
+    public static String getProfileIconURL(int iconId) {
+        return getRiotResourceURL() + "/img/profileicon/" + iconId + ".png";
     }
 
-    public static String getSpellName(int id) {
-        return summonerSpellArray.get(id);
+    public static int getChampionResourceFromId(int id) {
+        return getDrawableIdByName(championArray.get(id));
     }
 
-    public static int getDrawableIdByName(String name) {
+    public static int getSpellResourceFromId(int id) {
+        return getDrawableIdByName(summonerSpellArray.get(id));
+    }
+
+    public static int getItemResourceFromId(int id) {
+        return getDrawableIdByName("item_" + id);
+    }
+
+    private static int getDrawableIdByName(String name) {
         try {
             Class res = R.drawable.class;
             Field field = res.getField(name);

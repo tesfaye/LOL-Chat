@@ -45,7 +45,7 @@ public class RecentConversationsAdapter extends ArrayAdapter<RecentConversation>
             holder = (ViewHolder) convertView.getTag();
         }
         RecentConversation conversation = getItem(position);
-        Picasso.with(getContext().getApplicationContext()).load(LOLChatApplication.getRiotResourceURL() + "/img/profileicon/" + conversation.getProfileIconId() + ".png").into(holder.conversationImage);
+        Picasso.with(getContext().getApplicationContext()).load(LOLChatApplication.getProfileIconURL(conversation.getProfileIconId())).into(holder.conversationImage);
         holder.conversationName.setText(conversation.getName());
         DateFormat dateFormat = new SimpleDateFormat("EEE hh:mmaa");
         holder.lastUpdate.setText(dateFormat.format(new Date(conversation.getLastUpdate())));

@@ -50,7 +50,7 @@ public class ProfileActivity extends LOLChatActivity {
                         public void run() {
                             recentGames.setAdapter(new RecentGamesAdapter(ProfileActivity.this, games));
                             level.setText("Level " + (int) summoner.getSummonerLevel());
-                            Picasso.with(getApplicationContext()).load(LOLChatApplication.getRiotResourceURL() + "/img/profileicon/" + summoner.getProfileIconId() + ".png").into(imageView, new Callback() {
+                            Picasso.with(getApplicationContext()).load(LOLChatApplication.getProfileIconURL(summoner.getProfileIconId())).into(imageView, new Callback() {
                                 @Override
                                 public void onSuccess() {
                                     ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);

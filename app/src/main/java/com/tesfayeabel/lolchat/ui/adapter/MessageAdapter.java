@@ -19,7 +19,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class MessageAdapter extends BaseAdapter {
     public static final int DIRECTION_INCOMING = 0;
@@ -115,9 +114,9 @@ public class MessageAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         if (message.getDirection() == DIRECTION_INCOMING)
-            Picasso.with(context.getApplicationContext()).load(LOLChatApplication.getRiotResourceURL() + "/img/profileicon/" + friendProfileIcon + ".png").into(holder.imageView);
+            Picasso.with(context.getApplicationContext()).load(LOLChatApplication.getProfileIconURL(friendProfileIcon)).into(holder.imageView);
         if (message.getDirection() == DIRECTION_OUTGOING)
-            Picasso.with(context.getApplicationContext()).load(LOLChatApplication.getRiotResourceURL() + "/img/profileicon/" + myProfileIcon + ".png").into(holder.imageView);
+            Picasso.with(context.getApplicationContext()).load(LOLChatApplication.getProfileIconURL(myProfileIcon)).into(holder.imageView);
         holder.messageBody.setText(message.getSender() + ": " + message.getMessage());
         DateFormat dateFormat = new SimpleDateFormat("EEE hh:mmaa");
         holder.messageTime.setText(dateFormat.format(new Date(message.getTime())));

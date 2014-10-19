@@ -79,7 +79,7 @@ public class RecentGamesAdapter extends BaseExpandableListAdapter {
         RawStats stats = game.getStats();
         holder.outcome.setText((stats.getWin() ? "Victory" : "Defeat") + " (" + LOLUtils.getGameSubType(game.getSubType()) + ")");
         holder.type.setText(LOLUtils.getGameMode(game.getGameMode()));
-        holder.avatar.setImageResource(LOLChatApplication.getDrawableIdByName(LOLChatApplication.getChampionName(game.getChampionId())));
+        holder.avatar.setImageResource(LOLChatApplication.getChampionResourceFromId(game.getChampionId()));
         holder.map.setText(LOLUtils.getMapName(game.getMapId()));
         holder.ip.setText("+" + String.valueOf(game.getIpEarned()) + " IP");
         holder.date.setText(DateFormat.getDateInstance().format(new Date(game.getCreateDate())));
@@ -134,22 +134,22 @@ public class RecentGamesAdapter extends BaseExpandableListAdapter {
         Game game = getChild(groupPosition, childPosition);
         RawStats stats = game.getStats();
 
-        holder.summonerSpell1.setImageResource(LOLChatApplication.getDrawableIdByName(LOLChatApplication.getSpellName(game.getSpell1())));
-        holder.summonerSpell2.setImageResource(LOLChatApplication.getDrawableIdByName(LOLChatApplication.getSpellName(game.getSpell2())));
+        holder.summonerSpell1.setImageResource(LOLChatApplication.getSpellResourceFromId(game.getSpell1()));
+        holder.summonerSpell2.setImageResource(LOLChatApplication.getSpellResourceFromId(game.getSpell2()));
 
-        holder.item1.setImageResource(LOLChatApplication.getDrawableIdByName("item_" + stats.getItem0()));
-        holder.item2.setImageResource(LOLChatApplication.getDrawableIdByName("item_" + stats.getItem1()));
-        holder.item3.setImageResource(LOLChatApplication.getDrawableIdByName("item_" + stats.getItem2()));
-        holder.item4.setImageResource(LOLChatApplication.getDrawableIdByName("item_" + stats.getItem3()));
-        holder.item5.setImageResource(LOLChatApplication.getDrawableIdByName("item_" + stats.getItem4()));
-        holder.item6.setImageResource(LOLChatApplication.getDrawableIdByName("item_" + stats.getItem5()));
-        holder.item7.setImageResource(LOLChatApplication.getDrawableIdByName("item_" + stats.getItem6()));
+        holder.item1.setImageResource(LOLChatApplication.getItemResourceFromId(stats.getItem0()));
+        holder.item2.setImageResource(LOLChatApplication.getItemResourceFromId(stats.getItem1()));
+        holder.item3.setImageResource(LOLChatApplication.getItemResourceFromId(stats.getItem2()));
+        holder.item4.setImageResource(LOLChatApplication.getItemResourceFromId(stats.getItem3()));
+        holder.item5.setImageResource(LOLChatApplication.getItemResourceFromId(stats.getItem4()));
+        holder.item6.setImageResource(LOLChatApplication.getItemResourceFromId(stats.getItem5()));
+        holder.item7.setImageResource(LOLChatApplication.getItemResourceFromId(stats.getItem6()));
 
         for(int i = 1; i < holder.champ.length; i++) {
             holder.champ[i].setVisibility(View.GONE);
             holder.sum[i].setVisibility(View.GONE);
         }
-        holder.champ[0].setImageResource(LOLChatApplication.getDrawableIdByName(LOLChatApplication.getChampionName(game.getChampionId())));
+        holder.champ[0].setImageResource(LOLChatApplication.getChampionResourceFromId(game.getChampionId()));
         int team1 = 0, team2 = 0;
         for (int i = 0; i < game.getFellowPlayers().size(); i++) {
             Player player = game.getFellowPlayers().get(i);
@@ -163,7 +163,7 @@ public class RecentGamesAdapter extends BaseExpandableListAdapter {
             }
             holder.champ[index].setVisibility(View.VISIBLE);
             holder.sum[index].setVisibility(View.VISIBLE);
-            holder.champ[index].setImageResource(LOLChatApplication.getDrawableIdByName(LOLChatApplication.getChampionName(player.getChampionId())));
+            holder.champ[index].setImageResource(LOLChatApplication.getChampionResourceFromId(player.getChampionId()));
         }
         return convertView;
     }
