@@ -145,15 +145,25 @@ public class RecentGamesAdapter extends BaseExpandableListAdapter {
         holder.item6.setImageResource(LOLChatApplication.getDrawableIdByName("item_" + stats.getItem5()));
         holder.item7.setImageResource(LOLChatApplication.getDrawableIdByName("item_" + stats.getItem6()));
 
+        for(int i = 1; i < holder.champ.length; i++) {
+            holder.champ[i].setVisibility(View.GONE);
+            holder.sum[i].setVisibility(View.GONE);
+        }
         holder.champ[0].setImageResource(LOLChatApplication.getDrawableIdByName(LOLChatApplication.getChampionName(game.getChampionId())));
         int team1 = 0, team2 = 0;
         for (int i = 0; i < game.getFellowPlayers().size(); i++) {
             Player player = game.getFellowPlayers().get(i);
             if (player.getTeamId() == game.getTeamId()) {
-                holder.champ[team1 + 1].setImageResource(LOLChatApplication.getDrawableIdByName(LOLChatApplication.getChampionName(player.getChampionId())));
+                int index = team1 + 1;
+                holder.champ[index].setVisibility(View.VISIBLE);
+                holder.sum[index].setVisibility(View.VISIBLE);
+                holder.champ[index].setImageResource(LOLChatApplication.getDrawableIdByName(LOLChatApplication.getChampionName(player.getChampionId())));
                 team1++;
             } else {
-                holder.champ[team2 + 5].setImageResource(LOLChatApplication.getDrawableIdByName(LOLChatApplication.getChampionName(player.getChampionId())));
+                int index = team2 + 5;
+                holder.champ[index].setVisibility(View.VISIBLE);
+                holder.sum[index].setVisibility(View.VISIBLE);
+                holder.champ[index].setImageResource(LOLChatApplication.getDrawableIdByName(LOLChatApplication.getChampionName(player.getChampionId())));
                 team2++;
             }
         }
