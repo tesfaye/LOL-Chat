@@ -153,19 +153,17 @@ public class RecentGamesAdapter extends BaseExpandableListAdapter {
         int team1 = 0, team2 = 0;
         for (int i = 0; i < game.getFellowPlayers().size(); i++) {
             Player player = game.getFellowPlayers().get(i);
+            int index;
             if (player.getTeamId() == game.getTeamId()) {
-                int index = team1 + 1;
-                holder.champ[index].setVisibility(View.VISIBLE);
-                holder.sum[index].setVisibility(View.VISIBLE);
-                holder.champ[index].setImageResource(LOLChatApplication.getDrawableIdByName(LOLChatApplication.getChampionName(player.getChampionId())));
+                index = team1 + 1;
                 team1++;
             } else {
-                int index = team2 + 5;
-                holder.champ[index].setVisibility(View.VISIBLE);
-                holder.sum[index].setVisibility(View.VISIBLE);
-                holder.champ[index].setImageResource(LOLChatApplication.getDrawableIdByName(LOLChatApplication.getChampionName(player.getChampionId())));
+                index = team2 + 5;
                 team2++;
             }
+            holder.champ[index].setVisibility(View.VISIBLE);
+            holder.sum[index].setVisibility(View.VISIBLE);
+            holder.champ[index].setImageResource(LOLChatApplication.getDrawableIdByName(LOLChatApplication.getChampionName(player.getChampionId())));
         }
         return convertView;
     }
