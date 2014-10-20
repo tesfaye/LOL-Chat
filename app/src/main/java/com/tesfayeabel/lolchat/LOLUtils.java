@@ -93,7 +93,7 @@ public class LOLUtils {
     }
 
     /**
-     * @param summoner
+     * @param summoner to get status of
      * @param jRiot riot api
      * @return status of summoner
      */

@@ -33,7 +33,6 @@ import java.util.List;
 public class ChatService extends Service {
     public static final int foreground_ID = 69;
     public static final int notification_ID = 79;
-    public static LoginCallBack callBack;
     private final IBinder mBinder = new LocalBinder();
     private LolChat lolChat;
     private Handler handler = new Handler();
@@ -122,7 +121,7 @@ public class ChatService extends Service {
                 } else {
                     stopSelf();
                 }
-                callBack.onLogin();
+                sendBroadcast(new Intent("com.tesfayeabel.lolchat.ui.LoginActivity.LOGIN"));
             }
         }).start();
         return START_NOT_STICKY;
@@ -131,7 +130,7 @@ public class ChatService extends Service {
     /**
      * Saves a message to the messageHistory sharedPreferences file
      * If the message was sent by us, replace the sender with "me"
-     * @param message
+     * @param message message to save
      */
     public static void saveMessage(Context context, Message message) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("messageHistory", Context.MODE_PRIVATE);

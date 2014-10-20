@@ -1,8 +1,10 @@
 package com.tesfayeabel.lolchat.ui;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,17 +21,28 @@ import android.widget.TextView;
 
 import com.github.theholywaffle.lolchatapi.ChatServer;
 import com.tesfayeabel.lolchat.ChatService;
-import com.tesfayeabel.lolchat.LoginCallBack;
 import com.tesfayeabel.lolchat.R;
 
 import java.util.ArrayList;
 
-public class LoginActivity extends Activity implements LoginCallBack {
+public class LoginActivity extends Activity{
     private LinearLayout pbLayout;
     private EditText usernameEdit;
     private EditText passwordEdit;
     private CheckBox rememberBox;
     private Spinner serverList;
+
+    private BroadcastReceiver myBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    pbLayout.setVisibility(View.GONE);
+                }
+            });
+        }
+    };
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +94,8 @@ public class LoginActivity extends Activity implements LoginCallBack {
             passwordEdit.setText(password);
             rememberBox.setChecked(true);
         }
+        IntentFilter filter = new IntentFilter("com.tesfayeabel.lolchat.ui.LoginActivity.LOGIN");
+        registerReceiver(myBroadcastReceiver, filter);
     }
 
     private void login() {
@@ -90,16 +105,12 @@ public class LoginActivity extends Activity implements LoginCallBack {
         service.putExtra("password", passwordEdit.getText().toString());
         service.putExtra("server", serverList.getSelectedItem().toString());
         service.putExtra("savePassword", rememberBox.isChecked());
-        ChatService.callBack = this;
         startService(service);
     }
 
-    public void onLogin() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                pbLayout.setVisibility(View.GONE);
-            }
-        });
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        unregisterReceiver(myBroadcastReceiver);
     }
 }
