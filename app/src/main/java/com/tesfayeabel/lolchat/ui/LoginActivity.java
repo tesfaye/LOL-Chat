@@ -25,7 +25,7 @@ import com.tesfayeabel.lolchat.R;
 
 import java.util.ArrayList;
 
-public class LoginActivity extends Activity{
+public class LoginActivity extends Activity {
     private LinearLayout pbLayout;
     private EditText usernameEdit;
     private EditText passwordEdit;
@@ -64,7 +64,7 @@ public class LoginActivity extends Activity{
         });
         ArrayList<String> serverArrayList = new ArrayList<String>();
         for (ChatServer server : ChatServer.values()) {
-            if(server.api != null)
+            if (server.api != null)
                 serverArrayList.add(server.name);
         }
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, serverArrayList);
@@ -109,7 +109,7 @@ public class LoginActivity extends Activity{
     }
 
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
         super.onDestroy();
         unregisterReceiver(myBroadcastReceiver);
     }

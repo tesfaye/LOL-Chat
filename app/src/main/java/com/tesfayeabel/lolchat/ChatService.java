@@ -85,7 +85,7 @@ public class ChatService extends Service {
                             Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
                             intent.putExtra("friend", friend.getName());
                             PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(),
-                                    0, intent, 0);
+                                    1, intent, PendingIntent.FLAG_CANCEL_CURRENT);
                             Notification notification = new Notification.Builder(ChatService.this)
                                     .setContentTitle("New message")
                                     .setContentText("Message from " + friend.getName())
