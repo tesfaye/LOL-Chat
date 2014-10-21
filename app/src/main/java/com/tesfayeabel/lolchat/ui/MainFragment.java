@@ -11,7 +11,7 @@ import com.github.theholywaffle.lolchatapi.LolChat;
 import com.github.theholywaffle.lolchatapi.listeners.FriendListener;
 import com.github.theholywaffle.lolchatapi.wrapper.Friend;
 import com.tesfayeabel.lolchat.R;
-import com.tesfayeabel.lolchat.StaticFriend;
+import com.tesfayeabel.lolchat.data.StaticFriend;
 import com.tesfayeabel.lolchat.ui.adapter.ExpandableFriendViewAdapter;
 
 import java.util.ArrayList;

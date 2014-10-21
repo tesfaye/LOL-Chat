@@ -12,9 +12,9 @@ import android.widget.ListView;
 
 import com.github.theholywaffle.lolchatapi.LolChat;
 import com.github.theholywaffle.lolchatapi.wrapper.Friend;
-import com.tesfayeabel.lolchat.Message;
+import com.tesfayeabel.lolchat.data.Message;
 import com.tesfayeabel.lolchat.R;
-import com.tesfayeabel.lolchat.RecentConversation;
+import com.tesfayeabel.lolchat.data.RecentConversation;
 import com.tesfayeabel.lolchat.ui.adapter.RecentConversationsAdapter;
 
 import java.util.ArrayList;

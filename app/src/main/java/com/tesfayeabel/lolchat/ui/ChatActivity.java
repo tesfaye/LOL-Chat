@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.github.theholywaffle.lolchatapi.wrapper.Friend;
 import com.tesfayeabel.lolchat.ChatService;
-import com.tesfayeabel.lolchat.Message;
+import com.tesfayeabel.lolchat.data.Message;
 import com.tesfayeabel.lolchat.R;
 import com.tesfayeabel.lolchat.ui.adapter.MessageAdapter;
 

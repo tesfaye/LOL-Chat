@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.tesfayeabel.lolchat.LOLChatApplication;
-import com.tesfayeabel.lolchat.Message;
+import com.tesfayeabel.lolchat.data.Message;
 import com.tesfayeabel.lolchat.R;
 
 import java.text.DateFormat;

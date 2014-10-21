@@ -1,4 +1,4 @@
-package com.tesfayeabel.lolchat;
+package com.tesfayeabel.lolchat.data;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import com.github.theholywaffle.lolchatapi.ChatMode;
 import com.github.theholywaffle.lolchatapi.LolStatus;
 import com.github.theholywaffle.lolchatapi.wrapper.Friend;
+import com.tesfayeabel.lolchat.LOLUtils;
 
 import java.util.concurrent.TimeUnit;
 

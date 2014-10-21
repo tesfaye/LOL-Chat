@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.tesfayeabel.lolchat.LOLChatApplication;
 import com.tesfayeabel.lolchat.R;
-import com.tesfayeabel.lolchat.StaticFriend;
+import com.tesfayeabel.lolchat.data.StaticFriend;
 import com.tesfayeabel.lolchat.ui.ChatActivity;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.tesfayeabel.lolchat;
+package com.tesfayeabel.lolchat.ui;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
@@ -9,18 +9,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import com.tesfayeabel.lolchat.ui.AboutActivity;
-import com.tesfayeabel.lolchat.ui.ConversationsFragment;
-import com.tesfayeabel.lolchat.ui.LOLChatActivity;
+import com.tesfayeabel.lolchat.ChatService;
+import com.tesfayeabel.lolchat.R;
 import com.tesfayeabel.lolchat.ui.adapter.FragmentPagerAdapter;
-import com.tesfayeabel.lolchat.ui.LOLChatFragment;
-import com.tesfayeabel.lolchat.ui.LoginActivity;
-import com.tesfayeabel.lolchat.ui.MainFragment;
-import com.tesfayeabel.lolchat.ui.SummonerSearchFragment;
 
 import java.util.ArrayList;
 
-public class LOLChatMain extends LOLChatActivity {
+public class MainActivity extends LOLChatActivity {
     private ViewPager viewPager;
 
     @Override

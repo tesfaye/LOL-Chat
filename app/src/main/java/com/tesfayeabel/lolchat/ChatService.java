@@ -24,7 +24,9 @@ import com.github.theholywaffle.lolchatapi.LolStatus;
 import com.github.theholywaffle.lolchatapi.listeners.ChatListener;
 import com.github.theholywaffle.lolchatapi.wrapper.Friend;
 import com.squareup.picasso.Picasso;
+import com.tesfayeabel.lolchat.data.Message;
 import com.tesfayeabel.lolchat.ui.ChatActivity;
+import com.tesfayeabel.lolchat.ui.MainActivity;
 import com.tesfayeabel.lolchat.ui.adapter.MessageAdapter;
 
 import java.util.ArrayList;
@@ -63,7 +65,7 @@ public class ChatService extends Service {
             public void run() {
                 lolChat = new LolChat(ChatServer.getChatServerByName(server), FriendRequestPolicy.REJECT_ALL, getString(R.string.api_riot));
                 if (lolChat.login(username, password)) {
-                    Intent mainIntent = new Intent(getApplicationContext(), LOLChatMain.class);
+                    Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
                     startForeground(foreground_ID, new Notification.Builder(getApplicationContext())
                             .setSmallIcon(R.drawable.ic_launcher)
                             .setContentText(getString(R.string.app_name) + " is running")
@@ -115,7 +117,7 @@ public class ChatService extends Service {
                     }
                     editor.putString("server", server);
                     editor.apply();
-                    Intent intent = new Intent(getApplicationContext(), LOLChatMain.class);
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                 } else {
