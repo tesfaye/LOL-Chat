@@ -12,7 +12,6 @@ import com.tesfayeabel.lolchat.LOLChatApplication;
 import com.tesfayeabel.lolchat.LOLUtils;
 import com.tesfayeabel.lolchat.R;
 
-import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -82,7 +81,7 @@ public class RecentGamesAdapter extends BaseExpandableListAdapter {
         holder.avatar.setImageResource(LOLChatApplication.getChampionResourceFromId(game.getChampionId()));
         holder.map.setText(LOLUtils.getMapName(game.getMapId()));
         holder.ip.setText("+" + String.valueOf(game.getIpEarned()) + " IP");
-        holder.date.setText(DateFormat.getDateInstance().format(new Date(game.getCreateDate())));
+        holder.date.setText(android.text.format.DateFormat.getDateFormat(context).format(new Date(game.getCreateDate())));
         holder.kills.setText(String.valueOf(stats.getChampionsKilled()));
         holder.deaths.setText(String.valueOf(stats.getNumDeaths()));
         holder.assists.setText(String.valueOf(stats.getAssists()));
