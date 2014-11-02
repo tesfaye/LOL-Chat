@@ -88,8 +88,7 @@ public class LoginActivity extends Activity {
         });
         String username = sharedPreferences.getString("username", null);
         String password = sharedPreferences.getString("password", null);
-        String server = sharedPreferences.getString("server", null);
-        if (username != null && password != null && server != null) {
+        if (username != null && password != null) {
             usernameEdit.setText(username);
             passwordEdit.setText(password);
             rememberBox.setChecked(true);
