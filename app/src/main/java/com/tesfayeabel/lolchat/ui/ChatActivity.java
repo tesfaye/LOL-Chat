@@ -16,8 +16,8 @@ import android.widget.TextView;
 
 import com.github.theholywaffle.lolchatapi.wrapper.Friend;
 import com.tesfayeabel.lolchat.ChatService;
-import com.tesfayeabel.lolchat.data.Message;
 import com.tesfayeabel.lolchat.R;
+import com.tesfayeabel.lolchat.data.Message;
 import com.tesfayeabel.lolchat.ui.adapter.MessageAdapter;
 
 import java.util.ArrayList;
@@ -110,7 +110,7 @@ public class ChatActivity extends LOLChatActivity implements SharedPreferences.O
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
-        if(key.equals(friendName)) {
+        if (key.equals(friendName)) {
             String message = preferences.getString(key, null);
             if (message != null) {
                 String[] messages = message.split("\n");

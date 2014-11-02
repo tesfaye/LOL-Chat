@@ -38,10 +38,10 @@ public class StaticFriend implements Comparable<StaticFriend>, Parcelable {
         this.name = name;
         this.userId = userId;
         this.gameStatus = lolStatus.getGameStatus();
-        if(gameStatus == null) {
+        if (gameStatus == null) {
             this.gameStatus = LolStatus.GameStatus.OUT_OF_GAME;
         }
-        if(gameStatus == LolStatus.GameStatus.IN_GAME) {
+        if (gameStatus == LolStatus.GameStatus.IN_GAME) {
             this.skin = lolStatus.getSkin();
             this.timeStamp = lolStatus.getTimestamp().getTime();
         }

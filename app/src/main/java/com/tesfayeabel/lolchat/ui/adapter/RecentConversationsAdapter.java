@@ -59,11 +59,11 @@ public class RecentConversationsAdapter extends ArrayAdapter<RecentConversation>
 
     public void updateConversation(String name, String lastMessage, long lastUpdate) {
         RecentConversation recentConversation = null;
-        for(RecentConversation conversation : recentConversations) {
-            if(name.equals(conversation.getName()))
+        for (RecentConversation conversation : recentConversations) {
+            if (name.equals(conversation.getName()))
                 recentConversation = conversation;
         }
-        if(recentConversation == null)
+        if (recentConversation == null)
             recentConversation = new RecentConversation(1, name);
         recentConversations.remove(recentConversation);
         recentConversation.setLastMessage(lastMessage);
@@ -74,8 +74,8 @@ public class RecentConversationsAdapter extends ArrayAdapter<RecentConversation>
 
     public void deleteConversation(String name) {
         RecentConversation recentConversation = null;
-        for(RecentConversation conversation : recentConversations) {
-            if(name.equals(conversation.getName()))
+        for (RecentConversation conversation : recentConversations) {
+            if (name.equals(conversation.getName()))
                 recentConversation = conversation;
         }
         recentConversations.remove(recentConversation);

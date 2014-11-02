@@ -12,8 +12,8 @@ import android.widget.ListView;
 
 import com.github.theholywaffle.lolchatapi.LolChat;
 import com.github.theholywaffle.lolchatapi.wrapper.Friend;
-import com.tesfayeabel.lolchat.data.Message;
 import com.tesfayeabel.lolchat.R;
+import com.tesfayeabel.lolchat.data.Message;
 import com.tesfayeabel.lolchat.data.RecentConversation;
 import com.tesfayeabel.lolchat.ui.adapter.RecentConversationsAdapter;
 
@@ -76,9 +76,9 @@ public class ConversationsFragment extends LOLChatFragment implements SharedPref
     @Override
     public void onChatConnected(final LolChat chat) {
         RecentConversationsAdapter adapter = (RecentConversationsAdapter) listView.getAdapter();
-        for(Friend friend: chat.getOnlineFriends()) {
-            for(RecentConversation conversation : adapter.getRecentConversations()) {
-                if(friend.getName().equals(conversation.getName())) {
+        for (Friend friend : chat.getOnlineFriends()) {
+            for (RecentConversation conversation : adapter.getRecentConversations()) {
+                if (friend.getName().equals(conversation.getName())) {
                     conversation.setProfileIconId(friend.getStatus().getProfileIconId());
                 }
             }

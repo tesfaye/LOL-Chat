@@ -41,7 +41,7 @@ public class LOLUtils {
     }
 
     public static String getStatus(LolStatus.GameStatus status) {
-        switch(status) {
+        switch (status) {
             case TEAM_SELECT:
                 return "In Team Select";
             case HOSTING_NORMAL_GAME:
@@ -94,7 +94,7 @@ public class LOLUtils {
 
     /**
      * @param summoner to get status of
-     * @param jRiot riot api
+     * @param jRiot    riot api
      * @return status of summoner
      */
     public static LolStatus getStatus(Summoner summoner, JRiot jRiot) {

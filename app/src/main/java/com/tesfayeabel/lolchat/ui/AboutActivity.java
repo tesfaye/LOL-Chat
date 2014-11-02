@@ -10,7 +10,7 @@ import com.tesfayeabel.lolchat.R;
 /**
  * Created by Abel Tesfaye on 9/28/2014.
  */
-public class AboutActivity extends Activity{
+public class AboutActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);

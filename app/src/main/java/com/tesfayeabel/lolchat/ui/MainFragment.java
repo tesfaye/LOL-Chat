@@ -43,7 +43,7 @@ public class MainFragment extends LOLChatFragment {
     }
 
     public void onChatConnected(final LolChat chat) {
-        if(listView.getExpandableListAdapter() == null) {
+        if (listView.getExpandableListAdapter() == null) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -137,7 +137,7 @@ public class MainFragment extends LOLChatFragment {
 
             }
         });
-        while(chat.getFriendListeners().size() > 1) {
+        while (chat.getFriendListeners().size() > 1) {
             chat.getFriendListeners().remove(0);
         }
     }

@@ -42,6 +42,27 @@ public class ChatService extends Service {
     private NotificationManager notificationManager;
     private ArrayList<Message> missedMessages;
 
+    /**
+     * Saves a message to the messageHistory sharedPreferences file
+     * If the message was sent by us, replace the sender with "me"
+     *
+     * @param message message to save
+     */
+    public static void saveMessage(Context context, Message message) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("messageHistory", Context.MODE_PRIVATE);
+        String messageHistory = sharedPreferences.getString(message.getSender(), "");
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        if (!messageHistory.equals("")) {
+            messageHistory += "\n";
+        }
+        if (message.getDirection() == MessageAdapter.DIRECTION_INCOMING)
+            messageHistory += message.toString();
+        if (message.getDirection() == MessageAdapter.DIRECTION_OUTGOING)
+            messageHistory += message.toString().replace(message.getSender(), "Me");
+        editor.putString(message.getSender(), messageHistory);
+        editor.apply();
+    }
+
     @Override
     public IBinder onBind(Intent intent) {
         return mBinder;
@@ -130,27 +151,8 @@ public class ChatService extends Service {
     }
 
     /**
-     * Saves a message to the messageHistory sharedPreferences file
-     * If the message was sent by us, replace the sender with "me"
-     * @param message message to save
-     */
-    public static void saveMessage(Context context, Message message) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("messageHistory", Context.MODE_PRIVATE);
-        String messageHistory = sharedPreferences.getString(message.getSender(), "");
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        if (!messageHistory.equals("")) {
-            messageHistory += "\n";
-        }
-        if(message.getDirection() == MessageAdapter.DIRECTION_INCOMING)
-            messageHistory += message.toString();
-        if(message.getDirection() == MessageAdapter.DIRECTION_OUTGOING)
-            messageHistory += message.toString().replace(message.getSender(), "Me");
-        editor.putString(message.getSender(), messageHistory);
-        editor.apply();
-    }
-
-    /**
      * Gets the last 3 messages
+     *
      * @return the style that is used for the new message notification
      */
     private Notification.InboxStyle getStyle() {
@@ -165,9 +167,10 @@ public class ChatService extends Service {
 
     /**
      * Shows a custom toast with the friend name, message and iconId
-     * @param friend name of the friend who sent the message
+     *
+     * @param friend  name of the friend who sent the message
      * @param message the message that was sent
-     * @param iconId the friend's profileIconId
+     * @param iconId  the friend's profileIconId
      */
     private void showFriendToast(String friend, String message, int iconId) {
         toast.setDuration(Toast.LENGTH_SHORT);

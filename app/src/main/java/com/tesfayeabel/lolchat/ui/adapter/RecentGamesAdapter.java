@@ -145,7 +145,7 @@ public class RecentGamesAdapter extends BaseExpandableListAdapter {
         holder.item6.setImageResource(LOLChatApplication.getItemResourceFromId(stats.getItem5()));
         holder.item7.setImageResource(LOLChatApplication.getItemResourceFromId(stats.getItem6()));
 
-        for(int i = 1; i < holder.champ.length; i++) {
+        for (int i = 1; i < holder.champ.length; i++) {
             holder.champ[i].setVisibility(View.GONE);
             holder.sum[i].setVisibility(View.GONE);
         }

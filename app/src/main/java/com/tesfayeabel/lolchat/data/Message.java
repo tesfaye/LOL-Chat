@@ -21,10 +21,11 @@ public class Message implements Parcelable {
 
     /**
      * Creates a message object
-     * @param sender the sender
-     * @param message the message
+     *
+     * @param sender    the sender
+     * @param message   the message
      * @param direction either MessageAdapter.DIRECTION_INCOMING or MessageAdapter.DIRECTION_OUTGOING
-     * @param time time in milliseconds when the message sent or received
+     * @param time      time in milliseconds when the message sent or received
      */
     public Message(String sender, String message, int direction, long time) {
         this.sender = sender;
@@ -35,6 +36,7 @@ public class Message implements Parcelable {
 
     /**
      * See other constructor
+     *
      * @param read
      */
     public Message(String read) {
@@ -68,8 +70,7 @@ public class Message implements Parcelable {
         return sender;
     }
 
-    public long getTime()
-    {
+    public long getTime() {
         return time;
     }
 
