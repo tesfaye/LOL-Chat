@@ -1,6 +1,7 @@
 package com.tesfayeabel.lolchat.ui.adapter;
 
 import android.content.Context;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +14,6 @@ import com.tesfayeabel.lolchat.LOLChatApplication;
 import com.tesfayeabel.lolchat.R;
 import com.tesfayeabel.lolchat.data.RecentConversation;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 public class RecentConversationsAdapter extends ArrayAdapter<RecentConversation> {
@@ -47,8 +45,7 @@ public class RecentConversationsAdapter extends ArrayAdapter<RecentConversation>
         RecentConversation conversation = getItem(position);
         Picasso.with(getContext().getApplicationContext()).load(LOLChatApplication.getProfileIconURL(conversation.getProfileIconId())).into(holder.conversationImage);
         holder.conversationName.setText(conversation.getName());
-        DateFormat dateFormat = new SimpleDateFormat("EEE hh:mmaa");
-        holder.lastUpdate.setText(dateFormat.format(new Date(conversation.getLastUpdate())));
+        holder.lastUpdate.setText(DateUtils.getRelativeTimeSpanString(conversation.getLastUpdate()));
         holder.lastMessage.setText(conversation.getLastMessage());
         return convertView;
     }

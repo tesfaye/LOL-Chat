@@ -2,6 +2,7 @@ package com.tesfayeabel.lolchat.ui.adapter;
 
 import android.content.Context;
 import android.os.Handler;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +15,7 @@ import com.tesfayeabel.lolchat.LOLChatApplication;
 import com.tesfayeabel.lolchat.R;
 import com.tesfayeabel.lolchat.data.Message;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class MessageAdapter extends BaseAdapter {
@@ -118,8 +116,7 @@ public class MessageAdapter extends BaseAdapter {
         if (message.getDirection() == DIRECTION_OUTGOING)
             Picasso.with(context.getApplicationContext()).load(LOLChatApplication.getProfileIconURL(myProfileIcon)).into(holder.imageView);
         holder.messageBody.setText(message.getSender() + ": " + message.getMessage());
-        DateFormat dateFormat = new SimpleDateFormat("EEE hh:mmaa");
-        holder.messageTime.setText(dateFormat.format(new Date(message.getTime())));
+        holder.messageTime.setText(DateUtils.getRelativeDateTimeString(context, message.getTime(), DateUtils.MINUTE_IN_MILLIS, DateUtils.WEEK_IN_MILLIS, DateUtils.FORMAT_ABBREV_ALL));
         return convertView;
     }
 
