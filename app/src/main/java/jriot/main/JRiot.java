@@ -192,7 +192,7 @@ public class JRiot {
         for (long i : summonerIds) {
             ids = ids + i + ",";
         }
-        String response = caller.request(generateBaseUrl() + "/v2.4/league/by-summoner/" + ids + "?api_key=" + apiKey);
+        String response = caller.request(generateBaseUrl() + "/v2.5/league/by-summoner/" + ids + "?api_key=" + apiKey);
         Map<String, List<League>> leagues = gson.fromJson(response, new TypeToken<Map<String, List<League>>>() {
         }.getType());
         return leagues;

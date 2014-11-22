@@ -85,6 +85,8 @@ public class LOLUtils {
                 return "The Crystal Scar";
             case 10:
                 return "Twisted Treeline";
+            case 11:
+                return "Summoner's Rift (Beta)";
             case 12:
                 return "Howling Abyss";
             default:
