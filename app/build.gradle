@@ -13,7 +13,7 @@ android {
     }
     buildTypes {
         release {
-            runProguard false
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -28,7 +28,7 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.3.4'
     compile files('libs/asmack-android-8-4.0.3.jar')
     compile 'com.squareup.retrofit:retrofit:1.7.0'
-    compile 'com.google.code.gson:gson:2.2.4'
+    compile 'com.google.code.gson:gson:2.3'
     compile 'org.jdom:jdom2:2.0.5'
     compile 'xmlunit:xmlunit:1.5'
 }
