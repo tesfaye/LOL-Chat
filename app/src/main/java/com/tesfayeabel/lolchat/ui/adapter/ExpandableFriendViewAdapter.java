@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,16 +26,19 @@ import java.util.ArrayList;
 /**
  * Created by Abel Tesfaye on 8/27/2014.
  */
-public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
+public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter implements Filterable{
 
     private ArrayList<StaticFriend> onlineFriends;
+    private ArrayList<StaticFriend> unfilteredOnlineFriends;
     private ArrayList<StaticFriend> offlineFriends;
+    private ArrayList<StaticFriend> unfilteredOfflineFriends;
+    private ArrayFilter mFilter;
     private Context context;
 
     public ExpandableFriendViewAdapter(Context context, ArrayList<StaticFriend> onlineFriends, ArrayList<StaticFriend> offlineFriends) {
         this.context = context;
-        this.onlineFriends = onlineFriends;
-        this.offlineFriends = offlineFriends;
+        this.unfilteredOnlineFriends = this.onlineFriends = onlineFriends;
+        this.unfilteredOfflineFriends = this.offlineFriends = offlineFriends;
         final Handler handler = new Handler();//update adapter every minute for in game time
         handler.postDelayed(new Runnable() {
 
@@ -53,7 +58,7 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
     /**
      * Removes and adds a StaticFriend and updates ui
      *
-     * @param friend
+     * @param friend whose status is to be updated
      */
     public void updateFriendStatus(StaticFriend friend) {
         ArrayList<StaticFriend> friends = getGroup(friend.isOnline() ? 0 : 1);
@@ -73,7 +78,7 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
     /**
      * Makes a StaticFriend either online or offline and updates ui
      *
-     * @param friend
+     * @param friend to become online or offline
      */
     public void setFriendOnline(StaticFriend friend) {
         if (friend.isOnline()) {
@@ -249,4 +254,47 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter {
         TextView textView;
     }
 
+    @Override
+    public Filter getFilter() {
+        if(mFilter == null) {
+            mFilter = new ArrayFilter();
+        }
+        return mFilter;
+    }
+
+    private class ArrayFilter extends Filter {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            FilterResults results = new FilterResults();
+            if (constraint != null && constraint.length() > 0) {
+                ArrayList<StaticFriend> filteredOnline = new ArrayList<StaticFriend>();
+                ArrayList<StaticFriend> filteredOffline = new ArrayList<StaticFriend>();
+                for (StaticFriend friend : onlineFriends) {
+                    if (friend.getName().toLowerCase().contains(constraint.toString().toLowerCase())) {
+                        filteredOnline.add(friend);
+                    }
+                }
+                for (StaticFriend friend : offlineFriends) {
+                    if (friend.getName().toLowerCase().contains(constraint.toString().toLowerCase())) {
+                        filteredOffline.add(friend);
+                    }
+                }
+                results.count = -1;
+                results.values = new ArrayList[]{filteredOnline, filteredOffline};
+            } else {
+                results.count = -1;//maybe add list sizes?
+                results.values = new ArrayList[]{unfilteredOnlineFriends, unfilteredOfflineFriends};//should be set to unmodified original
+            }
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            ArrayList<StaticFriend>[] friends = (ArrayList<StaticFriend>[]) results.values;
+            onlineFriends = friends[0];
+            offlineFriends = friends[1];
+            notifyDataSetChanged();
+        }
+
+    }
 }
