@@ -32,7 +32,7 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter imple
     private ArrayList<StaticFriend> unfilteredOnlineFriends;
     private ArrayList<StaticFriend> offlineFriends;
     private ArrayList<StaticFriend> unfilteredOfflineFriends;
-    private ArrayFilter mFilter;
+    private FriendViewFilter mFilter;
     private Context context;
 
     public ExpandableFriendViewAdapter(Context context, ArrayList<StaticFriend> onlineFriends, ArrayList<StaticFriend> offlineFriends) {
@@ -257,33 +257,33 @@ public class ExpandableFriendViewAdapter extends BaseExpandableListAdapter imple
     @Override
     public Filter getFilter() {
         if(mFilter == null) {
-            mFilter = new ArrayFilter();
+            mFilter = new FriendViewFilter();
         }
         return mFilter;
     }
 
-    private class ArrayFilter extends Filter {
+    private class FriendViewFilter extends Filter {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             FilterResults results = new FilterResults();
             if (constraint != null && constraint.length() > 0) {
                 ArrayList<StaticFriend> filteredOnline = new ArrayList<StaticFriend>();
                 ArrayList<StaticFriend> filteredOffline = new ArrayList<StaticFriend>();
-                for (StaticFriend friend : onlineFriends) {
+                for (StaticFriend friend : unfilteredOnlineFriends) {
                     if (friend.getName().toLowerCase().contains(constraint.toString().toLowerCase())) {
                         filteredOnline.add(friend);
                     }
                 }
-                for (StaticFriend friend : offlineFriends) {
+                for (StaticFriend friend : unfilteredOfflineFriends) {
                     if (friend.getName().toLowerCase().contains(constraint.toString().toLowerCase())) {
                         filteredOffline.add(friend);
                     }
                 }
-                results.count = -1;
+                results.count = -1;//unused
                 results.values = new ArrayList[]{filteredOnline, filteredOffline};
             } else {
-                results.count = -1;//maybe add list sizes?
-                results.values = new ArrayList[]{unfilteredOnlineFriends, unfilteredOfflineFriends};//should be set to unmodified original
+                results.count = -1;//unused
+                results.values = new ArrayList[]{unfilteredOnlineFriends, unfilteredOfflineFriends};
             }
             return results;
         }
