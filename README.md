@@ -14,6 +14,11 @@ An open source Android League of Legends chat client that uses the GPL 3.0 licen
 * Encrypt saved passwords
 * Stop using hard coded strings
 * Better api caching
+* Add more info to match history
+* Real time game lookup
+* Better error handling
+* Maybe implement Riot's advanced match history api with graphs
+* Update summoner icons and champ icons (should we download image resources on app first load instead?)
 
 ##License
 * LOL-Chat is licensed under the GPL, version 3. A copy of the license is included in "LICENSE.txt".
