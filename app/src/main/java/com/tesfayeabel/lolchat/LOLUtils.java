@@ -79,8 +79,7 @@ public class LOLUtils {
             case CHAMPION_SELECT:
                 return "In Champion Select";
             case IN_GAME:
-                gameType = gameType.substring(0,1) + gameType.substring(1).toLowerCase();
-                return gameType +  " Game";
+                return getGameSubType(gameType) +  " Game";
             case IN_TEAMBUILDER:
                 return "Team Builder";
             case TUTORIAL:
