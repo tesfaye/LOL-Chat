@@ -50,6 +50,7 @@ public class StaticFriend implements Comparable<StaticFriend>, Parcelable {
     private ChatMode chatMode;
     private String name;
     private String userId;
+    private String gameQueueType;
     private boolean online;
 
     public StaticFriend(String name, String userId, ChatMode chatMode, LolStatus lolStatus, boolean online) {
@@ -62,6 +63,7 @@ public class StaticFriend implements Comparable<StaticFriend>, Parcelable {
         if (gameStatus == LolStatus.GameStatus.IN_GAME) {
             this.skin = lolStatus.getSkin();
             this.timeStamp = lolStatus.getTimestamp().getTime();
+            this.gameQueueType = lolStatus.getGameQueueType();
         }
         this.statusMessage = lolStatus.getStatusMessage();
         this.profileIconId = lolStatus.getProfileIconId();
@@ -83,6 +85,7 @@ public class StaticFriend implements Comparable<StaticFriend>, Parcelable {
         userId = in.readString();
         chatMode = ChatMode.values()[in.readInt()];
         online = in.readInt() == 1;
+        gameQueueType = in.readString();
     }
 
     public ChatMode getChatMode() {
@@ -108,7 +111,7 @@ public class StaticFriend implements Comparable<StaticFriend>, Parcelable {
     public String getFullStatus() {
         StringBuilder fullStatus = new StringBuilder();
         fullStatus.append(statusMessage + "\n");
-        fullStatus.append(LOLUtils.getStatus(gameStatus));
+        fullStatus.append(LOLUtils.getStatus(gameStatus, gameQueueType));
         if (gameStatus == LolStatus.GameStatus.IN_GAME) {
             fullStatus.append(" as " + skin);
             fullStatus.append(" for " + TimeUnit.MILLISECONDS.toMinutes(System.currentTimeMillis() - timeStamp) + " minutes");
@@ -142,6 +145,7 @@ public class StaticFriend implements Comparable<StaticFriend>, Parcelable {
         out.writeString(userId);
         out.writeInt(chatMode.ordinal());
         out.writeInt(online ? 1 : 0);
+        out.writeString(gameQueueType);
     }
 
     public int describeContents() {

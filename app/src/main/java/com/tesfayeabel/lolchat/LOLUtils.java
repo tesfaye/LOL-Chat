@@ -58,7 +58,7 @@ public class LOLUtils {
         return "?";
     }
 
-    public static String getStatus(LolStatus.GameStatus status) {
+    public static String getStatus(LolStatus.GameStatus status, String gameType) {
         switch (status) {
             case TEAM_SELECT:
                 return "In Team Select";
@@ -79,11 +79,12 @@ public class LOLUtils {
             case CHAMPION_SELECT:
                 return "In Champion Select";
             case IN_GAME:
-                return "In Game";
+                gameType = gameType.substring(0,1) + gameType.substring(1).toLowerCase();
+                return gameType +  " Game";
             case IN_TEAMBUILDER:
-                return "In Team Builder";
+                return "Team Builder";
             case TUTORIAL:
-                return "In Tutorial Game";
+                return "Tutorial Game";
             default:
                 return "?";
         }
